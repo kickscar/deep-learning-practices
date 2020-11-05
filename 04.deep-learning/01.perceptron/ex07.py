@@ -1,5 +1,5 @@
 # coding: utf-8
-# multi-layer 03.perceptron
+# multi-layer 01.perceptron
 
 import numpy as np
 
