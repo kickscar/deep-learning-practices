@@ -1,5 +1,5 @@
+# coding: utf-8
 # 영행렬
-
 import numpy as np
 
 m1 = np.zeros((3, 3))

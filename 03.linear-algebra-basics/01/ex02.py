@@ -1,5 +1,5 @@
+# coding: utf-8
 # Vector 확인
-
 import numpy as np
 
 v = np.array([50])

@@ -1,3 +1,4 @@
+# coding: utf-8
 # MNIST 손글씨 숫자 분류 신경망 (Neural Network for MNIST Handwritten Digit Classification) 구현하기
 #
 import pickle

@@ -1,3 +1,4 @@
+# coding: utf-8
 # 수치미분(Numerical Diffirentiation) VS 해석미분(Analytic Diffirentiation)
 
 

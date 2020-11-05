@@ -1,3 +1,4 @@
+# coding: utf-8
 # 3층 신경망 구현하기 – 신호전달 구현3: 은닉2층 전달
 
 import numpy as np

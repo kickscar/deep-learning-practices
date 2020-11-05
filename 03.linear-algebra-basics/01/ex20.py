@@ -1,5 +1,5 @@
+# coding: utf-8
 # 오류!
-
 import numpy as np
 
 # dimension error: shapes (3,2) and (3,3) not aligned

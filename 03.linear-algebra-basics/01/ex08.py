@@ -1,5 +1,5 @@
+# coding: utf-8
 # 단위행렬
-
 import numpy as np
 
 m = np.eye(3, 3)

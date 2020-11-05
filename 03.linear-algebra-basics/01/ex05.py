@@ -1,4 +1,4 @@
-
+# coding: utf-8
 import numpy as np
 
 m = np.array([[10, 20], [1, 2]])

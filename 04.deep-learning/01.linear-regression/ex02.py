@@ -1,5 +1,5 @@
+# coding: utf-8
 # 평균제곱오차(MSE, Mean Squares Error)
-
 """
     y = ax + b
 

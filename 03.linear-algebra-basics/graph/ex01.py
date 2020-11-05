@@ -1,5 +1,5 @@
+# coding: utf-8
 # 일차방정식
-
 from matplotlib import pyplot as plt
 import numpy as np
 

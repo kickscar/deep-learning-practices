@@ -1,3 +1,4 @@
+# coding: utf-8
 # 행렬 산술연산 - 곱셈
 
 import numpy as np

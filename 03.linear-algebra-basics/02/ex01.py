@@ -1,5 +1,5 @@
+# coding: utf-8
 # y = ax + b 일차 방정식 결정하기
-
 from matplotlib import pyplot as plt
 
 # 데이터

@@ -1,5 +1,5 @@
+# coding: utf-8
 # 최소제곱법(Method of Least Squares)
-
 """
     y = ax + b
 

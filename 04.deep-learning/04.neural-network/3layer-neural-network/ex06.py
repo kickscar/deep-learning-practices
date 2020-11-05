@@ -1,3 +1,4 @@
+# coding: utf-8
 # 3층 신경망 구현하기 – 신호전달 구현6: 출력층 활성함수 𝜎() 적용
 
 import numpy as np

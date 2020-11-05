@@ -1,5 +1,5 @@
+# coding: utf-8
 # 경사하강법(Gradient Decent)
-
 """
      y = ax + b
 """

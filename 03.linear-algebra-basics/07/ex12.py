@@ -1,3 +1,4 @@
+# coding: utf-8
 # 편미분(Partial Diffirentiation)
 
 

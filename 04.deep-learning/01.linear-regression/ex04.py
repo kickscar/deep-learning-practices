@@ -1,11 +1,9 @@
+# coding: utf-8
 # 다중 선형 회귀(Multiple Linear Regression)
-
 """
     y = a1x1 + a2x2 + b
 
 """
-
-
 import numpy as np
 from matplotlib import pyplot as plt
 

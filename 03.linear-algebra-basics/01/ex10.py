@@ -1,5 +1,5 @@
+# coding: utf-8
 # 항등행렬
-
 import numpy as np
 
 m = np.identity(3)

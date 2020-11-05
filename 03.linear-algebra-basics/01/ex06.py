@@ -1,5 +1,5 @@
+# coding: utf-8
 # 대각행렬
-
 import numpy as np
 
 v = np.arange(1, 4)

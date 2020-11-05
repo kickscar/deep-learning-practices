@@ -1,5 +1,5 @@
+# coding: utf-8
 # Matrix 확인
-
 import numpy as np
 
 m = np.array([[50], [100]])

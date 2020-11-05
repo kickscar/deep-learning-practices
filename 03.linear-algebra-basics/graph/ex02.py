@@ -1,5 +1,5 @@
+# coding: utf-8
 # 이차방정식 #1
-
 from matplotlib import pyplot as plt
 import numpy as np
 

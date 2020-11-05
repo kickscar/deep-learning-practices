@@ -1,3 +1,4 @@
+# coding: utf-8
 # 대각행렬
 
 import numpy as np

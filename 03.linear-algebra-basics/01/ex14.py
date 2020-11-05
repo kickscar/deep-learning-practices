@@ -1,3 +1,4 @@
+# coding: utf-8
 # 행렬 산술연산 - 뺄셈
 
 import numpy as np
@@ -11,5 +12,4 @@ m3 = np.subtract(m1, m2)
 print(m1)
 print(m2)
 print(m3)
-
 

@@ -1,5 +1,5 @@
+# coding: utf-8
 # sigmoid test2
-
 import numpy as np
 from matplotlib import pyplot as plt
 

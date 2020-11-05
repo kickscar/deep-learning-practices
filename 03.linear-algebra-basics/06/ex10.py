@@ -1,7 +1,8 @@
+# coding: utf-8
 # 수치미분(Numerical Diffirentiation)
-
-
 # 이차함수
+
+
 def f1(x):
     return 20*(x-2)**2 + 500
 
