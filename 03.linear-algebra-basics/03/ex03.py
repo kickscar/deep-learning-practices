@@ -1,7 +1,7 @@
 # 이차방정식
 
-from matplotlib import pyplot as plt
 import numpy as np
+from matplotlib import pyplot as plt
 
 
 def f1(x):

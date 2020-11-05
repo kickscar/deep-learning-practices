@@ -1,4 +1,4 @@
-# 기울기 구하기
+# 기울기(Gradient)
 
 import numpy as np
 

@@ -1,4 +1,4 @@
-# 편미분(Numerical Diffirentiation)
+# 편미분(Partial Diffirentiation)
 
 
 def f1(x1):
