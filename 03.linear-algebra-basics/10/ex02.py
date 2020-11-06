@@ -1,34 +1,30 @@
 # coding: utf-8
 # 평균제곱오차(MSE, Mean Squares Error)
-"""
-    y = ax + b
-
-"""
 import numpy as np
-from matplotlib import pyplot as plt
+
+
+def mls(x, y):
+    mx = np.mean(x)
+    my = np.mean(y)
+
+    mls_a = sum([(i - mx) * (j - my) for i, j in tuple(zip(x, y))]) / sum([(i - mx) ** 2 for i in x])
+    mls_b = my - (mx * mls_a)
+
+    return mls_a, mls_b
+
+
+def mse(x, data_x, data_y):
+    data_y_hat = [x[0] * dx + x[1] for dx in data_x]
+    e = np.mean([(dyh - dy) ** 2 for dyh, dy in tuple(zip(data_y_hat, data_y))])
+    return e
+
 
 # data
-x = [2, 4, 6, 8]
-y = [81, 93, 91, 97]
+times = [2, 4, 6, 8]
+scores = [81, 93, 91, 97]
 
+# 최소제곱법으로 기울기 a, y절편 b 구하기
+a, b = mls(times, scores)
 
-# a, b 가정
-a = 3
-b = 75
+print(f'오차(평균제곱오차):{mse(np.array([a, b]), times, scores)}')
 
-# 예측 점수
-y_predict = [a * i + b for i in x]
-
-# mse 구하기
-mse = np.mean([(yp - y)**2 for yp, y in tuple(zip(y_predict, y))])
-
-# 결과출력
-for t, p, pp in tuple(zip(x, y, y_predict)):
-    print(f'공부한 시간={t}, 실제점수={p}, 예측점수={pp}')
-
-print(f'오차(평균제곱오차):{mse}')
-
-fig, subplots = plt.subplots()
-subplots.scatter(x, y)
-subplots.plot(x, y_predict, 'ro-')
-plt.show()

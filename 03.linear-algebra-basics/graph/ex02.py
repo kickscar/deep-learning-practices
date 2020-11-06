@@ -5,10 +5,10 @@ import numpy as np
 
 
 def f1(x):
-    return 5*x**2
+    return 5*(x-4)**2 + 250
 
 
-data_x = np.arange(-10, 10, 0.1)
+data_x = np.arange(-20, 28, 0.1)
 data_y1 = f1(data_x)
 
 fig, subplots = plt.subplots()
