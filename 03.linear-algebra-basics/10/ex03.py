@@ -1,5 +1,5 @@
 # coding: utf-8
-# 경사하강법
+# 경사하강법(수치미분)
 import numpy as np
 
 
