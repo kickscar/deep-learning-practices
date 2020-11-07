@@ -1,23 +1,22 @@
 # coding: utf-8
-# and gate
-
+# nand gate: Perceptron
 import numpy as np
 
 
-def NAND(x1, x2):
+def step_function(x):
+    return np.array(x > 0, dtype=np.int);
+
+
+def OR(x1, x2):
     x = np.array([x1, x2])
-    w = np.array([-0.5, -0.5])
-    b = 0.8
+    w = np.array([0.5, 0.5])
+    b = -0.2
 
-    tmp = np.sum(x*w) + b
-
-    if tmp < 0:
-        return 0
-    else:
-        return 1
+    return step_function(np.sum(x*w) + b)
 
 
-print(NAND(0, 0))
-print(NAND(1, 0))
-print(NAND(0, 1))
-print(NAND(1, 1))
+if __file__ == 'main':
+    print(OR(0, 0))
+    print(OR(1, 0))
+    print(OR(0, 1))
+    print(OR(1, 1))

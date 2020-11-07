@@ -1,15 +1,30 @@
 # coding: utf-8
-# XOR Problem
+# multi-layer 01.perceptron
+import os
+import sys
 
-from matplotlib import pyplot as plt
+try:
+    sys.path.append(os.getcwd())
+    from ex02 import AND
+    from ex03 import NAND
+    from ex04 import OR
+except ImportError:
+    raise ImportError("lib.mnist Module Can't Not Found")
 
-fig, subplots = plt.subplots(1, 2)
 
-subplots[0].scatter([0], [0], marker='o')
-subplots[0].scatter([1, 0, 1], [0, 1, 1], marker='^')
+def identity_func(x):
+    return x
 
 
-subplots[1].scatter([1, 0], [0, 1], marker='o')
-subplots[1].scatter([0, 1], [0, 1], marker='^')
+def XOR(x1, x2):
+    a1 = NAND(x1, x2)
+    a2 = OR(x1, x2)
 
-plt.show()
+    return identity_func(AND(a1, a2))
+
+
+print(XOR(0, 0))
+print(XOR(1, 0))
+print(XOR(0, 1))
+print(XOR(1, 1))
+

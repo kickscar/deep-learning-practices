@@ -1,5 +1,5 @@
 # coding: utf-8
-# and gate
+# and gate: MCP Neuron
 
 
 def AND(x1, x2):

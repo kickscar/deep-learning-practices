@@ -1,23 +1,15 @@
 # coding: utf-8
-# and gate
+# XOR Problem
 
-import numpy as np
+from matplotlib import pyplot as plt
 
+fig, subplots = plt.subplots(1, 2)
 
-def NOR(x1, x2):
-    x = np.array([x1, x2])
-    w = np.array([-0.5, -0.5])
-    b = 0.2
-
-    tmp = np.sum(x*w) + b
-
-    if tmp < 0:
-        return 0
-    else:
-        return 1
+subplots[0].scatter([0], [0], marker='o')
+subplots[0].scatter([1, 0, 1], [0, 1, 1], marker='^')
 
 
-print(NOR(0, 0))
-print(NOR(1, 0))
-print(NOR(0, 1))
-print(NOR(1, 1))
+subplots[1].scatter([1, 0], [0, 1], marker='o')
+subplots[1].scatter([0, 1], [0, 1], marker='^')
+
+plt.show()

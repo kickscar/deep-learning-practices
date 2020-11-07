@@ -1,23 +1,22 @@
 # coding: utf-8
-# and gate
-
+# and gate: Perceptron
 import numpy as np
+
+
+def step_function(x):
+    return np.array(x > 0, dtype=np.int);
 
 
 def AND(x1, x2):
     x = np.array([x1, x2])
     w = np.array([0.5, 0.5])
-    b = -0.8
+    b = -0.7
 
-    tmp = np.sum(x*w) + b
-
-    if tmp < 0:
-        return 0
-    else:
-        return 1
+    return step_function(np.sum(x*w) + b)
 
 
-print(AND(0, 0))
-print(AND(1, 0))
-print(AND(0, 1))
-print(AND(1, 1))
+if __file__ == 'main':
+    print(AND(0, 0))
+    print(AND(1, 0))
+    print(AND(0, 1))
+    print(AND(1, 1))
