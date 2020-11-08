@@ -1,5 +1,5 @@
 # coding: utf-8
-# Logistic Regression
+# Logistic Regression(수치미분)
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -51,15 +51,12 @@ passed = [0, 0, 0, 1, 1, 1, 1]
 
 # 경사하강법
 result = gradient_descent(loss_func, np.array([0., 0.]), lr=0.5, epoch=50000, data_l=(times, passed))
-print(result)
 
 # graph
 fig, subplots = plt.subplots(1, 1)
 subplots.scatter(times, passed)
-
 x2 = list(np.arange(0, 15, 0.1))
 subplots.plot(x2, [sigmoid(result[0] * value + result[1]) for value in x2])
-
 plt.show()
 
 
