@@ -1,5 +1,5 @@
 # coding: utf-8
-# multi-layer 01.perceptron
+# multi-layer perceptron
 import os
 import sys
 

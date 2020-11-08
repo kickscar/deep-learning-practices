@@ -1,5 +1,5 @@
 # coding: utf-8
-# sigmoid test2
+# sigmoid 함수의 특징1
 import numpy as np
 from matplotlib import pyplot as plt
 
@@ -14,7 +14,5 @@ fig, subplots = plt.subplots(1, 1)
 for a in np.arange(0, 10, 1):
     data_y = [sigmoid(a * x) for x in data_x]
     subplots.plot(data_x, data_y)
-
-
 
 plt.show()
