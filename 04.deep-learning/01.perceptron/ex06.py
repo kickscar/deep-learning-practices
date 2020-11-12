@@ -12,15 +12,11 @@ except ImportError:
     raise ImportError("lib.mnist Module Can't Not Found")
 
 
-def identity_func(x):
-    return x
-
-
 def XOR(x1, x2):
     a1 = NAND(x1, x2)
     a2 = OR(x1, x2)
 
-    return identity_func(AND(a1, a2))
+    return AND(a1, a2)
 
 
 print(XOR(0, 0))

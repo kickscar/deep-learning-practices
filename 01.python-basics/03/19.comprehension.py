@@ -13,7 +13,7 @@ strings = ['a', 'as', 'bat', 'car', 'dove', 'python']
 strings = [s for s in strings if len(s) <= 2]
 print(strings)
 
-# 1~100 사이의 수중에 짝수 리스트 만들기
+# 1~100 사이의 수중에 짝수 리스트 만들 기
 evens = [i for i in range(1, 101) if i % 2 == 0]
 print(evens)
 

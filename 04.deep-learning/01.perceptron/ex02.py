@@ -3,19 +3,16 @@
 import numpy as np
 
 
-def step_function(x):
-    return np.array(x > 0, dtype=np.int);
-
-
 def AND(x1, x2):
     x = np.array([x1, x2])
     w = np.array([0.5, 0.5])
     b = -0.7
+    y = np.sum(x*w) + b
 
-    return step_function(np.sum(x*w) + b)
+    return 1 if y > 0 else 0
 
 
-if __file__ == 'main':
+if __name__ == '__main__':
     print(AND(0, 0))
     print(AND(1, 0))
     print(AND(0, 1))
