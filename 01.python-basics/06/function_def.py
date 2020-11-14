@@ -44,5 +44,3 @@ def func():
 
 n, s, s, t = func()
 print(n, s, s, t)
-
-

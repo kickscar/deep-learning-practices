@@ -15,6 +15,7 @@ def func3(a):
     g = 3
     return a * g
 
+
 x = 1
 g = 1
 print(func(10))
