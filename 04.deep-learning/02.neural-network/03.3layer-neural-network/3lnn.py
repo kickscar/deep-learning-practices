@@ -1,6 +1,5 @@
 # coding: utf-8
 # 3층 신경망 구현하기 – 모두 합치기
-
 import numpy as np
 
 
