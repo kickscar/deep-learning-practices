@@ -1,5 +1,5 @@
 # coding: utf-8
-# 04.mnist-neural-network(Modified National Institute of Standards and Technology) Database 손글씨
+# 05.mnist-neural-network(Modified National Institute of Standards and Technology) Database 손글씨
 # Data Testing
 # 부모 디렉터리의 파일을 가져올 수 있도록 설정
 import sys

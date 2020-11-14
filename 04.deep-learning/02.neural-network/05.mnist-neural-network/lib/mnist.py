@@ -19,7 +19,7 @@ key_file = {
 }
 
 dataset_dir = os.path.join(os.getcwd(), 'dataset')
-save_file = dataset_dir + "/04.mnist-neural-network.pkl"
+save_file = dataset_dir + "/05.mnist-neural-network.pkl"
 
 train_num = 60000
 test_num = 10000
@@ -61,7 +61,7 @@ def _change_one_hot_label(x):
 def load_mnist(normalize=True, flatten=True, one_hot_label=False):
 
     """
-    04.mnist-neural-network 데이터셋 읽기
+    05.mnist-neural-network 데이터셋 읽기
     
     Parameters
     ----------
@@ -79,7 +79,7 @@ def load_mnist(normalize=True, flatten=True, one_hot_label=False):
 
     # 1. dataset 초기화 작업 #########################################
     if not os.path.exists(save_file):
-        # 1-1. download 04.mnist-neural-network images + labels
+        # 1-1. download 05.mnist-neural-network images + labels
         for fname in key_file.values():
             file_path = dataset_dir + "/" + fname
 
