@@ -22,8 +22,9 @@ def identity_func(x):
 def softmax(x):
     if x.ndim == 2:
         x = x.T
-        x = x - np.max(x, axis=0)
+        x = x - np.max(x, axis=0)  # 오버플로 대책
         y = np.exp(x) / np.sum(np.exp(x), axis=0)
+
         return y.T
 
     x = x - np.max(x)  # 오버플로 대책
