@@ -11,7 +11,7 @@ try:
     sys.path.append(os.path.join(os.getcwd(), 'lib'))
     from lib.mnist import load_mnist
 except ImportError:
-    raise ImportError("lib.mnist Module Can't Not Found")
+    raise ImportError("lib.mnist Module Can Not Found")
 
 
 (x_train, l_train), (x_test, l_test) = load_mnist(flatten=True, normalize=False)
