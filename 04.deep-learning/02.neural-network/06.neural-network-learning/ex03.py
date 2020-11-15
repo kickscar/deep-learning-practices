@@ -33,7 +33,7 @@ def loss(w, x, t):
 
 
 def numerical_gradient(f, x, data_l):
-    h = 1e-4  # 0.0001
+    h = 1e-4
     grad = np.zeros_like(x)
 
     it = np.nditer(x, flags=['multi_index'], op_flags=['readwrite'])
