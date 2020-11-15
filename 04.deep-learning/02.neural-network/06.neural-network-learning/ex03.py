@@ -3,6 +3,18 @@
 import numpy as np
 
 
+def softmax_func(x):
+    if x.ndim == 2:
+        x = x.T
+        x = x - np.max(x, axis=0)  # 오버플로 대책
+        y = np.exp(x) / np.sum(np.exp(x), axis=0)
+
+        return y.T
+
+    x = x - np.max(x)  # 오버플로 대책
+    return np.exp(x) / np.sum(np.exp(x))
+
+
 def cross_entropy_error(y, t):
     if y.ndim == 1:
         y.reshape(1, y.size)
@@ -14,28 +26,50 @@ def cross_entropy_error(y, t):
 
 
 def loss(w, x, t):
-    y = np.dot(x, w)
+    z = np.dot(x, w)
+    y = softmax_func(z)
     e = cross_entropy_error(y, t)
     return e
 
 
 def numerical_gradient(f, x, data_l):
-    h = 1e-4
-    gradient = np.zeros_like(x)
+    h = 1e-4  # 0.0001
+    grad = np.zeros_like(x)
 
-    for i in range(x.size):
-        tmp = x[i]
+    it = np.nditer(x, flags=['multi_index'], op_flags=['readwrite'])
+    while not it.finished:
+        idx = it.multi_index
+        tmp_val = x[idx]
+        x[idx] = float(tmp_val) + h
+        fxh1 = f(x, *data_l)  # f(x+h)
 
-        x[i] = tmp + h
-        h1 = f(x, *data_l)
+        x[idx] = tmp_val - h
+        fxh2 = f(x, *data_l)  # f(x-h)
+        grad[idx] = (fxh1 - fxh2) / (2 * h)
 
-        x[i] = tmp - h
-        h2 = f(x, *data_l)
+        x[idx] = tmp_val  # 값 복원
+        it.iternext()
 
-        gradient[i] = (h1 - h2) / (2 * h)
-        x[i] = tmp
+    return grad
 
-    return gradient
+
+# def numerical_gradient(f, x, data_l):
+#     h = 1e-4
+#     gradient = np.zeros_like(x)
+#
+#     for i in range(x.size):
+#         tmp = x[i]
+#
+#         x[i] = tmp + h
+#         h1 = f(x, *data_l)
+#
+#         x[i] = tmp - h
+#         h2 = f(x, *data_l)
+#
+#         gradient[i] = (h1 - h2) / (2 * h)
+#         x[i] = tmp
+#
+#     return gradient
 
 
 x = np.array([0.6, 0.9])
