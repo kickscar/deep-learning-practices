@@ -19,7 +19,7 @@ key_file = {
 }
 
 dataset_dir = os.path.join(os.getcwd(), 'dataset')
-save_file = dataset_dir + "/05.mnist-neural-network.pkl"
+save_file = dataset_dir + "/mnist-neural-network.pkl"
 
 train_num = 60000
 test_num = 10000
@@ -55,7 +55,7 @@ def _change_one_hot_label(x):
     for idx, row in enumerate(t):
         row[x[idx]] = 1
 
-    return T
+    return t
 
 
 def load_mnist(normalize=True, flatten=True, one_hot_label=False):
