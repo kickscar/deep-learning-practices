@@ -10,7 +10,7 @@ try:
     from mnist import load_mnist
     from common import sigmoid, softmax
 except ImportError:
-    raise ImportError("lib.mnist Module Can Not Found")
+    raise ImportError("Library Module Can Not Found")
 
 
 def init_network():

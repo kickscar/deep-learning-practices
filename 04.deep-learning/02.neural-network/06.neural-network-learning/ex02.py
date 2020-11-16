@@ -9,7 +9,7 @@ try:
     from mnist import load_mnist
     from common import cross_entropy_error
 except ImportError:
-    raise ImportError("lib.mnist Module Can Not Found")
+    raise ImportError("Library Module Can Not Found")
 
 
 # test1

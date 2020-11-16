@@ -8,7 +8,7 @@ try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
     from common import softmax, cross_entropy_error
 except ImportError:
-    raise ImportError("lib.mnist Module Can Not Found")
+    raise ImportError("Library Module Can Not Found")
 
 
 def loss(w, x, t):
