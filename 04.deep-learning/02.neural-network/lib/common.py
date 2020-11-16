@@ -59,3 +59,46 @@ def cross_entropy_error(y, t):
     batch_size = y.shape[0]
     delta = 1.e-7
     return -np.sum(t * np.log(y + delta)) / batch_size
+
+
+# Numerical Gradient for Tensor 1(Vector)
+def numerical_gradient_tensor1(f, x, data_l):
+    h = 1e-4
+    gradient = np.zeros_like(x)
+
+    for i in range(x.size):
+        tmp = x[i]
+
+        x[i] = tmp + h
+        h1 = f(x, *data_l)
+
+        x[i] = tmp - h
+        h2 = f(x, *data_l)
+
+        gradient[i] = (h1 - h2) / (2 * h)
+        x[i] = tmp
+
+    return gradient
+
+
+# Numerical Gradient for Tensor 1(Vector), 2(Matrix), ....n
+def numerical_gradient(f, x, data_l):
+    h = 1e-4
+    grad = np.zeros_like(x)
+
+    it = np.nditer(x, flags=['multi_index'], op_flags=['readwrite'])
+    while not it.finished:
+        idx = it.multi_index
+        tmp_val = x[idx]
+        x[idx] = float(tmp_val) + h
+        fxh1 = f(x, *data_l)  # f(x+h)
+
+        x[idx] = tmp_val - h
+        fxh2 = f(x, *data_l)  # f(x-h)
+        grad[idx] = (fxh1 - fxh2) / (2 * h)
+
+        x[idx] = tmp_val  # 값 복원
+        it.iternext()
+
+    return grad
+
