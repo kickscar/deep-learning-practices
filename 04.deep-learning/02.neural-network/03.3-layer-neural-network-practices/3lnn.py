@@ -1,14 +1,14 @@
 # coding: utf-8
 # 3층 신경망 구현하기 – 모두 합치기
+import os
+import sys
+from pathlib import Path
 import numpy as np
-
-
-def sigmoid(x):
-    return 1 / (1 + np.e ** (-x))
-
-
-def identity_func(x):
-    return x
+try:
+    sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
+    from common import sigmoid, identity
+except ImportError:
+    raise ImportError("Library Module Can Not Found")
 
 
 def init_network():
@@ -33,7 +33,7 @@ def propagation_forward(network, x):
     z2 = sigmoid(a2)
 
     a3 = np.dot(w3, z2) + b3
-    z3 = identity_func(a3)
+    z3 = identity(a3)
 
     return z3
 

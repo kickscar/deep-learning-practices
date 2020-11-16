@@ -3,7 +3,7 @@
 import numpy as np
 
 
-# 1차원 모든요소가 2인 size 5 배열
+# 1차원 모든요소가 5인 size 2 배열
 arr1 = np.full(2, 5)
 print(arr1, arr1.shape, arr1.dtype)
 

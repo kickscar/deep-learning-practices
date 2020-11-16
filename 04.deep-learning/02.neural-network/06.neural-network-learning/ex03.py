@@ -1,33 +1,19 @@
 # coding: utf-8
 # 신경망 학습: 신경망 기울기(Neural Network Gradient)
+import sys
+import os
+from pathlib import Path
 import numpy as np
-
-
-def softmax_func(x):
-    if x.ndim == 2:
-        x = x.T
-        x = x - np.max(x, axis=0)  # 오버플로 대책
-        y = np.exp(x) / np.sum(np.exp(x), axis=0)
-
-        return y.T
-
-    x = x - np.max(x)  # 오버플로 대책
-    return np.exp(x) / np.sum(np.exp(x))
-
-
-def cross_entropy_error(y, t):
-    if y.ndim == 1:
-        y.reshape(1, y.size)
-        t.reshape(1, t.size)
-
-    batch_size = y.shape[0]
-    delta = 1.e-7
-    return -np.sum(t * np.log(y + delta)) / batch_size
+try:
+    sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
+    from common import softmax, cross_entropy_error
+except ImportError:
+    raise ImportError("lib.mnist Module Can Not Found")
 
 
 def loss(w, x, t):
     z = np.dot(x, w)
-    y = softmax_func(z)
+    y = softmax(z)
     e = cross_entropy_error(y, t)
     return e
 

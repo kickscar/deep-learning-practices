@@ -1,14 +1,14 @@
 # coding: utf-8
 # 3층 신경망 구현하기 – 신호전달 구현6: 출력층 활성함수 𝜎() 적용
+import os
+import sys
+from pathlib import Path
 import numpy as np
-
-
-def sigmoid(x):
-    return 1 / (1 + np.e ** (-x))
-
-
-def identity_func(x):
-    return x
+try:
+    sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
+    from common import sigmoid, identity
+except ImportError:
+    raise ImportError("Library Module Can Not Found")
 
 
 W1 = np.array([[0.1, 0.3], [0.2, 0.4], [0.5, 1.]])
@@ -53,6 +53,6 @@ A3 = np.dot(W3, Z2) + B3
 print(f'A3={A3}')
 print('===============================')
 
-Z3 = identity_func(A3)
+Z3 = identity(A3)
 print(f'Z3={Z3}')
 print('===============================')

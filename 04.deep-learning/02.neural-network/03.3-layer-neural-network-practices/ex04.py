@@ -1,10 +1,14 @@
 # coding: utf-8
 # 3층 신경망 구현하기 – 신호전달 구현4: 은닉2층 활성함수 h() 적용
+import os
+import sys
+from pathlib import Path
 import numpy as np
-
-
-def sigmoid(x):
-    return 1 / (1 + np.e ** (-x))
+try:
+    sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
+    from common import sigmoid
+except ImportError:
+    raise ImportError("Library Module Can Not Found")
 
 
 W1 = np.array([[0.1, 0.3], [0.2, 0.4], [0.5, 1.]])

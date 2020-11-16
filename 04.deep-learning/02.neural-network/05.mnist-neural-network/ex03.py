@@ -3,32 +3,14 @@
 import pickle
 import sys
 import os
+from pathlib import Path
 import numpy as np
 try:
-    sys.path.append(os.path.join(os.getcwd(), 'lib'))
-    from lib.mnist import load_mnist
+    sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
+    from mnist import load_mnist
+    from common import sigmoid, softmax
 except ImportError:
     raise ImportError("lib.mnist Module Can Not Found")
-
-
-def sigmoid(x):
-    return 1 / (1 + np.exp(-x))
-
-
-def identity_func(x):
-    return x
-
-
-def softmax(x):
-    if x.ndim == 2:
-        x = x.T
-        x = x - np.max(x, axis=0)  # 오버플로 대책
-        y = np.exp(x) / np.sum(np.exp(x), axis=0)
-
-        return y.T
-
-    x = x - np.max(x)  # 오버플로 대책
-    return np.exp(x) / np.sum(np.exp(x))
 
 
 def init_network():

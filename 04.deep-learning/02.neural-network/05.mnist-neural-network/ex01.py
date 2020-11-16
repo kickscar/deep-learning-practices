@@ -1,15 +1,14 @@
 # coding: utf-8
-# 05.mnist-neural-network(Modified National Institute of Standards and Technology) Database 손글씨
+# MNIST Neural Network(Modified National Institute of Standards and Technology) Database 손글씨
 # Data Testing
-# 부모 디렉터리의 파일을 가져올 수 있도록 설정
 import sys
 import os
+from pathlib import Path
 import numpy as np
 from PIL import Image
-
 try:
-    sys.path.append(os.path.join(os.getcwd(), 'lib'))
-    from lib.mnist import load_mnist
+    sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
+    from mnist import load_mnist
 except ImportError:
     raise ImportError("lib.mnist Module Can Not Found")
 

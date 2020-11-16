@@ -2,23 +2,14 @@
 # 신경망 학습: 미니 배치(mini-batch)
 import sys
 import os
+from pathlib import Path
 import numpy as np
 try:
-    sys.path.append(os.path.join(os.getcwd(), 'lib'))
-    from lib.mnist import load_mnist
+    sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
+    from mnist import load_mnist
+    from common import cross_entropy_error
 except ImportError:
     raise ImportError("lib.mnist Module Can Not Found")
-
-
-# support only for one-hot
-def cross_entropy_error(y, t):
-    if y.ndim == 1:
-        y.reshape(1, y.size)
-        t.reshape(1, t.size)
-
-    batch_size = y.shape[0]
-    delta = 1.e-7
-    return -np.sum(t * np.log(y + delta)) / batch_size
 
 
 # test1

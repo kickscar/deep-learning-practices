@@ -1,12 +1,15 @@
 # coding: utf-8
 # sigmoid function & graph
+import os
+import sys
+from pathlib import Path
 import numpy as np
 from matplotlib import pyplot as plt
-
-
-def sigmoid(x):
-    return 1 / (1 + np.e ** (-x))
-
+try:
+    sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
+    from common import sigmoid
+except ImportError:
+    raise ImportError("Library Module Can Not Found")
 
 data_x = np.arange(-10, 10, 0.1)
 data_y = sigmoid(data_x)
