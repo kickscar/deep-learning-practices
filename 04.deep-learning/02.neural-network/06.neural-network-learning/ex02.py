@@ -10,7 +10,6 @@ try:
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-
 # data
 t = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
 
