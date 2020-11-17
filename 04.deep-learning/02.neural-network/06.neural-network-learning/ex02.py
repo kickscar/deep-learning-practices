@@ -1,42 +1,30 @@
 # coding: utf-8
-# 신경망 학습: 미니 배치(mini-batch)
+# 신경망 학습: 교차 엔트로피 손실함수 (Cross Entropy Error, CEE)
 import sys
 import os
 from pathlib import Path
 import numpy as np
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
-    from mnist import load_mnist
-    from common import cross_entropy_error
+    from common import cross_entropy_error_non_batch
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
 
-# test1
-(x_train, t_train), (x_test, l_test) = load_mnist(flatten=True, normalize=True, one_hot_label=True)
+# data
+t = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
 
-print(x_train.shape)  # 60000 X 784
-print(t_train.shape)  # 60000 X 10
-
-# test2
-train_size = len(x_train)
-batch_size = 10
-
-batch_mask = np.random.choice(train_size, batch_size)
-print(batch_mask)
-
-x_train_batch = x_train[batch_mask]
-t_train_batch = t_train[batch_mask]
-print(x_train_batch.shape)
-print(t_train_batch.shape)
-
-# test3
-t1 = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
 y1 = [0.1, 0.05, 0.7, 0., 0.02, 0.03, 0., 0.1, 0., 0.]
-print(cross_entropy_error(np.array(y1), np.array(t1)))
+y2 = [0.1, 0.05, 0.05, 0.6, 0.02, 0.03, 0.05, 0.1, 0., 0.]
+y3 = [0., 0., 0.95, 0.02, 0.01, 0.01, 0., 0.01, 0., 0.]
+
+# print(np.sum(y1))
+# print(np.sum(y2))
+# print(np.sum(y3))
+
+# test
+print(cross_entropy_error_non_batch(np.array(y1), np.array(t)))
+print(cross_entropy_error_non_batch(np.array(y2), np.array(t)))
+print(cross_entropy_error_non_batch(np.array(y3), np.array(t)))
 
 
-# test4
-t2 = [[0, 0, 1, 0, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]]
-y2 = [[0.1, 0.05, 0.7, 0., 0.02, 0.03, 0., 0.1, 0., 0.], [0.1, 0.05, 0.7, 0., 0.02, 0.03, 0., 0.1, 0., 0.]]
-print(cross_entropy_error(np.array(y2), np.array(t2)))
