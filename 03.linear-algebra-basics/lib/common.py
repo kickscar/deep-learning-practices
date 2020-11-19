@@ -2,17 +2,39 @@ import numpy as np
 from inspect import signature
 
 
-# 평균제곱오차(MSE, Mean Squares Error)
-def mean_squares_error(x, data_training=None):
-    data_x, data_y = data_training
+# 수치미분(x변수가 하나일 때....)
+def numerical_diff(f, x):
+    h = 1e-4
+    dx = (f(x+h) - f(x-h)) / (2 * h)
 
-    data_y_hat = [x[0] * dx + x[1] for dx in data_x]
-    e = np.mean([(dyh - dy)**2 for dyh, dy in zip(data_y_hat, data_y)])
-
-    return e
+    return dx
 
 
-# 수치미분
+# 수치편미분(x변수가 여러 개 일때..)
+def numerical_partial_diff(f, x):
+    """
+    return 변수 x(벡터,1차원 numpy array)에 대한 편미분 결과(벡터, 1차원 numpy array) 반환
+    : param f: 손실함수
+    : pram x : 변수(벡터, 1차원 numpy array)
+    """
+    h = 1e-4
+    dx = np.zeros_like(x)
+
+    for i in range(x.size):
+        tmp = x[i]
+
+        x[i] = tmp + h
+        h1 = f(x)
+        x[i] = tmp - h
+        h2 = f(x)
+        dx[i] = (h1 - h2) / (2 * h)
+
+        x[i] = tmp
+
+    return dx
+
+
+# 기울기
 def numerical_gradient(f, x, data_training=None):
     h = 1e-4
     gradient = np.zeros_like(x)
@@ -30,7 +52,7 @@ def numerical_gradient(f, x, data_training=None):
     return gradient
 
 
-# 경사하강법 구현: 선형회귀
+# 경사하강법
 def gradient_descent(f, x, lr=0.01, epoch=100, data_training=None):
     for i in range(epoch):
         gradient = numerical_gradient(f, x, data_training)
@@ -39,6 +61,16 @@ def gradient_descent(f, x, lr=0.01, epoch=100, data_training=None):
         x -= lr * gradient
 
     return x
+
+
+# 평균제곱오차(MSE, Mean Squares Error)
+def mean_squares_error(x, data_training=None):
+    data_x, data_y = data_training
+
+    data_y_hat = [x[0] * dx + x[1] for dx in data_x]
+    e = np.mean([(dyh - dy)**2 for dyh, dy in zip(data_y_hat, data_y)])
+
+    return e
 
 
 # 최소제곱법
@@ -61,6 +93,3 @@ def method_least_squares(x, y):
     mls_b = my - (mx * mls_a)
 
     return mls_a, mls_b
-
-
-

@@ -1,15 +1,19 @@
 # coding: utf-8
 # 수치미분(Numerical Diffirentiation)
-# 이차함수
+import os
+import sys
+from pathlib import Path
+try:
+    sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
+    from common import numerical_diff
+except ImportError:
+    print('Library Module Can Not Found')
 
 
-def f1(x):
-    return 20*(x-2)**2 + 500
+# 이차함수 y=20(x-2)^2 + 500
+def f(x):
+    return 20*(x-2)**2+500
 
 
-def numerical_diff(f, x):
-    h = 10e-50
-    return (f(x+h) - f(x)) / h
-
-
-print(f'Diffirentiation Value: {numerical_diff(f1, 5)}')
+print(f'Diffirentiation Value:{numerical_diff(f, 2.)}')
+print(f'Diffirentiation Value:{numerical_diff(f, 1.9)}')

@@ -26,5 +26,5 @@ def numerical_gradient(f, x):
 
 
 print(numerical_gradient(function, np.array([3., 4.])))
-print(numerical_gradient(function, np.array([0., 2.])))
-print(numerical_gradient(function, np.array([3., 0.])))
+print(numerical_gradient(function, np.array([-1., -1.5])))
+print(numerical_gradient(function, np.array([-0.25, -0.25])))
