@@ -4,19 +4,19 @@ import numpy as np
 
 
 def analytic_gradient(x, data_in, data_out):
-    gradient = np.zeros_like(x)
-
-    gradient[0] = 2 * np.mean((x[0] * data_in + x[1] - data_out) * data_in)
-    gradient[1] = 2 * np.mean(x[0] * data_in + x[1] - data_out)
-
-    return gradient
+    return np.array([
+        2 * np.mean((x[:-1] @ (data_in[np.newaxis, :] if data_in.ndim == 1 else data_in) + x[-1:] - data_out) * data_in),
+        2 * np.mean(x[:-1] @ (data_in[np.newaxis, :] if data_in.ndim == 1 else data_in) + x[-1:] - data_out)
+    ])
 
 
 def gradient_descent(x, lr=0.01, epoch=100, data_in=None, data_out=None):
     for i in range(epoch):
         gradient = analytic_gradient(x, data_in, data_out)
+
         # 출력
         print(f'epoch={i+1}, gradient={gradient}, x={x}')
+
         x -= lr * gradient
 
     return x

@@ -42,13 +42,9 @@ def gradient_descent(f, x, lr=0.01, epoch=100, data_in=None, data_out=None):
     return x
 
 
-# Mean Squares Error(MSE, 평균제곱오차)
+# Mean Squares Error(MSE, 평균제곱오차) -> 과제: lambda 변경
 def mean_squares_error(x, data_in, data_out):
-
-    if data_in.ndim == 1:
-        data_in = data_in[np.newaxis, :]
-
-    return np.mean((x[:-1] @ data_in + x[-1:] - data_out)**2)
+    return np.mean((x[:-1] @ (data_in[np.newaxis, :] if data_in.ndim == 1 else data_in) + x[-1:] - data_out)**2)
 
 
 # Method of Least Squares(MLS, 최소제곱법): 여러 점(독립변수 X, 종속변수 Y)에서 직선의 기울기 구하기
