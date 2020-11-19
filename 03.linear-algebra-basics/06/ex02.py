@@ -1,6 +1,7 @@
-# 수치미분(Numerical Diffirentiation) VS 해석미분(Analytic Diffirentiation)
+# 수치미분(Numerical Differentiation) VS 해석미분(Analytic Differentiation)
 import os
 import sys
+import numpy as np
 from pathlib import Path
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
@@ -17,5 +18,5 @@ def analytic_diff(x):
     return 40 * x - 80
 
 
-print(f'Numerical Diffirentiation Value:{numerical_diff(f, 5)}')
-print(f'Analytic Diffirentiation Value:{analytic_diff(5)}')
+print(f'Numerical Differentiation Value:{numerical_diff(f, np.array(5.))}')
+print(f'Analytic Differentiation Value:{analytic_diff(np.array(5.))}')

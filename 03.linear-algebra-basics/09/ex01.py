@@ -1,4 +1,4 @@
-# 기울기(Gradient)
+# 경사하강법(Gradient Descent)
 import os
 import sys
 from pathlib import Path
@@ -14,7 +14,6 @@ def function(x):
     return np.sum(x**2, axis=0)
 
 
-gradient_descent(function, np.array([-3., 4.]), 0.1)
-# gradient_descent(function, np.array([-3., 4.]), 10)
-# gradient_descent(function, np.array([-3., 4.]), 1e-10)
+params = gradient_descent(function, np.array([-3., 4.]), 0.1)
+print(params)
 

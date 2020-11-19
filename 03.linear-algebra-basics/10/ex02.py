@@ -12,11 +12,12 @@ import numpy as np
 
 
 # data
-times = [2, 4, 6, 8]
-scores = [81, 93, 91, 97]
+times = np.array([2, 4, 6, 8])
+scores = np.array([81, 93, 91, 97])
 
 # 최소제곱법으로 기울기 a, y절편 b 구하기
-a, b = method_least_squares(times, scores)
+params = method_least_squares(times, scores)
 
-print(f'오차(평균제곱오차):{mean_squares_error(np.array([a, b]), data_training=(times, scores))}')
+# 평균제곱오차
+print(f'평균제곱오차:{mean_squares_error(np.array(params), data_in=times, data_out=scores)}')
 

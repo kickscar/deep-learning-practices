@@ -1,6 +1,7 @@
-# 편미분(Partial Diffirentiation): x0을 3으로 고정해서 설명
+# 편미분(Partial Differentiation): x0을 3으로 고정
 import os
 import sys
+import numpy as np
 from pathlib import Path
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
@@ -14,10 +15,4 @@ def f(x1):
 
 
 # (x0, x1) = (3, 4)
-print(f'Numerical Partial Diffierentiation Value:{numerical_diff(f, 4.)}')
-
-# (x0, x1) = (3, 1)
-print(f'Numerical Partial Diffierentiation Value:{numerical_diff(f, 1.)}')
-
-# (x0, x1) = (3, 2)
-print(f'Numerical Partial Diffierentiation Value:{numerical_diff(f, 2.)}')
+print(f'Numerical Partial Differentiation Value:{numerical_diff(f, np.array(4.))}')
