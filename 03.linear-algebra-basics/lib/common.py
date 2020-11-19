@@ -1,4 +1,5 @@
 import numpy as np
+from inspect import signature
 
 
 # 평균제곱오차(MSE, Mean Squares Error)
@@ -19,9 +20,9 @@ def numerical_gradient(f, x, data_training=None):
         tmp = x[i]
 
         x[i] = tmp + h
-        h1 = f(x, data_training)
+        h1 = f(x) if len(signature(f).parameters) == 1 else f(x, data_training)
         x[i] = tmp - h
-        h2 = f(x, data_training)
+        h2 = f(x) if len(signature(f).parameters) == 1 else f(x, data_training)
         gradient[i] = (h1 - h2) / (2 * h)
 
         x[i] = tmp
