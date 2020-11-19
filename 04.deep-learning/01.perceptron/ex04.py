@@ -1,19 +1,34 @@
 # coding: utf-8
-# nand gate: Perceptron
+# or gate: Perceptron
+import os
+import sys
 import numpy as np
+try:
+    sys.path.append(os.path.join(os.getcwd(), 'lib'))
+    from common import step
+except ImportError:
+    raise ImportError("Modules Can Not Found")
 
 
-def OR(x1, x2):
-    x = np.array([x1, x2])
-    w = np.array([0.5, 0.5])
-    b = -0.2
-    y = np.sum(x*w) + b
+def OR(x):
+    w, b = np.array([0.5, 0.5]), -0.2
+    a = np.sum(x*w) + b
 
-    return 1 if y > 0 else 0
+    # z = 1 if a > 0 else 0
+    z = step(a)
+
+    return z
 
 
 if __name__ == '__main__':
-    print(OR(0, 0))
-    print(OR(1, 0))
-    print(OR(0, 1))
-    print(OR(1, 1))
+    y = OR(np.array([0, 0]))
+    print(y)
+
+    y = OR(np.array([1, 0]))
+    print(y)
+
+    y = OR(np.array([0, 1]))
+    print(y)
+
+    y = OR(np.array([1, 1]))
+    print(y)

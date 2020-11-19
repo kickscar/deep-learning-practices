@@ -53,6 +53,6 @@ A3 = np.dot(W3, Z2) + B3
 print(f'A3={A3}')
 print('===============================')
 
-Z3 = identity(A3)
-print(f'Z3={Z3}')
+Y = identity(A3)
+print(f'Y={Y}')
 print('===============================')

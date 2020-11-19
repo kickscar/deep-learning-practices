@@ -1,7 +1,8 @@
 # coding: utf-8
-# multi-layer perceptron
+# multi-layer perceptron I
 import os
 import sys
+import numpy as np
 
 try:
     sys.path.append(os.getcwd())
@@ -9,18 +10,27 @@ try:
     from ex03 import NAND
     from ex04 import OR
 except ImportError:
-    raise ImportError("lib.mnist Module Can't Not Found")
+    raise ImportError("Modules Can Not Found")
 
 
-def XOR(x1, x2):
-    a1 = NAND(x1, x2)
-    a2 = OR(x1, x2)
+def XOR(x):
+    a1 = NAND(x)
+    a2 = OR(x)
+    a3 = AND(np.array([a1, a2]))
 
-    return AND(a1, a2)
+    y = a3
+
+    return y
 
 
-print(XOR(0, 0))
-print(XOR(1, 0))
-print(XOR(0, 1))
-print(XOR(1, 1))
+y = XOR(np.array([0, 0]))
+print(y)
 
+y = XOR(np.array([1, 0]))
+print(y)
+
+y = XOR(np.array([0, 1]))
+print(y)
+
+y = XOR(np.array([1, 1]))
+print(y)

@@ -1,50 +1,38 @@
 # coding: utf-8
+import os
+import sys
 import numpy as np
+try:
+    sys.path.append(os.getcwd())
+    sys.path.append(os.path.join(os.getcwd(), 'lib'))
+
+    from ex02 import AND
+    from ex03 import NAND
+    from ex04 import OR
+    from common import identity
+except ImportError:
+    raise ImportError("Modules Can Not Found")
 
 
-def step_function(x):
-    return np.array(x > 0, dtype=np.int)
+def XOR(x):
+    a1 = NAND(x)
+    a2 = OR(x)
+    a3 = AND(np.array([a1, a2]))
+
+    # y = a3
+    y = identity(a3)
+
+    return y
 
 
-def identity_func(x):
-    return x
+y = XOR(np.array([0, 0]))
+print(y)
 
+y = XOR(np.array([1, 0]))
+print(y)
 
-def AND(x1, x2):
-    x = np.array([x1, x2])
-    w = np.array([0.5, 0.5])
-    b = -0.7
-    y = np.sum(x*w) + b
+y = XOR(np.array([0, 1]))
+print(y)
 
-    return 1 if y > 0 else 0
-
-
-def NAND(x1, x2):
-    x = np.array([x1, x2])
-    w = np.array([-0.5, -0.5])
-    b = 0.7
-    y = np.sum(x*w) + b
-
-    return 1 if y > 0 else 0
-
-
-def OR(x1, x2):
-    x = np.array([x1, x2])
-    w = np.array([0.5, 0.5])
-    b = -0.2
-    y = np.sum(x*w) + b
-
-    return 1 if y > 0 else 0
-
-
-def XOR(x1, x2):
-    a1 = NAND(x1, x2)
-    a2 = OR(x1, x2)
-
-    return AND(a1, a2)
-
-
-print(XOR(0, 0))
-print(XOR(1, 0))
-print(XOR(0, 1))
-print(XOR(1, 1))
+y = XOR(np.array([1, 1]))
+print(y)
