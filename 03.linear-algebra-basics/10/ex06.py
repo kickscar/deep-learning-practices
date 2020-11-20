@@ -26,4 +26,10 @@ ptimes = np.array([0, 4, 2, 3])
 scores = np.array([81, 93, 91, 97])
 
 # 경사하강법
-gradient_descent(np.array([0., 0., 0.]), epoch=3000, data_in=np.array([times, ptimes]), data_out=scores)
+params = gradient_descent(np.array([0., 0., 0.]), epoch=3000, data_in=np.array([times, ptimes]), data_out=scores)
+
+# predict!!
+x1_p = 2
+x2_p = 2
+y_p = params[0] * x1_p + params[1] * x2_p + params[2]
+print(f'공부를 {x1_p}시간 하고 과외를 {x2_p}시간 받았을 때, 받을 수 있는 점수: {int(y_p)}점')

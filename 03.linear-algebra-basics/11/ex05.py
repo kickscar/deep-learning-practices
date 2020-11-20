@@ -5,48 +5,48 @@ from matplotlib import pyplot as plt
 
 
 # sigmoid 함수
-def sigmoid(v):
-    return 1 / (1 + np.e ** (-v))
+def sigmoid(x):
+    return 1 / (1 + np.e ** (-x))
 
 
-def analytic_gradient(x, dx, dy):
-    gradient = [0., 0.]
-
-    gradient[0] = dx * (sigmoid(x[0] * dx + x[1]) - dy)
-    gradient[1] = sigmoid(x[0] * dx + x[1]) - dy
-
-    return gradient
+def analytic_gradient(x, d_in, d_out):
+    return np.array([
+        d_in * (sigmoid(x[0] * d_in + x[1]) - d_out),
+        sigmoid(x[0] * d_in + x[1]) - d_out
+    ])
 
 
-def gradient_descent(x, lr=0.01, epoch=100, data_l=None):
+def gradient_descent(x, lr=0.01, epoch=100, data_in=None, data_out=None):
     for i in range(epoch):
-        for dx, dy in tuple(zip(data_l[0], data_l[1])):
-            gradient = analytic_gradient(x, dx, dy)
+        for d_in, d_out in zip(data_in, data_out):
+            gradient = analytic_gradient(x, d_in, d_out)
 
             # 출력
             print(f'epoch={i+1}, gradient={gradient}, x={x}')
 
-            x[0] -= lr * gradient[0]
-            x[1] -= lr * gradient[1]
+            x -= lr * gradient
 
     return x
 
 
 # data
-times = [2, 4, 6, 8, 10, 12, 14]
-passed = [0, 0, 0, 1, 1, 1, 1]
+times = np.array([2, 4, 6, 8, 10, 12, 14])
+passed = np.array([0, 0, 0, 1, 1, 1, 1])
 
 
 # 경사하강법
-result = gradient_descent([0., 0.], lr=0.1, epoch=30000, data_l=(times, passed))
-
-# graph
-fig, subplots = plt.subplots(1, 1)
-subplots.scatter(times, passed)
-x2 = list(np.arange(0, 15, 0.1))
-subplots.plot(x2, [sigmoid(result[0] * value + result[1]) for value in x2])
-plt.show()
-
+params = gradient_descent(np.array([0., 0.]), lr=0.1, epoch=1000, data_in=times, data_out=passed)
 
 # predict
-print(sigmoid(result[0] * 7 + result[1]))
+x_p = 7
+print(f'{x_p}시간 공부했을 때 합격할 확률은 {sigmoid(params[0] * x_p + params[1])} 입니다.')
+
+# graph
+x = np.arange(0, 15, 0.1)
+y = sigmoid(params[0] * x + params[1])
+
+fig, splt = plt.subplots()
+splt.scatter(times, passed)
+splt.plot(x, y)
+
+plt.show()
