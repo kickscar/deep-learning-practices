@@ -3,24 +3,17 @@
 import numpy as np
 
 
-def analytic_gradient(x, data_l):
-    gradient = np.zeros_like(x)
-
-    n = len(data_l[0])
-
-    data_y_hat = x[0] * data_l[0] + x[1] * data_l[1] + x[2]
-    arr_error = data_l[2] - data_y_hat
-
-    gradient[0] = -(2 / n) * np.sum(arr_error * data_l[0])
-    gradient[1] = -(2 / n) * np.sum(arr_error * data_l[1])
-    gradient[2] = -(2 / n) * np.sum(arr_error)
-
-    return gradient
+def analytic_gradient(x, data_in, data_out):
+    arr_error = data_out - (x[:-1] @ data_in + x[-1:])
+    return np.array([
+        -2 * np.mean(arr_error * (np.array(1) if i is (x.size - 1) else data_in[i]))
+        for i in range(x.size)
+    ])
 
 
-def gradient_descent(x, lr=0.01, epoch=100, data_l=None):
+def gradient_descent(x, lr=0.01, epoch=100, data_in=None, data_out=None):
     for i in range(epoch):
-        gradient = analytic_gradient(x, data_l)
+        gradient = analytic_gradient(x, data_in, data_out)
         # 출력
         print(f'epoch={i+1}, gradient={gradient}, x={x}')
         x -= lr * gradient
@@ -29,9 +22,9 @@ def gradient_descent(x, lr=0.01, epoch=100, data_l=None):
 
 
 # data
-times = [2, 4, 6, 8]
-ptimes = [0, 4, 2, 3]
-scores = [81, 93, 91, 97]
+times = np.array([2, 4, 6, 8])
+ptimes = np.array([0, 4, 2, 3])
+scores = np.array([81, 93, 91, 97])
 
 # 경사하강법
-gradient_descent(np.array([0., 0., 0.]), epoch=3000, data_l=(np.array(times), np.array(ptimes), np.array(scores)))
+gradient_descent(np.array([0., 0., 0.]), epoch=3000, data_in=np.array([times, ptimes]), data_out=scores)
