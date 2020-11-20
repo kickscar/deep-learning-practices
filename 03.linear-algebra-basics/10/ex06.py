@@ -4,9 +4,8 @@ import numpy as np
 
 
 def analytic_gradient(x, data_in, data_out):
-    arr_error = data_out - (x[:-1] @ data_in + x[-1:])
     return np.array([
-        -2 * np.mean(arr_error * (np.array(1) if i is (x.size - 1) else data_in[i]))
+        -2 * np.mean((data_out - (x[:-1] @ data_in + x[-1:])) * (np.array(1) if i is (x.size - 1) else data_in[i]))
         for i in range(x.size)
     ])
 
