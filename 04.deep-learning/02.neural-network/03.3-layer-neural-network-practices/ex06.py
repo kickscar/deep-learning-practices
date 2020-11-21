@@ -15,6 +15,5 @@ except ImportError:
 print('\n= 신호전달 구현6: 출력층 활성함수 𝜎() 적용 ====================')
 
 print(f'a3 dimension: {a3.shape}')  # 2 vector
-
 y = identity(a3)
 print(f'y = {y}')

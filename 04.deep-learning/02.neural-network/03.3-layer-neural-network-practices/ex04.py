@@ -14,6 +14,5 @@ except ImportError:
 print('\n= 신호전달 구현4: 은닉2층 활성함수 h() 적용 ===================')
 
 print(f'a2 dimension: {a2.shape}')  # 2 vector
-
 z2 = sigmoid(a2)
 print(f'z2 = {z2}')
