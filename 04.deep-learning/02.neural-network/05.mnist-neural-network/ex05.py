@@ -11,21 +11,6 @@ try:
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-
-def predict(network, x):
-    W1, W2, W3 = network['W1'], network['W2'], network['W3']
-    b1, b2, b3 = network['b1'], network['b2'], network['b3']
-
-    a1 = np.dot(x, W1) + b1
-    z1 = sigmoid(a1)
-    a2 = np.dot(z1, W2) + b2
-    z2 = sigmoid(a2)
-    a3 = np.dot(z2, W3) + b3
-    y = softmax(a3)
-
-    return y
-
-
 # 1. 매개변수(w, b  행렬 데이터셋 가져오기)
 network = init_network()
 w1, w2, w3 = network['W1'], network['W2'], network['W3']
@@ -56,9 +41,10 @@ for index, sindex_batch in enumerate(range(0, count_images, batch_size)):
     predict_batch = np.argmax(y_batch, axis=1)
     labels_batch = test_labels[sindex_batch:sindex_batch+batch_size]
 
-    hit += np.sum(predict_batch == labels_batch)
+    hit_batch = np.sum(predict_batch == labels_batch)
+    hit += hit_batch
 
-    print(f'batch #{index+1}, hit:{hit}')
+    print(f'batch #{index+1}, batch hit:{hit_batch}, total hit:{hit}')
 
 # 4. 정확도(Accuracy)
 print(f'Accuracy: {hit/count_images}')
