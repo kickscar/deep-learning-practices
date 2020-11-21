@@ -13,18 +13,18 @@ except ImportError:
 
 def init_network():
     return {
-        'W1': np.array([[0.1, 0.3], [0.2, 0.4], [0.5, 1.]]),
-        'B1': np.array([0.1, 0.2, 0.3]),
-        'W2': np.array([[0.1, 0.3, 0.5], [0.2, 0.4, 0.6]]),
-        'B2': np.array([0.1, 0.2]),
-        'W3': np.array([[0.1, 0.3], [0.2, 0.4]]),
-        'B3': np.array([0.1, 0.2])
+        'w1': np.array([[0.1, 0.3], [0.2, 0.4], [0.5, 1.]]),
+        'b1': np.array([0.1, 0.2, 0.3]),
+        'w2': np.array([[0.1, 0.3, 0.5], [0.2, 0.4, 0.6]]),
+        'b2': np.array([0.1, 0.2]),
+        'w3': np.array([[0.1, 0.3], [0.2, 0.4]]),
+        'b3': np.array([0.1, 0.2])
     }
 
 
-def propagation_forward(network, x):
-    w1, w2, w3 = network['W1'], network['W2'], network['W3']
-    b1, b2, b3 = network['B1'], network['B2'], network['B3']
+def forward_propagation(network, x):
+    w1, w2, w3 = network['w1'], network['w2'], network['w3']
+    b1, b2, b3 = network['b1'], network['b2'], network['b3']
 
     a1 = np.dot(w1, x) + b1
     z1 = sigmoid(a1)
@@ -40,6 +40,6 @@ def propagation_forward(network, x):
 
 network = init_network()
 x = np.array([1., 5.])
-y = propagation_forward(network, x)
+y = forward_propagation(network, x)
 
 print(y)
