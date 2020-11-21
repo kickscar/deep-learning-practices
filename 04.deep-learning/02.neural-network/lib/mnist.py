@@ -58,6 +58,12 @@ def _change_one_hot_label(x):
     return t
 
 
+def init_network():
+    datasetdir = os.path.join(os.getcwd(), 'dataset')
+    with open(datasetdir + '/sample_weight.pkl', 'rb') as f:
+        return pickle.load(f)
+
+
 def load_mnist(normalize=True, flatten=True, one_hot_label=False):
 
     """
@@ -89,6 +95,7 @@ def load_mnist(normalize=True, flatten=True, one_hot_label=False):
             print(f'Downloading {fname} ...')
             urllib.request.urlretrieve(url_base + fname, file_path)
             print("Done")
+
         # 1-2. convert to numpy
         dataset = {
             'train_img': _load_img(key_file['train_img']),
@@ -96,6 +103,7 @@ def load_mnist(normalize=True, flatten=True, one_hot_label=False):
             'test_img': _load_img(key_file['test_img']),
             'test_label': _load_label(key_file['test_label'])
         }
+
         # 1-3. save pikle (serialize)
         print("Creating pickle file ...")
         with open(save_file, 'wb') as f:
@@ -112,6 +120,7 @@ def load_mnist(normalize=True, flatten=True, one_hot_label=False):
         for key in ('train_img', 'test_img'):
             dataset[key] = dataset[key].astype(np.float32)
             dataset[key] /= 255.0
+
     # 3-2. one_hot 레벨로 변경함
     if one_hot_label:
         dataset['train_label'] = _change_one_hot_label(dataset['train_label'])
@@ -123,4 +132,3 @@ def load_mnist(normalize=True, flatten=True, one_hot_label=False):
             dataset[key] = dataset[key].reshape(-1, 1, 28, 28)
 
     return (dataset['train_img'], dataset['train_label']), (dataset['test_img'], dataset['test_label']) 
-

@@ -1,6 +1,6 @@
 # coding: utf-8
-# MNIST Neural Network(Modified National Institute of Standards and Technology) Database 손글씨
-# Data Testing
+# MNIST(Modified National Institute of Standards and Technology)
+# MNIST 손글씨 숫자 분류 신경망 (Neural Network for MNIST Handwritten Digit Classification): 데이터 살펴보기
 import sys
 import os
 from pathlib import Path
@@ -13,16 +13,16 @@ except ImportError:
     raise ImportError("Library Module Can Not Found")
 
 
-(x_train, l_train), (x_test, l_test) = load_mnist(flatten=True, normalize=False)
+(train_images, train_labels), (test_images, test_labels) = load_mnist(normalize=False, flatten=True, one_hot_label=False)
 
-img = x_train[0]
-label = l_train[0]
-print(label)                # 5
+image = train_images[0]
+label = train_labels[0]
+print(label)                    # 5
 
-print(img.shape)            # (784,)
-img = img.reshape(28, 28)   # 형상을 원래 이미지의 크기로 변형
-print(img.shape)            # (28, 28)
+print(image.shape)              # (784,)
+image = image.reshape(28, 28)   # 형상을 원래 이미지의 크기로 변형
+print(image.shape)              # (28, 28)
 
-# 이미지 보기 (P)ython (I)mage (L)ibrary 사용
-pil_img = Image.fromarray(np.uint8(img))
+# 이미지 보기: PIL(Python Image Library) 사용
+pil_img = Image.fromarray(np.uint8(image))
 pil_img.show()
