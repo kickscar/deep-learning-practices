@@ -14,11 +14,16 @@ print('\n= 신호전달 구현3: 은닉2층 전달 =============================
 
 print(f'z1 dimension: {z1.shape}')  # 3 vector
 
-w2 = np.array([[0.1, 0.3, 0.5], [0.2, 0.4, 0.6]])
+w2 = np.array([
+    [0.1, 0.2],
+    [0.3, 0.4],
+    [0.5, 0.6]
+])
+
 print(f'w2 dimension: {w2.shape}')  # 2 X 3 matrix
 
 b2 = np.array([0.1, 0.2])
 print(f'b2 dimension: {b2.shape}')  # 2 vector
 
-a2 = np.dot(w2, z1) + b2
+a2 = np.dot(z1, w2) + b2
 print(f'a2 = {a2}')
