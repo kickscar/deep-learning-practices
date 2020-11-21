@@ -26,7 +26,6 @@ batch_size = 100
 
 for index, sindex_batch in enumerate(range(0, count_images, batch_size)):
     x_batch = test_images[sindex_batch:sindex_batch+batch_size]
-
     # print(x_batch.shape)
 
     a1 = np.dot(x_batch, w1) + b1
@@ -37,10 +36,15 @@ for index, sindex_batch in enumerate(range(0, count_images, batch_size)):
 
     a3 = np.dot(z2, w3) + b3
     y_batch = softmax(a3)
+    # print(y_batch.shape)
 
     predict_batch = np.argmax(y_batch, axis=1)
-    labels_batch = test_labels[sindex_batch:sindex_batch+batch_size]
+    # print(y_batch.shape)
 
+    labels_batch = test_labels[sindex_batch:sindex_batch+batch_size]
+    # print(labels_batch.shape)
+
+    # print(predict_batch == labels_batch)
     hit_batch = np.sum(predict_batch == labels_batch)
     hit += hit_batch
 
