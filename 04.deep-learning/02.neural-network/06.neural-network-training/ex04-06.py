@@ -1,5 +1,5 @@
 # coding: utf-8
-# 신경망 학습: 신경망 기울기(Neural Network Gradient): Parameters(가중치 w, 편향 b) 편미분 과정 #5
+# 신경망 학습: 신경망 기울기(Neural Network Gradient): Parameters(가중치 w, 편향 b) 편미분 과정 #6
 import sys
 import os
 from pathlib import Path
@@ -10,15 +10,13 @@ try:
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-x = np.array([0.6, 0.9])                    # input (x)         2 vector
-t = np.array([0, 0, 1])                     # label (one-hot)   3 vector
 params = {
     'w1': np.random.randn(2, 3),            # weight            2 x 3 matrix
     'b1': np.array([0.45, 0.23, 0.11])      # bias              3 vector
 }
 
 
-def foward_propagation():
+def foward_propagation(x):
     w1 = params['w1']
     b1 = params['b1']
 
@@ -29,13 +27,13 @@ def foward_propagation():
 
 
 def loss(x, t):
-    y = foward_propagation()
+    y = foward_propagation(x)
     e = cross_entropy_error(y, t)
 
     return e
 
 
-def numerical_gradient_net():
+def numerical_gradient_net(x, t):
     h = 1e-4
     gradient = dict()
 
@@ -50,11 +48,11 @@ def numerical_gradient_net():
 
             # f(x+h)
             param[idx] = float(tmp_val) + h
-            h1 = loss()
+            h1 = loss(x, t)
 
             # f(x-h)
             param[idx] = tmp_val - h
-            h2 = loss()
+            h2 = loss(x, t)
 
             # 기울기
             param_grad[idx] = (h1 - h2) / (2 * h)
@@ -70,5 +68,7 @@ def numerical_gradient_net():
 
 
 # test
-g = numerical_gradient_net()
+_x = np.array([0.6, 0.9])           # input (x)         2 vector
+_t = np.array([0, 0, 1])            # label (one-hot)   3 vector
+g = numerical_gradient_net(_x, _t)  # gradient          2 x 3 matrix
 print(g)

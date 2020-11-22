@@ -1,5 +1,5 @@
 # coding: utf-8
-# 신경망 학습: 신경망 기울기(Neural Network Gradient): Parameter 가중치(w) 편미분 과정 #3
+# 신경망 학습: 신경망 기울기(Neural Network Gradient): Parameter 가중치(w) 편미분 과정 #4
 import sys
 import os
 from pathlib import Path

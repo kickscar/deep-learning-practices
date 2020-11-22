@@ -1,46 +1,55 @@
 # coding: utf-8
-# 신경망 학습: 신경망 기울기(Neural Network Gradient): Parameters(가중치 w, 편향 b) 편미분 과정 #5
+# 2 Layer Neural Network
 import sys
 import os
 from pathlib import Path
 import numpy as np
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
-    from common import softmax, cross_entropy_error
+    from common import sigmoid, softmax, cross_entropy_error
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-x = np.array([0.6, 0.9])                    # input (x)         2 vector
-t = np.array([0, 0, 1])                     # label (one-hot)   3 vector
-params = {
-    'w1': np.random.randn(2, 3),            # weight            2 x 3 matrix
-    'b1': np.array([0.45, 0.23, 0.11])      # bias              3 vector
-}
+
+_params = dict()
 
 
-def foward_propagation():
-    w1 = params['w1']
-    b1 = params['b1']
+def init_net(sz_input, sz_hidden, sz_output, w_init=0.01):
+    _params['w1'] = w_init * np.random.randn(sz_input, sz_hidden)
+    _params['b1'] = np.zeros(sz_hidden)
+    _params['w2'] = w_init * np.random.randn(sz_hidden, sz_output)
+    _params['b2'] = np.zeros(sz_output)
 
-    z = np.dot(x, w1) + b1
-    y = softmax(z)
+
+def _foward_propagation(x):
+    w1 = _params['w1']
+    b1 = _params['b1']
+    a1 = np.dot(x, w1) + b1
+
+    z1 = sigmoid(a1)
+
+    w2 = _params['w2']
+    b2 = _params['b2']
+    a2 = np.dot(z1, w2) + b2
+
+    y = softmax(a2)
 
     return y
 
 
-def loss(x, t):
-    y = foward_propagation()
+def _loss(x, t):
+    y = _foward_propagation(x)
     e = cross_entropy_error(y, t)
 
     return e
 
 
-def numerical_gradient_net():
+def numerical_gradient_net(x, t):
     h = 1e-4
     gradient = dict()
 
-    for key in params:
-        param = params[key]
+    for key in _params:
+        param = _params[key]
         param_grad = np.zeros_like(param)
 
         it = np.nditer(param, flags=['multi_index'], op_flags=['readwrite'])
@@ -50,11 +59,11 @@ def numerical_gradient_net():
 
             # f(x+h)
             param[idx] = float(tmp_val) + h
-            h1 = loss()
+            h1 = _loss(x, t)
 
             # f(x-h)
             param[idx] = tmp_val - h
-            h2 = loss()
+            h2 = _loss(x, t)
 
             # 기울기
             param_grad[idx] = (h1 - h2) / (2 * h)
@@ -67,8 +76,3 @@ def numerical_gradient_net():
         gradient[key] = param_grad
 
     return gradient
-
-
-# test
-g = numerical_gradient_net()
-print(g)
