@@ -11,25 +11,25 @@ except ImportError:
     raise ImportError("Library Module Can Not Found")
 
 
-_params = dict()
+params = dict()
 
 
 def init_net(sz_input, sz_hidden, sz_output, w_init=0.01):
-    _params['w1'] = w_init * np.random.randn(sz_input, sz_hidden)
-    _params['b1'] = np.zeros(sz_hidden)
-    _params['w2'] = w_init * np.random.randn(sz_hidden, sz_output)
-    _params['b2'] = np.zeros(sz_output)
+    params['w1'] = w_init * np.random.randn(sz_input, sz_hidden)
+    params['b1'] = np.zeros(sz_hidden)
+    params['w2'] = w_init * np.random.randn(sz_hidden, sz_output)
+    params['b2'] = np.zeros(sz_output)
 
 
 def _foward_propagation(x):
-    w1 = _params['w1']
-    b1 = _params['b1']
+    w1 = params['w1']
+    b1 = params['b1']
     a1 = np.dot(x, w1) + b1
 
     z1 = sigmoid(a1)
 
-    w2 = _params['w2']
-    b2 = _params['b2']
+    w2 = params['w2']
+    b2 = params['b2']
     a2 = np.dot(z1, w2) + b2
 
     y = softmax(a2)
@@ -48,8 +48,8 @@ def numerical_gradient_net(x, t):
     h = 1e-4
     gradient = dict()
 
-    for key in _params:
-        param = _params[key]
+    for key in params:
+        param = params[key]
         param_grad = np.zeros_like(param)
 
         it = np.nditer(param, flags=['multi_index'], op_flags=['readwrite'])
