@@ -15,15 +15,15 @@ except ImportError:
 network = init_network()
 
 # 2. 학습/시험 데이터 가져오기
-(train_images, train_labels), (test_images, test_labels) = load_mnist(normalize=True, flatten=True, one_hot_label=False)
-# count_images = train_images.shape[0]
-count_images = len(train_images)
-index_random = np.random.randint(0, count_images, 1).reshape(())
+(train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=False)
+# count_images = train_x.shape[0]
+xlen = len(train_x)
+randidx = np.random.randint(0, xlen, 1).reshape(())
 
 # 3. 신호전달
 print('\n= 신호전달 구현1: 은닉1층 전달 ==============================')
 
-x = train_images[index_random]
+x = train_x[randidx]
 print(f'x dimension: {x.shape}')    # 784 vector
 w1 = network['W1']
 print(f'w1 dimension: {w1.shape}')  # 784 x 50 matrix
@@ -71,9 +71,9 @@ y = softmax(a3)
 print(f'y = {y}')
 
 print('\n= 예측 결과 ============================================')
-calss = np.argmax(y)
-print(f'{index_random+1} 번째 이미지 예측: {calss}')
+predict = np.argmax(y)
+print(f'{randidx+1} 번째 이미지 예측: {predict}')
 
 print('\n= 정답 ================================================')
-label = train_labels[index_random]
-print(f'{index_random+1} 번째 이미지 레이블: {label}')
+t = train_t[randidx]
+print(f'{randidx+1} 번째 이미지 레이블: {t}')

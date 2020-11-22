@@ -13,16 +13,16 @@ except ImportError:
     raise ImportError("Library Module Can Not Found")
 
 
-(train_images, train_labels), (test_images, test_labels) = load_mnist(normalize=False, flatten=True, one_hot_label=False)
+(train_x, train_t), (test_x, test_t) = load_mnist(normalize=False, flatten=True, one_hot_label=False)
 
-image = train_images[0]
-label = train_labels[0]
-print(label)                    # 5
+x = train_x[0]
+t = train_t[0]
+print(t)                # 5
 
-print(image.shape)              # (784,)
-image = image.reshape(28, 28)   # 형상을 원래 이미지의 크기로 변형
-print(image.shape)              # (28, 28)
+print(x.shape)          # (784,)
+x = x.reshape(28, 28)   # 형상을 원래 이미지의 크기로 변형
+print(x.shape)          # (28, 28)
 
 # 이미지 보기: PIL(Python Image Library) 사용
-pil_img = Image.fromarray(np.uint8(image))
+pil_img = Image.fromarray(np.uint8(x))
 pil_img.show()

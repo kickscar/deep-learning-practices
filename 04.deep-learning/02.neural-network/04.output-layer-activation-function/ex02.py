@@ -13,15 +13,15 @@ except ImportError:
 
 # test1
 a = np.array([0.3, 1., 0.78])
-o = softmax(a)
-print(o)
+y = softmax(a)
+print(y)
 
 # test2: 큰값(800.)
 # a = np.array([0.3, 800., 0.78])
-# o = softmax_oveflow(a)
-# print(o)
+# y = softmax_oveflow(a)
+# print(y)
 
 # test3: 큰값(800.)
 a = np.array([0.3, 800., 0.78])
-o = softmax(a)
-print(o)
+y = softmax(a)
+print(y)

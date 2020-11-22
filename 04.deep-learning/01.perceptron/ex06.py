@@ -23,14 +23,14 @@ def XOR(x):
     return y
 
 
-y = XOR(np.array([0, 0]))
-print(y)
+y1 = XOR(np.array([0, 0]))
+print(y1)
 
-y = XOR(np.array([1, 0]))
-print(y)
+y2 = XOR(np.array([1, 0]))
+print(y2)
 
-y = XOR(np.array([0, 1]))
-print(y)
+y3 = XOR(np.array([0, 1]))
+print(y3)
 
-y = XOR(np.array([1, 1]))
-print(y)
+y4 = XOR(np.array([1, 1]))
+print(y4)

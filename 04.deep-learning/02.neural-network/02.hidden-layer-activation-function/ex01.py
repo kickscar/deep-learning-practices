@@ -11,12 +11,12 @@ try:
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-data_x = np.arange(-10, 10, 0.1)
-data_y = sigmoid(data_x)
+x = np.arange(-10, 10, 0.1)
+y = sigmoid(x)
 
 # fig, subplots = plt.subplots(1, 1)
-# subplots.plot(data_x, data_y, 'k-')
-plt.plot(data_x, data_y)
+# subplots.plot(x, y, 'k-')
+plt.plot(x, y)
 # plt.ylim(-0.1, 1, 1)
 
 plt.show()

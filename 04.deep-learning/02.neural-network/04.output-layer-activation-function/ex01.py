@@ -12,8 +12,8 @@ except ImportError:
     raise ImportError("Library Module Can Not Found")
 
 
-data_x = np.arange(-10, 10, 0.1)
-data_y = identity(data_x)
+x = np.arange(-10, 10, 0.1)
+y = identity(x)
 
-plt.plot(data_x, data_y)
+plt.plot(x, y)
 plt.show()

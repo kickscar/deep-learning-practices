@@ -17,38 +17,38 @@ w1, w2, w3 = network['W1'], network['W2'], network['W3']
 b1, b2, b3 = network['b1'], network['b2'], network['b3']
 
 # 2. 학습/시험 데이터 가져오기
-(train_images, train_labels), (test_images, test_labels) = load_mnist(normalize=True, flatten=True, one_hot_label=False)
+(train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=False)
 
 # 3. 추론(예측) 하기
 hit = 0
-count_images = len(test_images)
-batch_size = 100
+xlen = len(test_x)
+batch_sz = 100
 
-for index, sindex_batch in enumerate(range(0, count_images, batch_size)):
-    x_batch = test_images[sindex_batch:sindex_batch+batch_size]
-    # print(x_batch.shape)
+for idx, sidx_batch in enumerate(range(0, xlen, batch_sz)):
+    batch_x = test_x[sidx_batch:sidx_batch+batch_sz]
+    # print(batch_x.shape)
 
-    a1 = np.dot(x_batch, w1) + b1
+    a1 = np.dot(batch_x, w1) + b1
     z1 = sigmoid(a1)
 
     a2 = np.dot(z1, w2) + b2
     z2 = sigmoid(a2)
 
     a3 = np.dot(z2, w3) + b3
-    y_batch = softmax(a3)
-    # print(y_batch.shape)
+    batch_y = softmax(a3)
+    # print(batch_y.shape)
 
-    predict_batch = np.argmax(y_batch, axis=1)
-    # print(y_batch.shape)
+    batch_predict = np.argmax(batch_y, axis=1)
+    # print(batch_y.shape)
 
-    labels_batch = test_labels[sindex_batch:sindex_batch+batch_size]
-    # print(labels_batch.shape)
+    batch_t = test_t[sidx_batch:sidx_batch+batch_sz]
+    # print(batch_t.shape)
 
     # print(predict_batch == labels_batch)
-    hit_batch = np.sum(predict_batch == labels_batch)
-    hit += hit_batch
+    batch_hit = np.sum(batch_predict == batch_t)
+    hit += batch_hit
 
-    print(f'batch #{index+1}, batch hit:{hit_batch}, total hit:{hit}')
+    print(f'batch #{idx+1}, batch hit:{batch_hit}, total hit:{hit}')
 
 # 4. 정확도(Accuracy)
-print(f'Accuracy: {hit/count_images}')
+print(f'Accuracy: {hit/xlen}')

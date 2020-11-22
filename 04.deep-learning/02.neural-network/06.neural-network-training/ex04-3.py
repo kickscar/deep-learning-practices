@@ -10,8 +10,8 @@ try:
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-x = np.array([0.6, 0.9])    # 입력 (input) 2 vector
-t = np.array([0, 0, 1])     # 정답 label(target) 3 vector
+x = np.array([0.6, 0.9])                # 입력 (input) 2 vector
+t = np.array([0, 0, 1])                 # 정답 label(target) 3 vector
 params = {
     'w1': np.random.randn(2, 3),
     'b1': np.array([0.45, 0.23, 0.11])
@@ -24,7 +24,6 @@ def foward_propagation():
     2 x 3 matrix
     3 vector
 
-    :param w: 가중치 매개변수(parameter weight)
     :return: 출력(output)
     """
     w1 = params['w1']
@@ -48,6 +47,10 @@ def loss(w=None):
 
 
 def numerical_gradient_net():
+    """
+
+    :return: 각 parameter 에 대한 편미분 결과(기울기)
+    """
     return {
         'w1': numerical_gradient2(loss, params['w1']),
         'b1': numerical_gradient2(loss, params['b1'])

@@ -18,13 +18,13 @@ w1, w2, w3 = network['W1'], network['W2'], network['W3']
 b1, b2, b3 = network['b1'], network['b2'], network['b3']
 
 # 2. 학습/시험 데이터 가져오기
-(train_images, train_labels), (test_images, test_labels) = load_mnist(normalize=True, flatten=True, one_hot_label=False)
+(train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=False)
 
 # 3. 추론(예측) 하기
 hit = 0
-count_images = len(test_images)
-for index in range(count_images):
-    x = test_images[index]
+xlen = len(test_x)
+for idx in range(xlen):
+    x = test_x[idx]
 
     a1 = np.dot(x, w1) + b1
     z1 = sigmoid(a1)
@@ -36,12 +36,12 @@ for index in range(count_images):
     y = softmax(a3)
 
     predict = np.argmax(y)
-    label = test_labels[index]
+    t = test_t[idx]
 
-    if predict == label:
+    if predict == t:
         hit += 1
 
-    print(f'image index:{index+1} max:{np.max(y)}, predict:{predict}, label:{label}, hit:{hit}')
+    print(f'image index:{idx+1} max:{np.max(y)}, predict:{predict}, label:{t}, hit:{hit}')
 
 # 4. 정확도(Accuracy)
-print(f'Accuracy: {hit/count_images}')
+print(f'Accuracy: {hit/xlen}')
