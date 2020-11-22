@@ -14,7 +14,7 @@ except ImportError:
 params = dict()
 
 
-def init_net(sz_input, sz_hidden, sz_output, w_init=0.01):
+def initialize(sz_input, sz_hidden, sz_output, w_init=0.01):
     params['w1'] = w_init * np.random.randn(sz_input, sz_hidden)
     params['b1'] = np.zeros(sz_hidden)
     params['w2'] = w_init * np.random.randn(sz_hidden, sz_output)
@@ -37,7 +37,7 @@ def _foward_propagation(x):
     return y
 
 
-def _loss(x, t):
+def loss(x, t):
     y = _foward_propagation(x)
     e = cross_entropy_error(y, t)
 
@@ -59,11 +59,11 @@ def numerical_gradient_net(x, t):
 
             # f(x+h)
             param[idx] = float(tmp_val) + h
-            h1 = _loss(x, t)
+            h1 = loss(x, t)
 
             # f(x-h)
             param[idx] = tmp_val - h
-            h2 = _loss(x, t)
+            h2 = loss(x, t)
 
             # 기울기
             param_grad[idx] = (h1 - h2) / (2 * h)
