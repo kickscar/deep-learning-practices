@@ -1,5 +1,5 @@
 # coding: utf-8
-# 신경망 학습: 신경망 기울기(Neural Network Gradient): Parameter 가중치(w) 편미분 과정 #2
+# 신경망 학습: 신경망 기울기(Neural Network Gradient): Parameter 가중치(w) 편미분 과정 #3
 import sys
 import os
 from pathlib import Path
@@ -10,15 +10,12 @@ try:
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-x = np.array([0.6, 0.9])    # 입력 (input) 2 vector
-t = np.array([0, 0, 1])     # 정답 label(target) 3 vector
+x = np.array([0.6, 0.9])                    # input (x)         2 vector
+t = np.array([0, 0, 1])                     # label (one-hot)   3 vector
 
 
 def foward_propagation(w):
     """
-    2 vector
-    2 x 3 matrix
-    3 vector
 
     :param w: 가중치 매개변수(parameter weight)
     :return: 출력(output)
@@ -43,5 +40,5 @@ def loss(w):
 _w = np.random.randn(2, 3)                  # 2 x 3 matrix
 print(_w)
 
-gradient = numerical_gradient2(loss, _w)    # 2 x 3 matrix
-print(gradient)
+g = numerical_gradient2(loss, _w)    # 2 x 3 matrix
+print(g)

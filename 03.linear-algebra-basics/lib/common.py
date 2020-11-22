@@ -2,7 +2,7 @@ import numpy as np
 from inspect import signature
 
 
-# Numerical (Partial) Differentiation
+# Numerical Differentiation
 def numerical_diff(f, x, data_in=None, data_out=None):
     h = 1e-4
 

@@ -58,13 +58,14 @@ def cross_entropy_error(y, t):
         y.reshape(1, y.size)
         t.reshape(1, t.size)
 
-    batch_size = y.shape[0]
+    batch_sz = y.shape[0]
     delta = 1.e-7
-    return -np.sum(t * np.log(y + delta)) / batch_size
+    return -np.sum(t * np.log(y + delta)) / batch_sz
 
 
 # Numerical Differentiation
-def numerical_diff(f, x, data_in, data_out):
+# x, t를 파라미터로 받는 기울기 함수
+def numerical_diff1(f, x, data_in, data_out):
     h = 1e-4
     gradient = np.zeros_like(x)
 
@@ -87,7 +88,7 @@ def numerical_diff(f, x, data_in, data_out):
 
 
 # Gradient
-numerical_gradient = numerical_diff
+numerical_gradient1 = numerical_diff1
 
 
 # Numerical Differentiation2
@@ -100,14 +101,19 @@ def numerical_diff2(f, x):
         idx = it.multi_index
         tmp_val = x[idx]
 
+        # f(x+h)
         x[idx] = float(tmp_val) + h
-        h1 = f(x)            # f(x+h)
+        h1 = f(x)
 
+        # f(x-h)
         x[idx] = tmp_val - h
-        h2 = f(x)            # f(x-h)
+        h2 = f(x)
+
         gradient[idx] = (h1 - h2) / (2 * h)
 
-        x[idx] = tmp_val     # 값복원
+        # 값복원
+        x[idx] = tmp_val
+
         it.iternext()
 
     return gradient
@@ -115,6 +121,3 @@ def numerical_diff2(f, x):
 
 # Gradient2
 numerical_gradient2 = numerical_diff2
-
-
-

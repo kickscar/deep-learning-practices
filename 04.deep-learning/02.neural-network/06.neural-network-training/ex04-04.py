@@ -10,22 +10,15 @@ try:
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-x = np.array([0.6, 0.9])                # 입력 (input) 2 vector
-t = np.array([0, 0, 1])                 # 정답 label(target) 3 vector
+x = np.array([0.6, 0.9])                    # input (x)         2 vector
+t = np.array([0, 0, 1])                     # label (one-hot)   3 vector
 params = {
-    'w1': np.random.randn(2, 3),
-    'b1': np.array([0.45, 0.23, 0.11])
+    'w1': np.random.randn(2, 3),            # weight            2 x 3 matrix
+    'b1': np.array([0.45, 0.23, 0.11])      # bias              3 vector
 }
 
 
 def foward_propagation():
-    """
-    2 vector
-    2 x 3 matrix
-    3 vector
-
-    :return: 출력(output)
-    """
     w1 = params['w1']
     b1 = params['b1']
 
@@ -35,9 +28,10 @@ def foward_propagation():
     return y
 
 
-def loss(w=None):
+def loss(w):
     """
-    :param w: dummy
+
+    :param w: dummy parameter(아무짝에 필요없는..., 편미분 함수 내부 콜 형식때문에... --;)
     :return: 오차(error)
     """
     y = foward_propagation()
@@ -48,7 +42,6 @@ def loss(w=None):
 
 def numerical_gradient_net():
     """
-
     :return: 각 parameter 에 대한 편미분 결과(기울기)
     """
     return {
@@ -57,5 +50,5 @@ def numerical_gradient_net():
     }
 
 
-gradient = numerical_gradient_net()
-print(gradient)
+g = numerical_gradient_net()
+print(g)
