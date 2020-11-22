@@ -1,5 +1,5 @@
 # coding: utf-8
-# 신경망 학습: 신경망 기울기(Neural Network Gradient)
+# 신경망 학습: 신경망 기울기(Neural Network Gradient): Parameter 가중치(w) 편미분 과정 #3
 import sys
 import os
 from pathlib import Path
@@ -48,13 +48,11 @@ def loss(w=None):
 
 
 def numerical_gradient_net():
-
-    gradient = dict()
-    gradient['w1'] = numerical_gradient2(loss, params['w1'])
-    gradient['b1'] = numerical_gradient2(loss, params['b1'])
-
-    return gradient
+    return {
+        'w1': numerical_gradient2(loss, params['w1']),
+        'b1': numerical_gradient2(loss, params['b1'])
+    }
 
 
-grad = numerical_gradient_net()
-print(grad)
+gradient = numerical_gradient_net()
+print(gradient)

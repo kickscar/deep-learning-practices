@@ -1,5 +1,5 @@
 # coding: utf-8
-# 신경망 학습: 신경망 기울기(Neural Network Gradient)
+# 신경망 학습: 신경망 기울기(Neural Network Gradient): Parameter 가중치(w) 편미분 과정 #2
 import sys
 import os
 from pathlib import Path
@@ -12,6 +12,7 @@ except ImportError:
 
 x = np.array([0.6, 0.9])    # 입력 (input) 2 vector
 t = np.array([0, 0, 1])     # 정답 label(target) 3 vector
+
 
 def foward_propagation(w):
     """
