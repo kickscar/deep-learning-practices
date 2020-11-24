@@ -7,7 +7,8 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 try:
-    sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
+    sys.path.\
+        append(os.path.join(Path(os.getcwd()).parent, 'lib'))
     from mnist import load_mnist
 except ImportError:
     raise ImportError("Library Module Can Not Found")

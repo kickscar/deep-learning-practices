@@ -1,5 +1,6 @@
 # coding: utf-8
 # 2 Layer Neural Network
+import pickle
 import sys
 import os
 from pathlib import Path
@@ -76,3 +77,10 @@ def numerical_gradient_net(x, t):
         gradient[key] = param_grad
 
     return gradient
+
+
+def save_params(file_name):
+    print(f'Creating Pickle({file_name}) file ...')
+    with open(file_name, 'wb') as f:
+        pickle.dump(params, f, -1)
+    print("Done!")
