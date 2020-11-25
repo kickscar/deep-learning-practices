@@ -20,9 +20,9 @@ b1, b2, b3 = network['b1'], network['b2'], network['b3']
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=False)
 
 # 3. 신호 전달
-xlen = len(train_x)
+xlen = len(test_x)
 for idx in range(xlen):
-    x = train_x[idx]
+    x = test_x[idx]
 
     a1 = np.dot(x, w1) + b1
     z1 = sigmoid(a1)
@@ -34,6 +34,6 @@ for idx in range(xlen):
     y = softmax(a3)
 
     predict = np.argmax(y)
-    t = train_t[idx]
+    t = test_t[idx]
 
     print(f'image index:{idx+1} max:{np.max(y)}, predict:{predict}, label:{t}')

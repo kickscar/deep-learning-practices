@@ -16,8 +16,8 @@ except ImportError:
 
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=False, flatten=True, one_hot_label=False)
 
-x = train_x[0]
-t = train_t[0]
+x = test_x[0]
+t = test_t[0]
 print(t)                # 5
 
 print(x.shape)          # (784,)

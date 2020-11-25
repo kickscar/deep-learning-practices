@@ -38,25 +38,25 @@ def softmax(x):
     return np.exp(x) / np.sum(np.exp(x))
 
 
-# sum squares error(SSE) function
+# sum squares error(SSE)
 def sum_squares_error(y, t):
     e = 0.5 * np.sum((y - t) ** 2)
     return e
 
 
-# cross entropy error(loss) function
+# cross entropy error
 # support only for one-hot & non-batch
 def cross_entropy_error_non_batch(y, t):
     delta = 1.e-7
     return -np.sum(t * np.log(y + delta))
 
 
-# sum squares error(SSE) function
+# cross entropy error
 # support only for one-hot & batch
 def cross_entropy_error(y, t):
     if y.ndim == 1:
-        y.reshape(1, y.size)
-        t.reshape(1, t.size)
+        y = y.reshape(1, y.size)
+        t = t.reshape(1, t.size)
 
     batch_sz = y.shape[0]
     delta = 1.e-7

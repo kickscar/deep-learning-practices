@@ -5,6 +5,7 @@
 import pickle
 import sys
 import os
+import time
 from pathlib import Path
 import numpy as np
 try:
@@ -31,6 +32,9 @@ network.initialize(sz_input=train_x.shape[1], sz_hidden=50, sz_output=train_t.sh
 train_losses = []
 
 for idx in range(numiters):
+    #
+    start = time.time()
+
     # 4-1. fetch mini-batch
     batch_mask = np.random.choice(sztrain, szbatch)
     train_x_batch = train_x[batch_mask]
@@ -46,7 +50,11 @@ for idx in range(numiters):
     # 4-4. train loss
     loss = network.loss(train_x_batch, train_t_batch)
     train_losses.append(loss)
-    print(f'#{idx+1}: loss:{loss}')
+
+    #
+    end = time.time()
+
+    print(f'#{idx+1}: loss:{loss} : elapsed time[{end - start} secs]')
 
 
 # 5. save params (serialize)

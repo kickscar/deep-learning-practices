@@ -28,7 +28,7 @@ def foward_propagation():
     return y
 
 
-def loss(x, t):
+def loss():
     y = foward_propagation()
     e = cross_entropy_error(y, t)
 
