@@ -21,7 +21,7 @@ except ImportError:
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
 
 # 2. hyperparamters
-numiters = 2000  # 2000
+numiters = 2100
 szbatch = 200
 sztrain = train_x.shape[0]
 szepoch = sztrain / szbatch
@@ -35,7 +35,7 @@ train_losses = []
 train_accuracies = []
 test_accuracies = []
 
-for idx in range(numiters):
+for idx in range(numiters+1):
     # 4-1. fetch mini-batch
     batch_mask = np.random.choice(sztrain, szbatch)
     train_x_batch = train_x[batch_mask]
@@ -57,9 +57,9 @@ for idx in range(numiters):
     # 4-5. epoch accuracy
     if idx / szepoch == 0:
         train_accuracy = network.accuracy(train_x, train_t)
-        test_accuracy = network.accuracy(test_x, test_t)
-
         train_accuracies.append(train_accuracy)
+
+        test_accuracy = network.accuracy(test_x, test_t)
         test_accuracies.append(test_accuracy)
 
     print(f'#{idx+1}: loss:{loss} : elapsed time[{elapsed} secs]')
@@ -77,7 +77,7 @@ test_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_test_accura
 with open(params_file, 'wb') as f_params,\
         open(train_loss_file, 'wb') as f_train_losses,\
         open(train_accuracy_file, 'wb') as f_train_accuracy,\
-        open(train_accuracy_file, 'wb') as f_test_accuracy:
+        open(test_accuracy_file, 'wb') as f_test_accuracy:
     pickle.dump(network.params, f_params, -1)
     pickle.dump(train_losses, f_train_losses, -1)
     pickle.dump(train_accuracy, f_train_accuracy, -1)
