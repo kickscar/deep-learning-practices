@@ -2,6 +2,7 @@
 # Training Neural Network
 # Data Set: MNIST Handwritten Digit Data Set
 # Network: TwoLayerNet
+import datetime
 import pickle
 import sys
 import os
@@ -32,16 +33,15 @@ network.initialize(sz_input=train_x.shape[1], sz_hidden=50, sz_output=train_t.sh
 train_losses = []
 
 for idx in range(numiters):
-    #
-    start = time.time()
-
     # 4-1. fetch mini-batch
     batch_mask = np.random.choice(sztrain, szbatch)
     train_x_batch = train_x[batch_mask]
     train_t_batch = train_t[batch_mask]
 
     # 4-2. gradient
+    stime = time.time()
     gradient = network.numerical_gradient_net(train_x_batch, train_t_batch)
+    elapsed = time.time() - stime
 
     # 4-3. update parameters
     for key in network.params:
@@ -51,20 +51,21 @@ for idx in range(numiters):
     loss = network.loss(train_x_batch, train_t_batch)
     train_losses.append(loss)
 
-    #
-    end = time.time()
-
-    print(f'#{idx+1}: loss:{loss} : elapsed time[{end - start} secs]')
+    print(f'#{idx+1}: loss:{loss} : elapsed time[{elapsed} secs]')
 
 
-# 5. save params (serialize)
-save_params_file = os.path.join(os.getcwd(), 'dataset', 'twolayer_params.pkl')
-network.save_params(save_params_file)
+# 5. serialize params & train losses
+print(f'Creating Pickle File ...')
 
-# 6. save train loss (serialize)
-save_train_loss_file = os.path.join(os.getcwd(), 'dataset', 'twolayer_train_loss.pkl')
-print(f'Creating Pickle({save_train_loss_file}) file ...')
-with open(save_train_loss_file, 'wb') as f:
+now = datetime.datetime.now()
+params_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_params_{now:%Y%m%d%H%M%S}.pkl')
+train_loss_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_losses_{now:%Y%m%d%H%M%S}.pkl')
+
+with open(params_file, 'wb') as f:
+    pickle.dump(network.params, f, -1)
+print(f'done: serializing... {params_file}')
+
+with open(train_loss_file, 'wb') as f:
     pickle.dump(train_losses, f, -1)
-print("Done!")
+print(f'done: serializing... {train_loss_file}')
 

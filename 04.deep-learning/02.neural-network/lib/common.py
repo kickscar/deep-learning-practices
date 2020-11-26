@@ -1,6 +1,4 @@
 # coding: utf-8
-from inspect import signature
-
 import numpy as np
 
 
@@ -74,7 +72,7 @@ def numerical_diff1(f, x, data_in, data_out):
         idx = it.multi_index
         tmp_val = x[idx]
 
-        x[idx] = float(tmp_val) + h
+        x[idx] = tmp_val + h
         h1 = f(x, data_in, data_out)            # f(x+h)
 
         x[idx] = tmp_val - h
