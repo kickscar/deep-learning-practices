@@ -56,16 +56,12 @@ for idx in range(numiters):
 
 # 5. serialize params & train losses
 print(f'Creating Pickle File ...')
-
 now = datetime.datetime.now()
 params_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_params_{now:%Y%m%d%H%M%S}.pkl')
 train_loss_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_losses_{now:%Y%m%d%H%M%S}.pkl')
 
-with open(params_file, 'wb') as f:
-    pickle.dump(network.params, f, -1)
-print(f'done: serializing... {params_file}')
-
-with open(train_loss_file, 'wb') as f:
-    pickle.dump(train_losses, f, -1)
-print(f'done: serializing... {train_loss_file}')
+with open(params_file, 'wb') as f_params, open(train_loss_file, 'wb') as f_train_losses:
+    pickle.dump(network.params, f_params, -1)
+    pickle.dump(train_losses, f_train_losses, -1)
+print(f'done!')
 
