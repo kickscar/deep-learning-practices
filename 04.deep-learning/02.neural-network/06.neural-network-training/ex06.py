@@ -1,4 +1,8 @@
-# Estimation about Training
+# coding: utf-8
+# Training Neural Network
+# Data Set: MNIST Handwritten Digit Data Set
+# Network: TwoLayerNet
+# Estimation: Training
 import os
 import pickle
 from matplotlib import pyplot as plt

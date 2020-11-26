@@ -1,6 +1,5 @@
 # coding: utf-8
 # MNIST 손글씨 숫자 분류 신경망 (Neural Network for MNIST Handwritten Digit Classification): 추론(예측)하기
-import pickle
 import sys
 import os
 from pathlib import Path

@@ -37,6 +37,16 @@ def foward_propagation(x):
     return y
 
 
+def accuracy(x, t):
+    y = foward_propagation(x)
+
+    y = np.argmax(y, axis=1)
+    t = np.argmax(t, axis=1)
+
+    acc = np.sum(y == t) / float(x.shape[0])
+    return acc
+
+
 def loss(x, t):
     y = foward_propagation(x)
     e = cross_entropy_error(y, t)

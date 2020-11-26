@@ -21,7 +21,7 @@ except ImportError:
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
 
 # 2. hyperparamters
-numiters = 1  # 10000
+numiters = 1000  # 10000
 szbatch = 100
 sztrain = train_x.shape[0]
 ratelearning = 0.1
@@ -55,7 +55,7 @@ for idx in range(numiters):
 
 
 # 5. serialize params & train losses
-print(f'Creating Pickle File ...')
+print(f'creating pickle...')
 now = datetime.datetime.now()
 params_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_params_{now:%Y%m%d%H%M%S}.pkl')
 train_loss_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_losses_{now:%Y%m%d%H%M%S}.pkl')
