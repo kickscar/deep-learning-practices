@@ -41,6 +41,7 @@ class Point:
     def get_y(self):
         return self.y
 
+
     def show(self):
         print(f'점({self.x},{self.y})를 그렸습니다.')
 
