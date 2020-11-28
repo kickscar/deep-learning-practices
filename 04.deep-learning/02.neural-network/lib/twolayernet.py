@@ -14,11 +14,11 @@ except ImportError:
 params = dict()
 
 
-def initialize(sz_input, sz_hidden, sz_output, w_init=0.01):
-    params['w1'] = w_init * np.random.randn(sz_input, sz_hidden)
-    params['b1'] = np.zeros(sz_hidden)
-    params['w2'] = w_init * np.random.randn(sz_hidden, sz_output)
-    params['b2'] = np.zeros(sz_output)
+def initialize(szinput, szhidden, szoutput, weight_init=0.01):
+    params['w1'] = weight_init * np.random.randn(szinput, szhidden)
+    params['b1'] = np.zeros(szhidden)
+    params['w2'] = weight_init * np.random.randn(szhidden, szoutput)
+    params['b2'] = np.zeros(szoutput)
 
 
 def foward_propagation(x):

@@ -28,7 +28,7 @@ szepoch = sztrain / szbatch
 ratelearning = 0.1
 
 # 3. initialize network
-network.initialize(sz_input=train_x.shape[1], sz_hidden=50, sz_output=train_t.shape[1])
+network.initialize(szinput=train_x.shape[1], szhidden=50, szoutput=train_t.shape[1])
 
 # 4. training
 train_losses = []

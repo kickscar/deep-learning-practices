@@ -25,3 +25,4 @@ y3 = [0., 0., 0.95, 0.02, 0.01, 0.01, 0., 0.01, 0., 0.]
 print(sum_squares_error(np.array(y1), np.array(t)))
 print(sum_squares_error(np.array(y2), np.array(t)))
 print(sum_squares_error(np.array(y3), np.array(t)))
+

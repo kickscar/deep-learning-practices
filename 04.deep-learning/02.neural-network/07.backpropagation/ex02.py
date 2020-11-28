@@ -8,12 +8,6 @@ try:
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-# apple = 100
-# applecount = 3
-# orange = 200
-# orangecount = 5
-# discount = 0.9
-
 apple = 100
 applecount = 2
 orange = 150
