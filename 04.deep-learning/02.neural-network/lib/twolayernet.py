@@ -33,7 +33,6 @@ def foward_propagation(x):
     a2 = np.dot(z1, w2) + b2
 
     y = softmax(a2)
-
     return y
 
 
@@ -49,8 +48,8 @@ def accuracy(x, t):
 
 def loss(x, t):
     y = foward_propagation(x)
-    e = cross_entropy_error(y, t)
 
+    e = cross_entropy_error(y, t)
     return e
 
 

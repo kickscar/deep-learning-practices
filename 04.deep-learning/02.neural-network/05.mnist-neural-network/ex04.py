@@ -1,5 +1,5 @@
 # coding: utf-8
-# MNIST 손글씨 숫자 분류 신경망 (Neural Network for MNIST Handwritten Digit Classification): 추론(예측)하기
+# MNIST 손글씨 숫자 분류 신경망 (Neural Network for MNIST Handwritten Digit Classification): 시험(Testing)
 import sys
 import os
 from pathlib import Path
@@ -19,7 +19,7 @@ b1, b2, b3 = network['b1'], network['b2'], network['b3']
 # 2. 학습/시험 데이터 가져오기
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=False)
 
-# 3. 추론(예측) 하기
+# 3. 시험(testing)
 hit = 0
 xlen = len(test_x)
 for idx in range(xlen):

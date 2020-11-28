@@ -12,7 +12,7 @@ apple = 100
 applecount = 2
 orange = 150
 orangecount = 3
-discount = 1.1
+discount = 0.9
 
 multiply_appleprice = Multiply()
 multiply_orangeprice = Multiply()
