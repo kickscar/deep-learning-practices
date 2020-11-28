@@ -7,18 +7,28 @@ import numpy as np
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
     from layers import SoftmaxWithLoss
+    from common import softmax
+    import twolayernet as network
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-x = np.array([2.6, 3.9, 5.6])
-t = np.array([0, 0, 1])
+_x = np.array([2.6, 3.9, 5.6])
+_t = np.array([0, 0, 1])
 
 layer = SoftmaxWithLoss()
-loss = layer.forward(x, t)
+loss = layer.forward(_x, _t)
 dx = layer.backward()
 print(loss, dx)
 
 
-#
-# [ 0.01346538  0.04940849 -0.06287387]
-#
+# =================================================================
+
+
+def foward_propagation(x):
+    y = softmax(x)
+    return y
+
+
+network.foward_propagation = foward_propagation
+loss = network.loss(_x, _t)
+print(loss)
