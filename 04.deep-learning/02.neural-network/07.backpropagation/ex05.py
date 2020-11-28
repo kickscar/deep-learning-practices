@@ -42,10 +42,14 @@ def backpropagation_gradient_net(x, t):
 
 network.foward_propagation = forward_propagation
 network.loss = loss
-
-
 # 1. load training/test data
-_x, _t = np.array([2.6, 3.9, 5.6]), np.array([0, 0, 1])
+_x, _t = np.array([
+    [2.6, 3.9, 5.6],
+    [1.76, 0.98, 4.16],
+]), np.array([
+    [0, 0, 1],
+    [1, 0, 0]
+])
 
 # 2. hyperparamters
 
@@ -63,7 +67,6 @@ print(gradient)
 
 
 # =================================================================
-
 
 # 3. initialize network
 network.initialize(3, 2, 3)
