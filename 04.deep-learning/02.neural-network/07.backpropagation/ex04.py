@@ -65,7 +65,7 @@ print(gradient)
 # =================================================================
 
 # 1. load training/test data
-_x, _t = np.array([[2.6, 3.9, 5.6]]), np.array([0, 0, 1])
+_x, _t = np.array([2.6, 3.9, 5.6]), np.array([0, 0, 1])
 
 # 2. hyperparamters
 

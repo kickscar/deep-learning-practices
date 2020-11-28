@@ -37,8 +37,13 @@ class Affine:
         self.db = None
 
     def forward(self, x):
+        # brace for transpose in backpropagation
+        if x.ndim == 1:
+            x = x[np.newaxis, :]
+
         self.x = x
         out = np.dot(self.x, self.w) + self.b
+
         return out
 
     def backward(self, dout):
@@ -55,6 +60,10 @@ class SoftmaxWithLoss:
         self.t = None
 
     def forward(self, x=None, t=None):
+        # brace for transpose in backpropagation
+        if t.ndim == 1:
+            t = t[np.newaxis, :]
+
         self.t = t
         self.y = softmax(x)
         if self.t is None:
