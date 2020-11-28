@@ -48,25 +48,28 @@ class Affine:
         return dx
 
 
-# Softman with Loss(Cross Entropy) Layer
+# Softmax with Loss(Cross Entropy) Layer
 class SoftmaxWithLoss:
     def __init__(self):
         self.y = None
         self.t = None
 
-    def forward(self, x, t):
+    def forward(self, x=None, t=None):
         self.t = t
         self.y = softmax(x)
+        if self.t is None:
+            return self.y
+
         loss = cross_entropy_error(self.y, self.t)
         return loss
 
-    def backward(self):
+    def backward(self, dout=1):
         batch_size = self.t.shape[0]
         dx = (self.y - self.t) / batch_size
         return dx
 
 
-#####################################################
+# ===================================================
 
 
 # Multiply Layer
