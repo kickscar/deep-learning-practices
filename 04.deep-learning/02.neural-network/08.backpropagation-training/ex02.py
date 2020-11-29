@@ -64,22 +64,3 @@ for idx in range(1, numiters+1):
     print(f'#{idx}: loss:{loss} : elapsed time[{elapsed} secs]')
 
 
-# 5. serialize params & train losses
-# print(f'creating pickle...')
-# now = datetime.datetime.now()
-#
-# params_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_params_{now:%Y%m%d%H%M%S}.pkl')
-# train_losses_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_losses_{now:%Y%m%d%H%M%S}.pkl')
-# train_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_accuracy_{now:%Y%m%d%H%M%S}.pkl')
-# test_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_test_accuracy_{now:%Y%m%d%H%M%S}.pkl')
-#
-# with open(params_file, 'wb') as f_params,\
-#         open(train_losses_file, 'wb') as f_train_losses,\
-#         open(train_accuracy_file, 'wb') as f_train_accuracy,\
-#         open(test_accuracy_file, 'wb') as f_test_accuracy:
-#     pickle.dump(network.params, f_params, -1)
-#     pickle.dump(train_losses, f_train_losses, -1)
-#     pickle.dump(train_accuracies, f_train_accuracy, -1)
-#     pickle.dump(test_accuracies, f_test_accuracy, -1)
-# print(f'done!')
-
