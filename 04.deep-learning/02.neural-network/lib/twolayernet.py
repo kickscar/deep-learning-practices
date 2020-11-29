@@ -15,13 +15,13 @@ params = dict()
 
 
 def initialize(szinput, szhidden, szoutput, weight_init=0.01):
-    params['w1'] = weight_init + 0. * np.random.randn(szinput, szhidden)
+    params['w1'] = weight_init * np.random.randn(szinput, szhidden)
     params['b1'] = np.zeros(szhidden)
-    params['w2'] = weight_init + 0. * np.random.randn(szhidden, szoutput)
+    params['w2'] = weight_init * np.random.randn(szhidden, szoutput)
     params['b2'] = np.zeros(szoutput)
 
 
-def foward_propagation(x):
+def forward_propagation(x):
     w1 = params['w1']
     b1 = params['b1']
     a1 = np.dot(x, w1) + b1
@@ -37,7 +37,7 @@ def foward_propagation(x):
 
 
 def accuracy(x, t):
-    y = foward_propagation(x)
+    y = forward_propagation(x)
 
     y = np.argmax(y, axis=1)
     t = np.argmax(t, axis=1)
@@ -47,7 +47,7 @@ def accuracy(x, t):
 
 
 def loss(x, t):
-    y = foward_propagation(x)
+    y = forward_propagation(x)
 
     e = cross_entropy_error(y, t)
     return e

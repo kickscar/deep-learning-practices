@@ -28,11 +28,11 @@ print(loss, dx)
 # =================================================================
 
 
-def foward_propagation(x):
+def forward_propagation(x):
     y = softmax(x)
     return y
 
 
-network.foward_propagation = foward_propagation
+network.forward_propagation = forward_propagation
 loss = network.loss(_x, _t)
 print(loss)

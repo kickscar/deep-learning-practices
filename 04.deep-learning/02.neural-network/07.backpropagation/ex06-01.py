@@ -47,7 +47,7 @@ def backpropagation_gradient_net(x, t):
     return gradient
 
 
-network.foward_propagation = forward_propagation
+network.forward_propagation = forward_propagation
 network.loss = loss
 
 
