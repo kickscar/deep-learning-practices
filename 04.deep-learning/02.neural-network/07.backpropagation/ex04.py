@@ -73,6 +73,13 @@ layers = [
 grad = network.numerical_gradient_net(_x, _t)
 print(grad)
 
+network.params['w1'] -= 0.1 * grad['w1']
+network.params['b1'] -= 0.1 * grad['b1']
+network.params['w2'] -= 0.1 * grad['w2']
+network.params['b2'] -= 0.1 * grad['b2']
+loss = network.loss(_x, _t)
+print(f'loss: {loss}')
+
 
 # =================================================================
 
@@ -88,3 +95,10 @@ layers = [
 
 grad = backpropagation_gradient_net(_x, _t)
 print(grad)
+
+network.params['w1'] -= 0.1 * grad['w1']
+network.params['b1'] -= 0.1 * grad['b1']
+network.params['w2'] -= 0.1 * grad['w2']
+network.params['b2'] -= 0.1 * grad['b2']
+loss = network.loss(_x, _t)
+print(f'loss: {loss}')
