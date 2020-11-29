@@ -36,7 +36,7 @@ train_losses = []
 train_accuracies = []
 test_accuracies = []
 
-for idx in range(numiters+1):
+for idx in range(1, numiters+1):
     # 4-1. fetch mini-batch
     batch_mask = np.random.choice(sztrain, szbatch)
     train_x_batch = train_x[batch_mask]

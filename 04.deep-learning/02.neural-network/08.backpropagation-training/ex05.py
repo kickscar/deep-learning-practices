@@ -40,7 +40,7 @@ train_losses = []
 train_accuracies = []
 test_accuracies = []
 
-for idx in range(numiters+1):
+for idx in range(1, numiters+1):
     # 4-1. fetch mini-batch
     batch_mask = np.random.choice(sztrain, szbatch)
     train_x_batch = train_x[batch_mask]
@@ -69,14 +69,14 @@ for idx in range(numiters+1):
         test_accuracy = network.accuracy(test_x, test_t)
         test_accuracies.append(test_accuracy)
 
-        print(f'\n{idx} / {numiters}')
+        print(f'\niters: {idx} / {numiters}')
         print(f'Epoch {idxepoch}/{cntepoch} - {elapsed*1000}us - loss:{loss} - train accuracy:{train_accuracy} - test accuracy:{test_accuracy}')
 
         elapsed = 0
 
 
 # 5. serialize params & train losses
-print(f'creating pickle...')
+print(f'\ncreating pickle...')
 now = datetime.datetime.now()
 
 params_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_params_{now:%Y%m%d%H%M%S}.pkl')

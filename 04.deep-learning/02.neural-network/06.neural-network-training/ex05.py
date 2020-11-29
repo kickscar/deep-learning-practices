@@ -35,7 +35,7 @@ train_losses = []
 train_accuracies = []
 test_accuracies = []
 
-for idx in range(numiters+1):
+for idx in range(1, numiters+1):
     # 4-1. fetch mini-batch
     batch_mask = np.random.choice(sztrain, szbatch)
     train_x_batch = train_x[batch_mask]
@@ -62,7 +62,7 @@ for idx in range(numiters+1):
         test_accuracy = network.accuracy(test_x, test_t)
         test_accuracies.append(test_accuracy)
 
-    print(f'#{idx+1}: loss:{loss} : elapsed time[{elapsed}s]')
+    print(f'#{idx}: loss:{loss} : elapsed time[{elapsed}s]')
 
 
 # 5. serialize params & train losses
