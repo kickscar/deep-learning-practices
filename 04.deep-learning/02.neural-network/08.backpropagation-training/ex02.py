@@ -3,8 +3,6 @@
 # Data Set: MNIST Handwritten Digit Data Set
 # Network: TwoLayerNet2
 # Test: SGD based on Backpropagation Gradient
-import datetime
-import pickle
 import sys
 import os
 import time

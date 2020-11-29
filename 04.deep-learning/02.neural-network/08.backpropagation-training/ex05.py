@@ -3,7 +3,6 @@
 # Data Set: MNIST Handwritten Digit Data Set
 # Network: TwoLayerNet2
 # Test: SGD based on Backpropagation Gradient
-import datetime
 import pickle
 import sys
 import os
@@ -69,7 +68,7 @@ for idx in range(1, numiters+1):
         test_accuracy = network.accuracy(test_x, test_t)
         test_accuracies.append(test_accuracy)
 
-        print(f'\niters: {idx} / {numiters}')
+        print(f'\nIters: {idx} / {numiters}')
         print(f'Epoch {idxepoch}/{cntepoch} - {elapsed*1000}us - loss:{loss} - train accuracy:{train_accuracy} - test accuracy:{test_accuracy}')
 
         elapsed = 0
@@ -77,12 +76,11 @@ for idx in range(1, numiters+1):
 
 # 5. serialize params & train losses
 print(f'\ncreating pickle...')
-now = datetime.datetime.now()
 
-params_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_params_{now:%Y%m%d%H%M%S}.pkl')
-train_losses_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_losses_{now:%Y%m%d%H%M%S}.pkl')
-train_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_accuracy_{now:%Y%m%d%H%M%S}.pkl')
-test_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_test_accuracy_{now:%Y%m%d%H%M%S}.pkl')
+params_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_params.pkl')
+train_losses_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_losses.pkl')
+train_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_accuracy.pkl')
+test_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_test_accuracy.pkl')
 
 with open(params_file, 'wb') as f_params,\
         open(train_losses_file, 'wb') as f_train_losses,\
