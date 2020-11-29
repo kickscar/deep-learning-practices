@@ -1,4 +1,4 @@
-# SoftmaxWithLoss Layer Test
+# Backpropagation: SoftmaxWithLoss Layer Test
 import sys
 import os
 from pathlib import Path
