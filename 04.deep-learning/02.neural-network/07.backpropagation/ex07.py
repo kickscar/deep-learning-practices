@@ -1,4 +1,4 @@
-# Backpropagation: ReLU Layer Test
+# Backpropagation: Sigmoid Layer Test
 
 import sys
 import os
@@ -6,21 +6,21 @@ from pathlib import Path
 import numpy as np
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
-    from layers import ReLU
+    from layers import Sigmoid
     import twolayernet as network
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
 
 # test1 (vector)
-layer = ReLU()
+layer = Sigmoid()
 
 _x = np.array([0.1, -0.2, 0.3, -0.4, 0.5])
 print(_x)
 
 _y = layer.forward(_x)
 print(_y)
-print(layer.mask)   # check if mask restored in layer object
+print(layer.out)   # check if out(_y) restored in layer object
 
 
 _dout = np.array([-0.1, -0.2, -0.3, 0.4, -0.5])
@@ -42,7 +42,7 @@ print(_x)
 
 _y = layer.forward(_x)
 print(_y)
-print(layer.mask)   # check if mask restored in layer object
+print(layer.out)   # check if out(_y) restored in layer object
 
 _dout = np.array([
     [-1.1, 10.6, -2.1],
