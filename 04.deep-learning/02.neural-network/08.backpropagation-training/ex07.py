@@ -16,13 +16,14 @@ with open(train_accuracy_file, 'rb') as f_train_accuracy, open(test_accuracy_fil
     train_accuracies = pickle.load(f_train_accuracy)
     test_accuracies = pickle.load(f_test_accuracy)
 
-plt.plot(train_accuracies)
-plt.plot(test_accuracies)
+plt.plot(train_accuracies, label='train accuracy')
+plt.plot(test_accuracies, label='test accuracy')
 
 plt.xlim(0, 20, 1)
 plt.ylim(0., 1., 0.5)
 
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
+plt.legend(loc='best')
 
 plt.show()
