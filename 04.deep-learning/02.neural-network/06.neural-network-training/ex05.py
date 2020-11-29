@@ -21,8 +21,8 @@ except ImportError:
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
 
 # 2. hyperparamters
-numiters = 2100
-szbatch = 200
+numiters = 12000
+szbatch = 100
 sztrain = train_x.shape[0]
 szepoch = sztrain / szbatch
 ratelearning = 0.1
@@ -55,14 +55,14 @@ for idx in range(numiters+1):
     train_losses.append(loss)
 
     # 4-5. epoch accuracy
-    if idx / szepoch == 0:
+    if idx % szepoch == 0:
         train_accuracy = network.accuracy(train_x, train_t)
         train_accuracies.append(train_accuracy)
 
         test_accuracy = network.accuracy(test_x, test_t)
         test_accuracies.append(test_accuracy)
 
-    print(f'#{idx+1}: loss:{loss} : elapsed time[{elapsed} secs]')
+    print(f'#{idx+1}: loss:{loss} : elapsed time[{elapsed}s]')
 
 
 # 5. serialize params & train losses

@@ -2,7 +2,7 @@
 # Training Neural Network
 # Data Set: MNIST Handwritten Digit Data Set
 # Network: TwoLayerNet2
-# Test: SGD based on Numerical Gradient
+# Test: SGD based on Backpropagation Gradient
 import datetime
 import pickle
 import sys
@@ -22,7 +22,7 @@ except ImportError:
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
 
 # 2. hyperparamters
-numiters = 1    # 12000
+numiters = 12000
 szbatch = 100
 sztrain = train_x.shape[0]
 szepoch = sztrain / szbatch
@@ -32,6 +32,10 @@ ratelearning = 0.1
 network.initialize(szinput=train_x.shape[1], szhidden=50, szoutput=train_t.shape[1])
 
 # 4. training
+cntepoch = int(numiters / szepoch)
+idxepoch = 0
+elapsed = 0
+
 train_losses = []
 train_accuracies = []
 test_accuracies = []
@@ -44,8 +48,8 @@ for idx in range(numiters+1):
 
     # 4-2. gradient
     stime = time.time()
-    gradient = network.numerical_gradient_net(train_x_batch, train_t_batch)
-    elapsed = time.time() - stime
+    gradient = network.backpropagation_gradient_net(train_x_batch, train_t_batch)
+    elapsed += (time.time() - stime)
 
     # 4-3. update parameters
     for key in network.params:
@@ -57,31 +61,36 @@ for idx in range(numiters+1):
 
     # 4-5. epoch accuracy
     if idx % szepoch == 0:
+        idxepoch += 1
+
         train_accuracy = network.accuracy(train_x, train_t)
         train_accuracies.append(train_accuracy)
 
         test_accuracy = network.accuracy(test_x, test_t)
         test_accuracies.append(test_accuracy)
 
-    print(f'#{idx}: loss:{loss} : elapsed time[{elapsed} secs]')
+        print(f'\n{idx} / {numiters}')
+        print(f'Epoch {idxepoch}/{cntepoch} - {elapsed*1000}us - loss:{loss} - train accuracy:{train_accuracy} - test accuracy:{test_accuracy}')
+
+        elapsed = 0
 
 
 # 5. serialize params & train losses
-# print(f'creating pickle...')
-# now = datetime.datetime.now()
-#
-# params_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_params_{now:%Y%m%d%H%M%S}.pkl')
-# train_losses_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_losses_{now:%Y%m%d%H%M%S}.pkl')
-# train_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_accuracy_{now:%Y%m%d%H%M%S}.pkl')
-# test_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_test_accuracy_{now:%Y%m%d%H%M%S}.pkl')
-#
-# with open(params_file, 'wb') as f_params,\
-#         open(train_losses_file, 'wb') as f_train_losses,\
-#         open(train_accuracy_file, 'wb') as f_train_accuracy,\
-#         open(test_accuracy_file, 'wb') as f_test_accuracy:
-#     pickle.dump(network.params, f_params, -1)
-#     pickle.dump(train_losses, f_train_losses, -1)
-#     pickle.dump(train_accuracies, f_train_accuracy, -1)
-#     pickle.dump(test_accuracies, f_test_accuracy, -1)
-# print(f'done!')
+print(f'creating pickle...')
+now = datetime.datetime.now()
+
+params_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_params_{now:%Y%m%d%H%M%S}.pkl')
+train_losses_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_losses_{now:%Y%m%d%H%M%S}.pkl')
+train_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_accuracy_{now:%Y%m%d%H%M%S}.pkl')
+test_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_test_accuracy_{now:%Y%m%d%H%M%S}.pkl')
+
+with open(params_file, 'wb') as f_params,\
+        open(train_losses_file, 'wb') as f_train_losses,\
+        open(train_accuracy_file, 'wb') as f_train_accuracy,\
+        open(test_accuracy_file, 'wb') as f_test_accuracy:
+    pickle.dump(network.params, f_params, -1)
+    pickle.dump(train_losses, f_train_losses, -1)
+    pickle.dump(train_accuracies, f_train_accuracy, -1)
+    pickle.dump(test_accuracies, f_test_accuracy, -1)
+print(f'done!')
 
