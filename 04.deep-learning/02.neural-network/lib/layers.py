@@ -85,6 +85,7 @@ class SoftmaxWithLoss:
         if self.t is None:
             return self.y
 
+        # brace for transpose in backpropagation
         if self.t.ndim == 1:
             self.t = self.t[np.newaxis, :]
 
