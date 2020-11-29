@@ -52,6 +52,8 @@ network.loss = loss
 # =================================================================
 
 
+# N = 2
+
 # 1. load training/test data
 _x, _t = np.array([
     [2.6, 3.9, 5.6],
@@ -77,7 +79,7 @@ layers = [
 ]
 
 grad = network.numerical_gradient_net(_x, _t)
-print(grad)
+print(grad, grad['w1'].shape, grad['b1'].shape, grad['w2'].shape, grad['b2'].shape)
 
 network.params['w1'] -= 0.1 * grad['w1']
 network.params['b1'] -= 0.1 * grad['b1']
@@ -100,7 +102,7 @@ layers = [
 ]
 
 grad = backpropagation_gradient_net(_x, _t)
-print(grad)
+print(grad, grad['w1'].shape, grad['b1'].shape, grad['w2'].shape, grad['b2'].shape)
 
 network.params['w1'] -= 0.1 * grad['w1']
 network.params['b1'] -= 0.1 * grad['b1']
