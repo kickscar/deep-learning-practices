@@ -16,11 +16,14 @@ layers = []
 params = dict()
 
 
-def initialize(szinput, szhidden, szoutput, weight_init=0.01):
-    params['w1'] = weight_init * np.random.randn(szinput, szhidden)
-    params['b1'] = np.zeros(szhidden)
-    params['w2'] = weight_init * np.random.randn(szhidden, szoutput)
-    params['b2'] = np.zeros(szoutput)
+def initialize(szinput, szhidden, szoutput, weight_init=0.01, params_init=None):
+    if params_init is None:
+        params['w1'] = weight_init * np.random.randn(szinput, szhidden)
+        params['b1'] = np.zeros(szhidden)
+        params['w2'] = weight_init * np.random.randn(szhidden, szoutput)
+        params['b2'] = np.zeros(szoutput)
+    else:
+        globals()['params'] = params_init
 
     layers.append(Affine(params['w1'], params['b1']))
     layers.append(ReLU())
