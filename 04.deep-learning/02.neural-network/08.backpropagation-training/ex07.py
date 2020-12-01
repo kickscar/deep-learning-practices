@@ -6,6 +6,7 @@
 import os
 import pickle
 from matplotlib import pyplot as plt
+import numpy as np
 
 train_accuracy_file = os.path.join(os.getcwd(), 'dataset', 'twolayer_train_accuracy.pkl')
 test_accuracy_file = os.path.join(os.getcwd(), 'dataset', 'twolayer_test_accuracy.pkl')
@@ -16,14 +17,14 @@ with open(train_accuracy_file, 'rb') as f_train_accuracy, open(test_accuracy_fil
     train_accuracies = pickle.load(f_train_accuracy)
     test_accuracies = pickle.load(f_test_accuracy)
 
-plt.plot(train_accuracies, label='train accuracy')
-plt.plot(test_accuracies, label='test accuracy')
-
-plt.xlim(0, 20, 1)
-plt.ylim(0., 1., 0.5)
+xlen = np.arange(len(train_accuracies))
+plt.plot(xlen, train_accuracies, marker='.', c="blue", label='train accuracy')
+plt.plot(xlen, test_accuracies, marker='.', c="red", label='test accuracy')
 
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.legend(loc='best')
+
+plt.ylim(0., 1., 0.5)
 
 plt.show()

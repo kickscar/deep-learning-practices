@@ -3,7 +3,10 @@
 import sys
 import os
 from pathlib import Path
+import numpy as np
+from matplotlib import pyplot as plt
 from tensorflow.python.keras import Sequential
+from tensorflow.python.keras.callbacks import ModelCheckpoint, EarlyStopping
 from tensorflow.python.keras.layers import Dense
 try:
     sys.path.append(os.path.join(Path(os.getcwd()), 'lib'))
@@ -23,4 +26,32 @@ model.add(Dense(10, activation='softmax'))
 model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
 
 # 4. model fitting
-model.fit(train_x, train_t,  epochs=30, batch_size=100, verbose=1)
+history = model.fit(
+    train_x,
+    train_t,
+    validation_data=(test_x, test_t),
+    epochs=30,
+    batch_size=100,
+    verbose=1)
+
+# checkpointer = ModelCheckpoint(filepath='./dataset/{epoch:02d}-{val_loss:.4f}.hdf5', monitor='val_loss', verbose=1, save_best_only=True)
+# early_stopping_callback = EarlyStopping(monitor='val_loss', patience=10)
+# history = model.fit(
+#     train_x,
+#     train_t,
+#     validation_data=(test_x, test_t),
+#     epochs=30,
+#     batch_size=100,
+#     verbose=1,
+#     callbacks=[early_stopping_callback, checkpointer])
+
+
+# 5. training loss
+train_loss = history.history['loss']
+test_loss = history.history['val_loss']
+
+# 6. 그래프로 표현
+x_len = np.arange(len(train_loss))
+plt.plot(x_len, train_loss, marker='.', c="blue", label='train loss')
+plt.plot(x_len, test_loss, marker='.', c="red", label='test loss')
+plt.show()
