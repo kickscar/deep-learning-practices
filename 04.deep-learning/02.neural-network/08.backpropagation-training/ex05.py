@@ -68,8 +68,8 @@ for idx in range(1, iterations+1):
         test_accuracy = network.accuracy(test_x, test_t)
         test_accuracies.append(test_accuracy)
 
-        print(f'\nEpoch {epoch_idx}/{epochs}')
-        print(f'{int(idx/epoch_idx)}/{epoch_size} - {elapsed*1000}ms - loss:{loss} - [accuracy: (train, test) = ({train_accuracy}, {test_accuracy})]')
+        print(f'\nEpoch {epoch_idx:02d}/{epochs:02d}')
+        print(f'{int(idx/epoch_idx)}/{epoch_size} - {elapsed*1000:.4f}ms - loss:{loss:.4f} - [accuracy: (train, test) = ({train_accuracy:.3f}, {test_accuracy:.3f})]')
 
         elapsed = 0
 

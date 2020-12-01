@@ -34,7 +34,7 @@ history = model.fit(
     batch_size=100,
     verbose=1)
 
-# checkpointer = ModelCheckpoint(filepath='./dataset/{epoch:02d}-{val_loss:.4f}.hdf5', monitor='val_loss', verbose=1, save_best_only=True)
+# checkpointer = ModelCheckpoint(filepath='./models/{epoch:02d}-{val_loss:.4f}.hdf5', monitor='val_loss', verbose=1, save_best_only=True)
 # early_stopping_callback = EarlyStopping(monitor='val_loss', patience=10)
 # history = model.fit(
 #     train_x,
@@ -45,10 +45,9 @@ history = model.fit(
 #     verbose=1,
 #     callbacks=[early_stopping_callback, checkpointer])
 
-
 # 5. training loss
 train_loss = history.history['loss']
-test_loss = history.history['val_loss']
+test_loss = history.history['val_loss']     # validation loss(test loss)
 
 # 6. 그래프로 표현
 x_len = np.arange(len(train_loss))
