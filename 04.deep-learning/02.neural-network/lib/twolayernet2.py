@@ -16,14 +16,14 @@ layers = []
 params = dict()
 
 
-def initialize(szinput, szhidden, szoutput, weight_init=0.01, params_init=None):
-    if params_init is None:
-        params['w1'] = weight_init * np.random.randn(szinput, szhidden)
-        params['b1'] = np.zeros(szhidden)
-        params['w2'] = weight_init * np.random.randn(szhidden, szoutput)
-        params['b2'] = np.zeros(szoutput)
+def initialize(input_size, hidden_size, output_size, init_weight=0.01, init_params=None):
+    if init_params is None:
+        params['w1'] = init_weight * np.random.randn(input_size, hidden_size)
+        params['b1'] = np.zeros(hidden_size)
+        params['w2'] = init_weight * np.random.randn(hidden_size, output_size)
+        params['b2'] = np.zeros(output_size)
     else:
-        globals()['params'] = params_init
+        globals()['params'] = init_params
 
     layers.append(Affine(params['w1'], params['b1']))
     layers.append(ReLU())
@@ -64,14 +64,14 @@ def backpropagation_gradient_net(x, t):
     forward_propagation(x, t)
     backward_propagation(1)
 
-    idxaffine = 0
+    affine_idx = 0
     gradient = dict()
 
     for layer in layers:
         if type(layer).__name__ == 'Affine':
-            idxaffine += 1
-            gradient[f'w{idxaffine}'] = layer.dw
-            gradient[f'b{idxaffine}'] = layer.db
+            affine_idx += 1
+            gradient[f'w{affine_idx}'] = layer.dw
+            gradient[f'b{affine_idx}'] = layer.db
 
     return gradient
 

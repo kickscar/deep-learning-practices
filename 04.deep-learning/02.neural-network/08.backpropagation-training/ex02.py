@@ -20,23 +20,21 @@ except ImportError:
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
 
 # 2. hyperparamters
-numiters = 1    # 12000
-szbatch = 100
-sztrain = train_x.shape[0]
-szepoch = sztrain / szbatch
-ratelearning = 0.1
+batch_size = 100
+epochs = 30
+learning_rate = 0.1
 
-# 3. initialize network
-network.initialize(szinput=train_x.shape[1], szhidden=50, szoutput=train_t.shape[1])
+train_size = train_x.shape[0]
+epoch_size = int(train_size / batch_size)
+iterations = 1  # epochs * epoch_size
 
-# 4. training
-train_losses = []
-train_accuracies = []
-test_accuracies = []
+# 3. model frame
+network.initialize(input_size=train_x.shape[1], hidden_size=50, output_size=train_t.shape[1])
 
-for idx in range(1, numiters+1):
+# 4. model fitting
+for idx in range(1, iterations+1):
     # 4-1. fetch mini-batch
-    batch_mask = np.random.choice(sztrain, szbatch)
+    batch_mask = np.random.choice(train_size, batch_size)
     train_x_batch = train_x[batch_mask]
     train_t_batch = train_t[batch_mask]
 
@@ -47,20 +45,10 @@ for idx in range(1, numiters+1):
 
     # 4-3. update parameters
     for key in network.params:
-        network.params[key] -= ratelearning * gradient[key]
+        network.params[key] -= learning_rate * gradient[key]
 
     # 4-4. train loss
     loss = network.loss(train_x_batch, train_t_batch)
-    train_losses.append(loss)
-
-    # 4-5. epoch accuracy
-    if idx % szepoch == 0:
-        train_accuracy = network.accuracy(train_x, train_t)
-        train_accuracies.append(train_accuracy)
-
-        test_accuracy = network.accuracy(test_x, test_t)
-        test_accuracies.append(test_accuracy)
-
-    print(f'#{idx}: loss:{loss} : elapsed time[{elapsed} secs]')
+    print(f'#{idx}: loss:{loss} : elapsed time[{elapsed*1000}ms]')
 
 
