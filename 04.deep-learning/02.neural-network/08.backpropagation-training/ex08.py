@@ -18,14 +18,14 @@ except ImportError:
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
 
 
-# 2. load params dataset trained
+# 2. load model
 params_file = os.path.join(os.getcwd(), 'dataset', 'twolayer_params.pkl')
 params = None
 with open(params_file, 'rb') as f:
     params = pickle.load(f)
 
-# 3. initialize network
-network.initialize(szinput=train_x.shape[1], szhidden=50, szoutput=train_t.shape[1], params_init=params)
+# 3. model frame
+network.initialize(input_size=train_x.shape[1], hidden_size=50, output_size=train_t.shape[1], init_params=params)
 
 accuracy = network.accuracy(train_x, train_t)
 print(f'Training Accuracy: {accuracy}')
