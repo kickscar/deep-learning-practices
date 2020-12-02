@@ -74,7 +74,7 @@ for idx in range(1, iterations+1):
         elapsed = 0
 
 
-# 5. serialize params & train losses
+# 5. save model
 model_directory = os.path.join(os.getcwd(), 'model')
 if not os.path.exists(model_directory):
     os.mkdir(model_directory)
