@@ -32,6 +32,11 @@ plt.plot(x_len, train_loss, marker='.', c="blue", label='train loss')
 plt.show()
 
 # 5. result
-# 5. result
 result = model.evaluate(x, t, verbose=0)
 print(f'\n (Loss, Accuracy) = ({result[0]}, {result[1]})')
+
+# 6. predict
+x = np.array([[6, 148, 72, 35, 0, 33.6, 0.627, 50]])
+predict_y = model.predict(x)
+percentage = float(predict_y[0]) * 100.
+print(f'\n당뇨병 발병률: {percentage:.2f}%')

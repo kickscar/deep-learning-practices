@@ -1,4 +1,6 @@
-
+# coding: utf-8
+# Housing Price Prediction(Linear Regression) Model
+# Model Fitting
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from tensorflow.python.keras import Sequential
