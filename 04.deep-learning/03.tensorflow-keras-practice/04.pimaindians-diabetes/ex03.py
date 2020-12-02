@@ -75,7 +75,7 @@ for idx in range(1, iterations+1):
 # 5. serialize params & train losses
 print(f'\ncreating pickle...')
 
-params_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_params.pkl')
+params_file = os.path.join(os.getcwd(), 'model', f'twolayer_params.pkl')
 train_losses_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_losses.pkl')
 train_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_accuracy.pkl')
 

@@ -21,7 +21,6 @@ except ImportError:
 
 # 2. hyperparamters
 batch_size = 100
-epochs = 30
 learning_rate = 0.1
 
 train_size = train_x.shape[0]

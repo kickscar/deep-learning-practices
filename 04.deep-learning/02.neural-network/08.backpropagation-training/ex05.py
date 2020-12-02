@@ -69,19 +69,22 @@ for idx in range(1, iterations+1):
         test_accuracies.append(test_accuracy)
 
         print(f'\nEpoch {epoch_idx:02d}/{epochs:02d}')
-        print(f'{int(idx/epoch_idx)}/{epoch_size} - {elapsed*1000:.4f}ms - loss:{loss:.4f} - [accuracy: (train, test) = ({train_accuracy:.3f}, {test_accuracy:.3f})]')
+        print(f'{int(idx/epoch_idx)}/{epoch_size} - {elapsed*1000:.4f}ms - loss:{loss:.4f} - accuracy: (train, test)=({train_accuracy:.3f}, {test_accuracy:.3f})')
 
         elapsed = 0
 
 
 # 5. serialize params & train losses
-print(f'\ncreating pickle...')
+model_directory = os.path.join(os.getcwd(), 'model')
+if not os.path.exists(model_directory):
+    os.mkdir(model_directory)
 
-params_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_params.pkl')
-train_losses_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_losses.pkl')
-train_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_train_accuracy.pkl')
-test_accuracy_file = os.path.join(os.getcwd(), 'dataset', f'twolayer_test_accuracy.pkl')
+print(f'\nsave model...')
 
+params_file = os.path.join(model_directory, 'twolayer_params.pkl')
+train_losses_file = os.path.join(model_directory, 'twolayer_train_losses.pkl')
+train_accuracy_file = os.path.join(model_directory, 'twolayer_train_accuracy.pkl')
+test_accuracy_file = os.path.join(model_directory, 'twolayer_test_accuracy.pkl')
 with open(params_file, 'wb') as f_params,\
         open(train_losses_file, 'wb') as f_train_losses,\
         open(train_accuracy_file, 'wb') as f_train_accuracy,\
@@ -90,5 +93,5 @@ with open(params_file, 'wb') as f_params,\
     pickle.dump(train_losses, f_train_losses, -1)
     pickle.dump(train_accuracies, f_train_accuracy, -1)
     pickle.dump(test_accuracies, f_test_accuracy, -1)
-print(f'done!')
 
+print('done!')

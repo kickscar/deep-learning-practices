@@ -8,8 +8,8 @@ import pickle
 from matplotlib import pyplot as plt
 import numpy as np
 
-train_accuracy_file = os.path.join(os.getcwd(), 'dataset', 'twolayer_train_accuracy.pkl')
-test_accuracy_file = os.path.join(os.getcwd(), 'dataset', 'twolayer_test_accuracy.pkl')
+train_accuracy_file = os.path.join(os.getcwd(), 'model', 'twolayer_train_accuracy.pkl')
+test_accuracy_file = os.path.join(os.getcwd(), 'model', 'twolayer_test_accuracy.pkl')
 
 train_accuracies = None
 test_accuracies = None

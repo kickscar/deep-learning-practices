@@ -19,7 +19,7 @@ except ImportError:
 
 
 # 2. load model
-params_file = os.path.join(os.getcwd(), 'dataset', 'twolayer_params.pkl')
+params_file = os.path.join(os.getcwd(), 'model', 'twolayer_params.pkl')
 params = None
 with open(params_file, 'rb') as f:
     params = pickle.load(f)
