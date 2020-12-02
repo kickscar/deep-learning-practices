@@ -26,7 +26,7 @@ model.add(Dense(16, input_dim=4, activation='relu'))
 model.add(Dense(3, activation='softmax'))
 
 # 3. model fitting environment
-model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # 4. model fitting
 history = model.fit(train_x, train_t, epochs=50, batch_size=1, verbose=1)
