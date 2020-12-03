@@ -27,8 +27,8 @@ history = model.fit(x, t, epochs=200, batch_size=10)
 train_loss = history.history['loss']
 
 # 6. 그래프로 표현
-x_len = np.arange(len(train_loss))
-plt.plot(x_len, train_loss, marker='.', c="blue", label='train loss')
+xlen = np.arange(len(train_loss))
+plt.plot(xlen, train_loss, marker='.', c="blue", label='train loss')
 plt.show()
 
 # 5. result
