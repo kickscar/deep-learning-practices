@@ -1,15 +1,15 @@
 # coding: utf-8
 # Training Neural Network
 # Data Set: MNIST Handwritten Digit Data Set
-# Network: TwoLayerNet
+# Network: MultiLayerNet
 # Estimation: Training Accuracy(Overfitting)
 import os
 import pickle
 from matplotlib import pyplot as plt
 import numpy as np
 
-train_accuracy_file = os.path.join(os.getcwd(), 'model', 'twolayer_train_accuracy.pkl')
-test_accuracy_file = os.path.join(os.getcwd(), 'model', 'twolayer_test_accuracy.pkl')
+train_accuracy_file = os.path.join(os.getcwd(), 'model', 'train_accuracy.pkl')
+test_accuracy_file = os.path.join(os.getcwd(), 'model', 'test_accuracy.pkl')
 
 train_accuracies = None
 test_accuracies = None

@@ -23,7 +23,7 @@ model.add(Dense(1))
 # 3. model fitting environment
 model.compile(loss='mean_squared_error', optimizer='adam')
 
-# 4. model fitting
+
 model.fit(train_x, train_t, epochs=200, batch_size=10)
 
 # 5. Prediction Test

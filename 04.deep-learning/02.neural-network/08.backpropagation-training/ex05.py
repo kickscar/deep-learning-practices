@@ -1,9 +1,10 @@
 # coding: utf-8
 # Training Neural Network
 # Data Set: MNIST Handwritten Digit Data Set
-# Network: TwoLayerNet2
+# Network: MultiLayerNet
 # Test: SGD based on Backpropagation Gradient
 import pickle
+import shutil
 import sys
 import os
 import time
@@ -12,10 +13,9 @@ import numpy as np
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
     from mnist import load_mnist
-    import twolayernet2 as network
+    import multilayernet as network
 except ImportError:
     raise ImportError("Library Module Can Not Found")
-
 
 # 1. load training/test data
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
@@ -26,7 +26,7 @@ epochs = 30
 learning_rate = 0.1
 
 # 3. model frame
-network.initialize(input_size=train_x.shape[1], hidden_size=50, output_size=train_t.shape[1])
+network.initialize(input_size=train_x.shape[1], hidden_size=[50, 100], output_size=train_t.shape[1])
 
 # 4. model fitting
 train_size = train_x.shape[0]
@@ -47,7 +47,7 @@ for idx in range(1, iterations+1):
 
     # 4-2. gradient
     stime = time.time()
-    gradient = network.backpropagation_gradient_net(train_x_batch, train_t_batch)
+    gradient = network.backpropagation_gradient(train_x_batch, train_t_batch)
     elapsed += (time.time() - stime)
 
     # 4-3. update parameters
@@ -75,17 +75,19 @@ for idx in range(1, iterations+1):
 
 
 # 5. save model
+print(f'\nsaving model.....', end='')
+
 model_directory = os.path.join(os.getcwd(), 'model')
-if not os.path.exists(model_directory):
-    os.mkdir(model_directory)
+if os.path.exists(model_directory):
+    shutil.rmtree(model_directory)
 
-print(f'\nsave model...')
+os.mkdir(model_directory)
 
-params_file = os.path.join(model_directory, 'twolayer_params.pkl')
-train_losses_file = os.path.join(model_directory, 'twolayer_train_losses.pkl')
-train_accuracy_file = os.path.join(model_directory, 'twolayer_train_accuracy.pkl')
-test_accuracy_file = os.path.join(model_directory, 'twolayer_test_accuracy.pkl')
-with open(params_file, 'wb') as f_params,\
+model_file = os.path.join(model_directory, 'model.pkl')
+train_losses_file = os.path.join(model_directory, 'train_loss.pkl')
+train_accuracy_file = os.path.join(model_directory, 'train_accuracy.pkl')
+test_accuracy_file = os.path.join(model_directory, 'test_accuracy.pkl')
+with open(model_file, 'wb') as f_params,\
         open(train_losses_file, 'wb') as f_train_losses,\
         open(train_accuracy_file, 'wb') as f_train_accuracy,\
         open(test_accuracy_file, 'wb') as f_test_accuracy:
@@ -94,4 +96,4 @@ with open(params_file, 'wb') as f_params,\
     pickle.dump(train_accuracies, f_train_accuracy, -1)
     pickle.dump(test_accuracies, f_test_accuracy, -1)
 
-print('done!')
+print('done')

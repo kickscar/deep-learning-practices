@@ -1,5 +1,5 @@
 # coding: utf-8
-# Two Layer Neural Network2(Based on Backpropagation Graph Layers)
+# Multi-Layer Neural Network(Based on Backpropagation Graph Layers)
 import sys
 import os
 from pathlib import Path
@@ -70,7 +70,7 @@ def loss(x, t):
     return y
 
 
-def backpropagation_gradient_net(x, t):
+def backpropagation_gradient(x, t):
     forward_propagation(x, t)
     backward_propagation(1)
 
@@ -82,5 +82,34 @@ def backpropagation_gradient_net(x, t):
             affine_idx += 1
             gradient[f'w{affine_idx}'] = layer.dw
             gradient[f'b{affine_idx}'] = layer.db
+
+    return gradient
+
+
+def numerical_gradient(x, t):
+    h = 1e-4
+    gradient = dict()
+
+    for key in params:
+        param = params[key]
+        param_gradient = np.zeros_like(param)
+
+        it = np.nditer(param, flags=['multi_index'], op_flags=['readwrite'])
+        while not it.finished:
+            idx = it.multi_index
+            temp = param[idx]
+
+            param[idx] = float(temp) + h
+            h1 = loss(x, t)
+
+            param[idx] = float(temp) - h
+            h2 = loss(x, t)
+
+            param_gradient[idx] = (h1 - h2) / (2 * h)
+
+            param[idx] = temp   # 값복원
+            it.iternext()
+
+        gradient[key] = param_gradient
 
     return gradient
