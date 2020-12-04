@@ -14,14 +14,14 @@ try:
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-
 # 1. load training/test data
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
 
-# 2. initialize network
-network.initialize(input_size=train_x.shape[1], hidden_size=[50], output_size=train_t.shape[1])
+# 2. model frame
+input_size, output_size = train_x.shape[1], train_t.shape[1]
+network.initialize(input_size=input_size, hidden_sizes=[50], output_size=output_size)
 
-# 3. batch by 3
+# 3. batched by 3
 train_x_batch = train_x[:3]
 train_t_batch = train_t[:3]
 

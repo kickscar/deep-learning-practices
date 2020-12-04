@@ -3,6 +3,8 @@
 # Data Set: MNIST Handwritten Digit Data Set
 # Network: MultiLayerNet
 # Test: SGD based on Backpropagation Gradient
+import pickle
+import shutil
 import sys
 import os
 import time
@@ -19,18 +21,17 @@ except ImportError:
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
 
 # 2. hyperparamters
-batch_size = 100
-epochs = 30
+epochs, batch_size = 20, 100
 learning_rate = 0.1
 
 # 3. model frame
 input_size, output_size = train_x.shape[1], train_t.shape[1]
-network.initialize(input_size=input_size, hidden_sizes=[50], output_size=output_size)
+network.initialize(input_size=input_size, hidden_sizes=[50, 100], output_size=output_size)
 
 # 4. model fitting
 train_size = train_x.shape[0]
 epoch_size = int(train_size / batch_size)
-iterations = 1  # epochs * epoch_size
+iterations = epochs * epoch_size
 
 elapsed, epoch_idx = 0, 0
 history = {'loss': [], 'accuracy': [], 'val_loss': [], 'val_accuracy': []}
@@ -54,6 +55,42 @@ for idx in range(1, iterations+1):
     # 4-5. stopwatch: stop
     elapsed += (time.time() - stime)
 
-    # 4-6. print a loss
-    loss = network.loss(train_x, train_t)
-    print(f'#{idx}: loss:{loss:.4f} : elapsed time[{elapsed*1000:.3f}ms]')
+    # 4-5. epoch history
+    if idx % epoch_size == 0:
+        epoch_idx += 1
+
+        loss = network.loss(train_x, train_t)
+        history['loss'].append(loss)
+
+        accuracy = network.accuracy(train_x, train_t)
+        history['accuracy'].append(accuracy)
+
+        val_loss = network.loss(test_x, test_t)
+        history['val_loss'].append(val_loss)
+
+        val_accuracy = network.accuracy(test_x, test_t)
+        history['val_accuracy'].append(val_accuracy)
+
+        print(f'\nEpoch {epoch_idx:02d}/{epochs:02d}')
+        print(f'{int(idx/epoch_idx)}/{epoch_size} - {elapsed:.3f}s - loss:{loss:.4f} - accuracy:{accuracy:.4f}')
+
+        elapsed = 0
+
+
+# 5. save model
+print(f'\nsaving model & history.....', end='')
+
+model_directory = os.path.join(os.getcwd(), 'model')
+model_file = os.path.join(model_directory, 'model.pkl')
+history_file = os.path.join(model_directory, 'history.pkl')
+
+if os.path.exists(model_directory):
+    shutil.rmtree(model_directory)
+
+os.mkdir(model_directory)
+
+with open(model_file, 'wb') as f_model, open(history_file, 'wb') as f_history:
+    pickle.dump(network.params, f_model, -1)
+    pickle.dump(history, f_history, -1)
+
+print('done')

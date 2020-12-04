@@ -2,7 +2,7 @@
 # Training Neural Network
 # Data Set: MNIST Handwritten Digit Data Set
 # Network: MultiLayerNet
-# Test: Optimizer Comparings
+# Test: Comparings Optimizer
 import sys
 import os
 import time
@@ -17,7 +17,7 @@ try:
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-# optimizer set-up
+# 01. optimizer set-up
 optimizers = {
     'sgd': SGD(),
     'momentum': Momentum(),
@@ -25,24 +25,24 @@ optimizers = {
     'adam': Adam(),
 }
 
-# load training/test data
+# 02. load training/test data
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
 
-# hyperparamters
+# 03. hyperparamters
 batch_size = 100
 epochs = 30
 
-# testing
+# 04. testing
 train_losses = dict()
 
 for optimizer_key in optimizers.keys():
 
     train_losses[optimizer_key] = []
 
-    # model frame
+    # 05. model frame
     network.initialize(input_size=train_x.shape[1], hidden_size=[100, 100, 100], output_size=train_t.shape[1])
 
-    # model fitting
+    # 06. model fitting
     train_size = train_x.shape[0]
     epoch_size = int(train_size / batch_size)
     iterations = epochs * epoch_size
@@ -52,30 +52,30 @@ for optimizer_key in optimizers.keys():
 
     for idx in range(1, iterations+1):
 
-        # 4-0. start stopwatch
+        # 06-01. start stopwatch
         stime = time.time()
 
-        # 4-1. fetch mini-batch
+        # 06-02. fetch mini-batch
         batch_mask = np.random.choice(train_size, batch_size)
         train_x_batch = train_x[batch_mask]
         train_t_batch = train_t[batch_mask]
 
-        # 4-2. gradient
+        # 06-03. gradient
         gradient = network.backpropagation_gradient_net(train_x_batch, train_t_batch)
 
-        # 4-3. update parameters
+        # 06-04. update parameters
         for key in network.params:
             # network.params[key] -= learning_rate * gradient[key]
             optimizers[optimizer_key].update(network.params, gradient)
 
-        # 4-4. train loss
+        # 06-05. train loss
         loss = network.loss(train_x_batch, train_t_batch)
         train_losses[optimizer_key].append(loss)
 
-        # 4-5. start stopwatch
+        # 06-06. start stopwatch
         elapsed += (time.time() - stime)
 
-        # 4-6. epoch accuracy
+        # 06-07. epoch accuracy
         if idx % epoch_size == 0:
             epoch_idx += 1
 
@@ -88,7 +88,7 @@ for optimizer_key in optimizers.keys():
     network.layers = []
 
 
-# 3. graph
+# 05. graph
 def smooth_curve(x):
     """ 그래프를 매끄럽게 하기 위해 사용
         참고：http://glowingpython.blogspot.jp/2012/02/convolution-with-numpy.html
