@@ -18,14 +18,14 @@ except ImportError:
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
 
 # 2. load model
-params_file = os.path.join(os.getcwd(), 'model', 'model.pkl')
+model_file = os.path.join(os.getcwd(), 'model', 'model.pkl')
 params = None
-with open(params_file, 'rb') as f:
+with open(model_file, 'rb') as f:
     params = pickle.load(f)
 
 # 3. model frame
 input_size, output_size = train_x.shape[1], train_t.shape[1]
-network.initialize(input_size=input_size, hidden_sizes=[50, 100], output_size=output_size)
+network.initialize(input_size=input_size, hidden_sizes=[50, 100], output_size=output_size, init_params=params)
 
 # 4. evaluation
 accuracy = network.accuracy(train_x, train_t)
