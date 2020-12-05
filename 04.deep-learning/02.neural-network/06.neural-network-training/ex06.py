@@ -1,21 +1,29 @@
-
 # coding: utf-8
 # Training Neural Network
 # Data Set: MNIST Handwritten Digit Data Set
 # Network: TwoLayerNet
-# Estimation: Training
-import os
+# Evaluation from Model Saved
 import pickle
-from matplotlib import pyplot as plt
+import sys
+import os
+from pathlib import Path
+try:
+    sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
+    from mnist import load_mnist
+    import twolayernet as network
+except ImportError:
+    raise ImportError("Library Module Can Not Found")
 
-train_loss_file = os.path.join(os.getcwd(), 'dataset', 'twolayer_train_loss.pkl')
+# 1. load training/test data
+(train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
 
-train_losses = None
-with open(train_loss_file, 'rb') as f:
-    train_losses = pickle.load(f)
+# 2. load params dataset trained
+params_file = os.path.join(os.getcwd(), 'dataset', 'twolayer_params.pkl')
+with open(params_file, 'rb') as f:
+    network.params = pickle.load(f)
 
-plt.plot(train_losses)
-plt.xlabel('Iteration')
-plt.ylabel('Loss')
+accuracy = network.accuracy(train_x, train_t)
+print(f'Training Accuracy: {accuracy}')
 
-plt.show()
+accuracy = network.accuracy(test_x, test_t)
+print(f'Testing Accuracy: {accuracy}')

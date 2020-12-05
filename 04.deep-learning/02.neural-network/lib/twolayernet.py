@@ -14,11 +14,14 @@ except ImportError:
 params = dict()
 
 
-def initialize(szinput, szhidden, szoutput, weight_init=0.01):
-    params['w1'] = weight_init * np.random.randn(szinput, szhidden)
-    params['b1'] = np.zeros(szhidden)
-    params['w2'] = weight_init * np.random.randn(szhidden, szoutput)
-    params['b2'] = np.zeros(szoutput)
+def initialize(input_size, hidden_size, output_size, init_weight=0.01, init_params=None):
+    if init_params is None:
+        params['w1'] = init_weight * np.random.randn(input_size, hidden_size)
+        params['b1'] = np.zeros(hidden_size)
+        params['w2'] = init_weight * np.random.randn(hidden_size, output_size)
+        params['b2'] = np.zeros(output_size)
+    else:
+        globals()['params'] = init_params
 
 
 def accuracy(x, t):
@@ -53,7 +56,7 @@ def _loss(dummy, x=None, t=None):
         x = loss.x
     if t is None:
         t = loss.t
-        
+
     y = _forward_propagation(x)
     e = common.cross_entropy_error(y, t)
 

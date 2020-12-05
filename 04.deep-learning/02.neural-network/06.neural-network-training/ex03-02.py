@@ -29,7 +29,6 @@ def loss(w):
 
 
 _w = np.random.randn(2, 3)
-print(_w)
 
 g = numerical_gradient2(loss, _w)
 print(g)

@@ -1,8 +1,8 @@
 # coding: utf-8
 # Training Neural Network
 # Data Set: MNIST Handwritten Digit Data Set
-# Network: MultiLayerNet
-# Model Fitting(Backpropagation Gradient + SGD)
+# Network: TwoLayerNet
+# Model Fitting(Numerical Gradient + SGD)
 import pickle
 import shutil
 import sys
@@ -13,9 +13,10 @@ import numpy as np
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
     from mnist import load_mnist
-    import multilayernet as network
+    import twolayernet as network
 except ImportError:
     raise ImportError("Library Module Can Not Found")
+
 
 # 1. load training/test data
 (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
@@ -24,11 +25,10 @@ except ImportError:
 epochs, batch_size = 20, 100
 learning_rate = 0.1
 
-# 3. model frame
-input_size, output_size = train_x.shape[1], train_t.shape[1]
-network.initialize(input_size=input_size, hidden_sizes=[50, 100], output_size=output_size)
+# 3. initialize network
+network.initialize(input_size=train_x.shape[1], hidden_size=50, output_size=train_t.shape[1])
 
-# 4. model fitting
+# 4. training
 train_size = train_x.shape[0]
 epoch_size = int(train_size / batch_size)
 iterations = epochs * epoch_size
@@ -46,16 +46,16 @@ for idx in range(1, iterations+1):
     train_t_batch = train_t[batch_mask]
 
     # 4-3. gradient
-    gradient = network.backpropagation_gradient(train_x_batch, train_t_batch)
+    gradient = network.numerical_gradient(train_x_batch, train_t_batch)
 
     # 4-4. update parameters
     for key in network.params:
         network.params[key] -= learning_rate * gradient[key]
 
     # 4-5. stopwatch: stop
-    elapsed += (time.time() - stime)
+    elapsed = time.time() - stime
 
-    # 4-5. epoch history
+    # 4-6. epoch accuracy
     if idx % epoch_size == 0:
         epoch_idx += 1
 
@@ -76,6 +76,10 @@ for idx in range(1, iterations+1):
 
         elapsed = 0
 
+    # 4-7. print out batch loss
+    loss_batch = network.loss(train_x_batch, train_t_batch)
+    print(f'#{idx}: batch loss:{loss_batch} : elapsed time[{elapsed}s]')
+
 
 # 5. save model
 print(f'\nsaving model & history.....', end='')
@@ -94,3 +98,4 @@ with open(model_file, 'wb') as f_model, open(history_file, 'wb') as f_history:
     pickle.dump(history, f_history, -1)
 
 print('done')
+

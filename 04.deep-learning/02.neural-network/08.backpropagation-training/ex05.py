@@ -2,7 +2,7 @@
 # Training Neural Network
 # Data Set: MNIST Handwritten Digit Data Set
 # Network: MultiLayerNet
-# Estimation: Training
+# Estimation: Model Fitting History
 import os
 import pickle
 from matplotlib import pyplot as plt

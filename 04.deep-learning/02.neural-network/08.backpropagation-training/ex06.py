@@ -2,7 +2,7 @@
 # Training Neural Network
 # Data Set: MNIST Handwritten Digit Data Set
 # Network: MultiLayerNet
-# Evaluation
+# Evaluation from Model Saved
 import pickle
 import sys
 import os

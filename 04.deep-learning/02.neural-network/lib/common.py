@@ -47,44 +47,15 @@ def sum_squares_error(y, t):
     return e
 
 
-# cross entropy error
-# support only for one-hot & batch
+# CEE(Cross Entropy Error)
 def cross_entropy_error(y, t):
     if y.ndim == 1:
         y = y.reshape(1, y.size)
         t = t.reshape(1, t.size)
 
     delta = 1.e-7
-    batch_sz = y.shape[0]
-    return -np.sum(t * np.log(y + delta)) / batch_sz
-
-
-# Numerical Differentiation
-# x, t를 파라미터로 받는 기울기 함수
-def numerical_diff1(f, x, data_in, data_out):
-    h = 1e-4
-    gradient = np.zeros_like(x)
-
-    it = np.nditer(x, flags=['multi_index'], op_flags=['readwrite'])
-    while not it.finished:
-        idx = it.multi_index
-        tmp_val = x[idx]
-
-        x[idx] = tmp_val + h
-        h1 = f(x, data_in, data_out)            # f(x+h)
-
-        x[idx] = tmp_val - h
-        h2 = f(x, data_in, data_out)            # f(x-h)
-        gradient[idx] = (h1 - h2) / (2 * h)
-
-        x[idx] = tmp_val                        # 값복원
-        it.iternext()
-
-    return gradient
-
-
-# Gradient
-numerical_gradient1 = numerical_diff1
+    batch_size = y.shape[0]
+    return -1. * np.sum(t * np.log(y + delta)) / batch_size
 
 
 # Numerical Differentiation2

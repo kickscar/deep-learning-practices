@@ -11,18 +11,18 @@ except ImportError:
     raise ImportError("Library Module Can Not Found")
 
 # data
-t = [0, 0, 1, 0, 0, 0, 0, 0, 0, 0]
+t = np.array([0, 0, 1, 0, 0, 0, 0, 0, 0, 0])
 
-y1 = [0.1, 0.05, 0.7, 0., 0.02, 0.03, 0., 0.1, 0., 0.]
-y2 = [0.1, 0.05, 0.05, 0.6, 0.02, 0.03, 0.05, 0.1, 0., 0.]
-y3 = [0., 0., 0.95, 0.02, 0.01, 0.01, 0., 0.01, 0., 0.]
+y1 = np.array([0.1, 0.05, 0.7, 0., 0.02, 0.03, 0., 0.1, 0., 0.])
+y2 = np.array([0.1, 0.05, 0.05, 0.6, 0.02, 0.03, 0.05, 0.1, 0., 0.])
+y3 = np.array([0., 0., 0.95, 0.02, 0.01, 0.01, 0., 0.01, 0., 0.])
 
 # print(np.sum(y1))
 # print(np.sum(y2))
 # print(np.sum(y3))
 
 # test
-print(sum_squares_error(np.array(y1), np.array(t)))
-print(sum_squares_error(np.array(y2), np.array(t)))
-print(sum_squares_error(np.array(y3), np.array(t)))
+print(sum_squares_error(y1, t))
+print(sum_squares_error(y2, t))
+print(sum_squares_error(y3, t))
 
