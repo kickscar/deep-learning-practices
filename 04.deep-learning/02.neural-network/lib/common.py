@@ -2,29 +2,32 @@
 import numpy as np
 
 
-# sigmoid activation function
-def sigmoid(x):
-    return 1 / (1 + np.e ** (-x))
-
-
-# relu activation function
-def relu(x):
-    # return x if x > 0 else 0
-    return np.maximum(0, x)
-
-
-# identity activation function
+# identity
 def identity(x):
-    return x
+    y = x
+
+    return y
 
 
-# softmax activation function
-def softmax_oveflow(x):
-    exp_x = np.exp(x)
-    return exp_x / np.sum(exp_x)
+# sigmoid
+def sigmoid(x):
+    y = 1 / (1 + np.e ** (-x))
+
+    return y
 
 
+# relu
+def relu(x):
+    y = np.maximum(0, x)
+
+    return y
+
+
+# softmax
 def softmax(x):
+    # x = np.exp(x)
+    # y = x / np.sum(x)
+
     if x.ndim == 2:
         x = x.T
         x = x - np.max(x, axis=0)  # 오버플로 대책
@@ -33,20 +36,15 @@ def softmax(x):
         return y.T
 
     x = x - np.max(x)  # 오버플로 대책
-    return np.exp(x) / np.sum(np.exp(x))
+    y = np.exp(x) / np.sum(np.exp(x))
+
+    return y
 
 
-# sum squares error(SSE)
+# SSE(Sum Squares Error)
 def sum_squares_error(y, t):
     e = 0.5 * np.sum((y - t) ** 2)
     return e
-
-
-# cross entropy error
-# support only for one-hot & non-batch
-def cross_entropy_error_non_batch(y, t):
-    delta = 1.e-7
-    return -np.sum(t * np.log(y + delta))
 
 
 # cross entropy error
@@ -56,8 +54,8 @@ def cross_entropy_error(y, t):
         y = y.reshape(1, y.size)
         t = t.reshape(1, t.size)
 
-    batch_sz = y.shape[0]
     delta = 1.e-7
+    batch_sz = y.shape[0]
     return -np.sum(t * np.log(y + delta)) / batch_sz
 
 
@@ -123,20 +121,22 @@ numerical_gradient2 = numerical_diff2
 
 def numerical_gradient(f, x):
     h = 1e-4  # 0.0001
-    grad = np.zeros_like(x)
+    gradient = np.zeros_like(x)
 
     it = np.nditer(x, flags=['multi_index'], op_flags=['readwrite'])
     while not it.finished:
         idx = it.multi_index
-        tmp_val = x[idx]
-        x[idx] = float(tmp_val) + h
-        fxh1 = f(x)  # f(x+h)
+        tmp = x[idx]
 
-        x[idx] = tmp_val - h
-        fxh2 = f(x)  # f(x-h)
-        grad[idx] = (fxh1 - fxh2) / (2 * h)
+        x[idx] = float(tmp) + h
+        h1 = f(x)
 
-        x[idx] = tmp_val  # 값 복원
+        x[idx] = float(tmp) - h
+        h2 = f(x)
+
+        gradient[idx] = (h1 - h2) / (2 * h)
+
+        x[idx] = tmp
         it.iternext()
 
-    return grad
+    return gradient

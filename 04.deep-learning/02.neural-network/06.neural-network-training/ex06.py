@@ -1,3 +1,4 @@
+
 # coding: utf-8
 # Training Neural Network
 # Data Set: MNIST Handwritten Digit Data Set
