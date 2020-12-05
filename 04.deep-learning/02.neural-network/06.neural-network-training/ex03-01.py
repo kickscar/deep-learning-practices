@@ -1,14 +1,16 @@
 # coding: utf-8
-# 신경망 학습: 신경망 기울기(Neural Network Gradient): Parameter 가중치(w) 편미분 과정 #1
+# 신경망 기울기(Neural Network Gradient): Parameter 가중치(w) 편미분 과정 #1
 import sys
 import os
 from pathlib import Path
 import numpy as np
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
-    from common import softmax, cross_entropy_error
+    import common
 except ImportError:
     raise ImportError("Library Module Can Not Found")
+
+np.random.seed(0)
 
 
 def loss(w, x, t):
@@ -19,14 +21,14 @@ def loss(w, x, t):
     :return: 오차(error)
     """
     z = np.dot(x, w)
-    y = softmax(z)
-    e = cross_entropy_error(y, t)
+    y = common.softmax(z)
+    e = common.cross_entropy_error(y, t)
 
     return e
 
 
 # Numerical Gradient
-# param(w), x, t를 파라미터로 받는 기울기 함수
+# loss(손실함수), param(w), x, t를 파라미터로 받는 기울기 함수
 def numerical_gradient(f, param, x, t):
     h = 1e-4
     gradient = np.zeros_like(param)

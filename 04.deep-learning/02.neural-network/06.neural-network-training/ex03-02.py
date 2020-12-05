@@ -1,34 +1,60 @@
 # coding: utf-8
-# 신경망 학습: 신경망 기울기(Neural Network Gradient): Parameter 가중치(w) 편미분 과정 #2
+# 신경망 기울기(Neural Network Gradient): Parameter 가중치(w) 편미분 과정 #2
 import sys
 import os
 from pathlib import Path
 import numpy as np
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
-    from common import softmax, cross_entropy_error, numerical_gradient2
+    import common
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-
-x = np.array([0.6, 0.9])                    # input (x)         2 vector
-t = np.array([0, 0, 1])                     # label (one-hot)   3 vector
+np.random.seed(0)
 
 
-def loss(w):
+def loss(w, x, t):
     """
-
     :param w: 가중치 매개변수(parameter weight)
+    :param x: 입력 (input)
+    :param t: 정답 label(target)
     :return: 오차(error)
     """
     z = np.dot(x, w)
-    y = softmax(z)
-    e = cross_entropy_error(y, t)
-    
+    y = common.softmax(z)
+    e = common.cross_entropy_error(y, t)
+
     return e
 
 
-_w = np.random.randn(2, 3)
+# Numerical Gradient
+# param(w), x, t를 파라미터로 받는 기울기 함수
+def numerical_gradient(param, x, t):
+    h = 1e-4
+    gradient = np.zeros_like(param)
 
-g = numerical_gradient2(loss, _w)
+    it = np.nditer(x, flags=['multi_index'], op_flags=['readwrite'])
+    while not it.finished:
+        idx = it.multi_index
+        tmp = x[idx]
+
+        x[idx] = float(tmp) + h
+        h1 = loss(param, x, t)
+
+        x[idx] = float(tmp) - h
+        h2 = loss(param, x, t)
+
+        gradient[idx] = (h1 - h2) / (2 * h)
+
+        x[idx] = tmp
+        it.iternext()
+
+    return gradient
+
+
+_x = np.array([0.6, 0.9])   # input (x)         2 vector
+_t = np.array([0, 0, 1])    # label (one-hot)   3 vector
+_w = np.random.randn(2, 3)  # weight            2 x 3 matrix
+
+g = numerical_gradient(_w, _x, _t)
 print(g)

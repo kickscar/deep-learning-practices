@@ -39,7 +39,7 @@ def loss(x, t):
 
 
 def numerical_gradient(x, t):
-    loss.x, loss.t = x, t
+    _loss.x, _loss.t = x, t
 
     gradient = dict()
 
@@ -53,9 +53,9 @@ def numerical_gradient(x, t):
 
 def _loss(dummy, x=None, t=None):
     if x is None:
-        x = loss.x
+        x = _loss.x
     if t is None:
-        t = loss.t
+        t = _loss.t
 
     y = _forward_propagation(x)
     e = common.cross_entropy_error(y, t)
