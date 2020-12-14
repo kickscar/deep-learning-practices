@@ -30,5 +30,6 @@ network.initialize(input_size=input_size, hidden_sizes=[50, 100], output_size=ou
 # 4. evaluation
 accuracy = network.accuracy(train_x, train_t)
 val_accuracy = network.accuracy(test_x, test_t)
-
 print(f'Accuracy: (Train, Test)=({accuracy:.4f}, {val_accuracy:.4f})')
+
+

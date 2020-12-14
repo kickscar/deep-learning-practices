@@ -18,6 +18,7 @@ except ImportError:
 
 x = test_x[0]
 t = test_t[0]
+print(x)
 print(t)                # 5
 
 print(x.shape)          # (784,)
@@ -25,5 +26,5 @@ x = x.reshape(28, 28)   # 형상을 원래 이미지의 크기로 변형
 print(x.shape)          # (28, 28)
 
 # 이미지 보기: PIL(Python Image Library) 사용
-pil_img = Image.fromarray(np.uint8(x))
-pil_img.show()
+# pil_img = Image.fromarray(np.uint8(x))
+# pil_img.show()

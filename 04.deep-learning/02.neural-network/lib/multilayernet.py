@@ -53,6 +53,13 @@ def backward_propagation(dout):
     return dout
 
 
+def predict(x):
+    y = forward_propagation(x)
+    y = np.argmax(y, axis=1)
+
+    return np.int(y)
+
+
 def accuracy(x, t):
     y = forward_propagation(x)
 
