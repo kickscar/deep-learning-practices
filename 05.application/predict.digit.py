@@ -8,29 +8,23 @@ import sys
 import os
 import numpy as np
 from PIL import Image, ImageOps
-from pathlib import Path
 try:
-    sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
-    from mnist import load_mnist
+    sys.path.append(os.path.join(os.getcwd(), 'lib'))
     import multilayernet as network
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-# 1. load training/test data
-(train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
-
-# 2. load model
+# 1. load model
 model_file = os.path.join(os.getcwd(), 'model', 'model.pkl')
 params = None
 with open(model_file, 'rb') as f:
     params = pickle.load(f)
 
-# 3. model frame
-input_size, output_size = train_x.shape[1], train_t.shape[1]
+# 2. model frame
+input_size, output_size = 784, 10
 network.initialize(input_size=input_size, hidden_sizes=[50, 100], output_size=output_size, init_params=params)
 
-
-# 4. load image
+# 3. load image
 im = ImageOps.invert(Image.open('images/test.bmp'))
 w, h = im.size
 

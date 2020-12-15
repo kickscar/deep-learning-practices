@@ -1,7 +1,7 @@
 from PIL import Image, ImageOps
 import numpy as np
 
-im = ImageOps.invert(Image.open('test.bmp'))
+im = ImageOps.invert(Image.open('../images/test.bmp'))
 w, h = im.size
 
 pixels = np.zeros((h, w), dtype=np.uint8)
