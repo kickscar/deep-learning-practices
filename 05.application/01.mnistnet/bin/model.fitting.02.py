@@ -2,8 +2,7 @@
 # Training Neural Network
 # Data Set: MNIST Handwritten Digit Data Set
 # Network: MNISTNet
-# Model Fitting
-
+# Model Fitting with Realtime-Graph
 import os
 import sys
 import time
@@ -64,25 +63,45 @@ ax1.set_ylim(0., 3.)
 
 ax2.legend(handles=[line_train_acc, line_train_loss, line_test_acc, line_test_loss], loc='best')
 ax2.grid()
-ax2.set_xlim(0, 20)
-ax2.set_xticks(range(0, 21))
+ax2.set_xlim(0, epochs)
+ax2.set_xticks(range(0, epochs+1))
 ax2.set_ylim(0., 1.)
 ax2.set_yticks(np.arange(0., 1.1, 0.1))
 
-# 2. hyperparamters
-epochs, batch_size = 20, 100
-learning_rate = 0.1
-
-# 4. model frame
-input_size, output_size = train_x.shape[1], train_t.shape[1]
-network.initialize(input_size=input_size, hidden_sizes=[50, 100], output_size=output_size)
-
-# 5. model fitting
 history = {'iters_loss': [], 'loss': [], 'accuracy': [], 'val_loss': [], 'val_accuracy': []}
 
 
-def model_fit():
+def update_graph(data):
+    if data[0] is not None:
+        history['iters_loss'].append(data[0])
 
+    if data[1] is not None:
+        history['loss'].append(data[1])
+
+    if data[2] is not None:
+        history['accuracy'].append(data[2])
+
+    if data[3] is not None:
+        history['val_loss'].append(data[3])
+
+    if data[4] is not None:
+        history['val_accuracy'].append(data[4])
+
+    line_iters_loss.set_data(range(0, len(history['iters_loss'])), history['iters_loss'])
+    line_train_loss.set_data(range(0, len(history['loss'])), history['loss'])
+    line_train_acc.set_data(range(0, len(history['accuracy'])), history['accuracy'])
+    line_test_loss.set_data(range(0, len(history['val_loss'])), history['val_loss'])
+    line_test_acc.set_data(range(0, len(history['val_accuracy'])), history['val_accuracy'])
+
+    return line_iters_loss, line_train_loss, line_train_acc, line_test_loss, line_test_acc
+
+
+# 5. model frame
+input_size, output_size = train_x.shape[1], train_t.shape[1]
+network.initialize(input_size=input_size, hidden_sizes=[50, 100], output_size=output_size)
+
+# 6. model fitting
+def model_fit():
     elapsed, epoch_idx = 0, 0
 
     for idx in range(1, iterations+1):
@@ -126,30 +145,6 @@ def model_fit():
         yield history_data
 
 
-def update_graph(data):
-    if data[0] is not None:
-        history['iters_loss'].append(data[0])
-
-    if data[1] is not None:
-        history['loss'].append(data[1])
-
-    if data[2] is not None:
-        history['accuracy'].append(data[2])
-
-    if data[3] is not None:
-        history['val_loss'].append(data[3])
-
-    if data[4] is not None:
-        history['val_accuracy'].append(data[4])
-
-    line_iters_loss.set_data(range(0, len(history['iters_loss'])), history['iters_loss'])
-    line_train_loss.set_data(range(0, len(history['loss'])), history['loss'])
-    line_train_acc.set_data(range(0, len(history['accuracy'])), history['accuracy'])
-    line_test_loss.set_data(range(0, len(history['val_loss'])), history['val_loss'])
-    line_test_acc.set_data(range(0, len(history['val_accuracy'])), history['val_accuracy'])
-
-    return line_iters_loss, line_train_loss, line_train_acc, line_test_loss, line_test_acc
-
-
+# main
 ani = animation.FuncAnimation(fig, update_graph, model_fit, interval=1, blit=True, save_count=0)
 plt.show()
