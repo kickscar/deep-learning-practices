@@ -16,103 +16,84 @@ try:
 except ImportError:
     raise ImportError("Library Module Can Not Found")
 
-# 1. load training/test data
-(train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
-
-# 2. hyperparamters
-epochs, batch_size = 20, 100
-learning_rate = 0.1
-
-# 3. model fitting parameters
-train_size = train_x.shape[0]
-epoch_size = int(train_size / batch_size)
-iterations = epochs * epoch_size
-
-# 4. graph set-up
-fig = plt.figure(figsize=(13, 3))
-spec = plt.GridSpec(20, 20, bottom=0.13, top=0.95, left=0.05, right=0.98, hspace=0, wspace=1.8)
-
-ax1 = fig.add_subplot(spec[:-1, :10], xlabel='Iterations', ylabel='Loss')
-ax2 = fig.add_subplot(spec[:-1, 11:], xlabel='Epochs', ylabel='Loss - Accuracy')
-
-line_iters_loss = ax1.plot([])[0]
-
-line_train_acc = ax2.plot([])[0]
-line_train_acc.set_marker('.')
-line_train_acc.set_color('red')
-line_train_acc.set_label('Train Accuracy')
-
-line_train_loss = ax2.plot([])[0]
-line_train_loss.set_marker('.')
-line_train_loss.set_color('red')
-line_train_loss.set_label('Train Loss')
-
-line_test_acc = ax2.plot([])[0]
-line_test_acc.set_marker('.')
-line_test_acc.set_color('blue')
-line_test_acc.set_label('Test Accuracy')
-
-line_test_loss = ax2.plot([])[0]
-line_test_loss.set_marker('.')
-line_test_loss.set_color('blue')
-line_test_loss.set_label('Test Loss')
-
-ax1.grid()
-ax1.set_xlim(0, iterations)
-ax1.set_ylim(0., 3.)
-
-ax2.legend(handles=[line_train_acc, line_train_loss, line_test_acc, line_test_loss], loc='best')
-ax2.grid()
-ax2.set_xlim(0, epochs)
-ax2.set_xticks(range(0, epochs+1))
-ax2.set_ylim(0., 1.)
-ax2.set_yticks(np.arange(0., 1.1, 0.1))
-
-history = {'iters_loss': [], 'loss': [], 'accuracy': [], 'val_loss': [], 'val_accuracy': []}
+graphs = []
 
 
-def update_graph(data):
-    if data[0] is not None:
-        history['iters_loss'].append(data[0])
+def graph_setup(iterations, epochs):
+    fig = plt.figure(figsize=(13, 3))
+    spec = plt.GridSpec(20, 20, bottom=0.13, top=0.95, left=0.05, right=0.98, hspace=0, wspace=1.8)
 
-    if data[1] is not None:
-        history['loss'].append(data[1])
+    ax1 = fig.add_subplot(spec[:-1, :10], xlabel='Iterations', ylabel='Loss')
+    ax2 = fig.add_subplot(spec[:-1, 11:], xlabel='Epochs', ylabel='Loss - Accuracy')
 
-    if data[2] is not None:
-        history['accuracy'].append(data[2])
+    graphs.append({'line2d': ax1.plot([])[0], 'data': []})
+    graphs.append({'line2d': ax2.plot([])[0], 'data': []})
+    graphs.append({'line2d': ax2.plot([])[0], 'data': []})
+    graphs.append({'line2d': ax2.plot([])[0], 'data': []})
+    graphs.append({'line2d': ax2.plot([])[0], 'data': []})
 
-    if data[3] is not None:
-        history['val_loss'].append(data[3])
+    graphs[1]['line2d'].set_marker('.')
+    graphs[1]['line2d'].set_color('red')
+    graphs[1]['line2d'].set_label('Train Accuracy')
 
-    if data[4] is not None:
-        history['val_accuracy'].append(data[4])
+    graphs[2]['line2d'].set_marker('.')
+    graphs[2]['line2d'].set_color('red')
+    graphs[2]['line2d'].set_label('Train Loss')
 
-    line_iters_loss.set_data(range(0, len(history['iters_loss'])), history['iters_loss'])
-    line_train_loss.set_data(range(0, len(history['loss'])), history['loss'])
-    line_train_acc.set_data(range(0, len(history['accuracy'])), history['accuracy'])
-    line_test_loss.set_data(range(0, len(history['val_loss'])), history['val_loss'])
-    line_test_acc.set_data(range(0, len(history['val_accuracy'])), history['val_accuracy'])
+    graphs[3]['line2d'].set_marker('.')
+    graphs[3]['line2d'].set_color('blue')
+    graphs[3]['line2d'].set_label('Test Accuracy')
 
-    return line_iters_loss, line_train_loss, line_train_acc, line_test_loss, line_test_acc
+    graphs[4]['line2d'].set_marker('.')
+    graphs[4]['line2d'].set_color('blue')
+    graphs[4]['line2d'].set_label('Test Loss')
+
+    ax1.grid()
+    ax1.set_xlim(0, iterations)
+    ax1.set_ylim(0., 3.)
+
+    ax2.legend(handles=[graphs[1]['line2d'], graphs[2]['line2d'], graphs[3]['line2d'], graphs[4]['line2d']], loc='best')
+    ax2.grid()
+    ax2.set_xlim(0, epochs)
+    ax2.set_xticks(range(0, epochs+1))
+    ax2.set_ylim(0., 1.)
+    ax2.set_yticks(np.arange(0., 1.1, 0.1))
+
+    return fig,
 
 
-# 5. model frame
-input_size, output_size = train_x.shape[1], train_t.shape[1]
-network.initialize(input_size=input_size, hidden_sizes=[50, 100], output_size=output_size)
+def update_graph(graph_data):
+    lines = []
+    for idx, data in enumerate(graph_data):
+        if data is not None:
+            graphs[idx]['data'].append(data)
 
-# 6. model fitting
+        line2d = graphs[idx]['line2d']
+        line2d.set_data(range(0, len(graphs[idx]['data'])), graphs[idx]['data'])
+
+        lines.append(line2d)
+
+    return lines
+
+
+def model_frame(input_size, output_size, hidden_sizes=()):
+    network.initialize(input_size=input_size, hidden_sizes=hidden_sizes, output_size=output_size)
+
+
 def model_fit():
-    elapsed, epoch_idx = 0, 0
+    learning_rate = 0.1
+    elapsed = 0
+    epoch_idx = 0
 
-    for idx in range(1, iterations+1):
+    for idx in range(1, model_fit.iterations+1):
         # 4-0.
-        history_data = [None, None, None, None, None]
+        graph_data = [None, None, None, None, None]
 
         # 4-1. stopwatch: start
         stime = time.time()
 
         # 4-2. fetch mini-batch
-        batch_mask = np.random.choice(train_size, batch_size)
+        batch_mask = np.random.choice(model_fit.train_size, model_fit.batch_size)
         train_x_batch = train_x[batch_mask]
         train_t_batch = train_t[batch_mask]
 
@@ -127,24 +108,42 @@ def model_fit():
         elapsed += (time.time() - stime)
 
         # 4-5. epoch history
-        if idx % epoch_size == 0:
+        if idx % model_fit.epoch_size == 0:
             epoch_idx += 1
 
-            history_data[1] = network.loss(train_x, train_t)
-            history_data[2] = network.accuracy(train_x, train_t)
-            history_data[3] = network.loss(test_x, test_t)
-            history_data[4] = network.accuracy(test_x, test_t)
+            graph_data[1] = network.loss(train_x, train_t)
+            graph_data[2] = network.accuracy(train_x, train_t)
+            graph_data[3] = network.loss(test_x, test_t)
+            graph_data[4] = network.accuracy(test_x, test_t)
 
-            print(f'\nEpoch {epoch_idx:02d}/{epochs:02d}')
-            print(f'{int(idx/epoch_idx)}/{epoch_size} - {elapsed:.3f}s - loss:{history_data[3]:.4f} - accuracy:{history_data[4]:.4f}')
+            print(f'\nEpoch {epoch_idx:02d}/{model_fit.epochs:02d}')
+            print(f'{int(idx/epoch_idx)}/{model_fit.epoch_size} - {elapsed:.3f}s - loss:{graph_data[3]:.4f} - accuracy:{graph_data[4]:.4f}')
 
             elapsed = 0
 
-        history_data[0] = history_data[3] or network.loss(test_x, test_t)
+        graph_data[0] = graph_data[3] or network.loss(test_x, test_t)
 
-        yield history_data
+        yield graph_data
 
 
-# main
-ani = animation.FuncAnimation(fig, update_graph, model_fit, interval=1, blit=True, save_count=0)
-plt.show()
+if __name__ == '__main__':
+
+    # 1. load training/test data
+    (train_x, train_t), (test_x, test_t) = load_mnist(normalize=True, flatten=True, one_hot_label=True)
+
+    # 2. hyperparamters for model fitting
+    model_fit.epochs = 20
+    model_fit.batch_size = 100
+    model_fit.train_size = train_x.shape[0]
+    model_fit.epoch_size = int(model_fit.train_size / model_fit.batch_size)
+    model_fit.iterations = model_fit.epochs * model_fit.epoch_size
+
+    # 4. graph set-up
+    f, = graph_setup(model_fit.iterations, model_fit.epochs)
+
+    # 5. model frame
+    model_frame(train_x.shape[1], train_t.shape[1], hidden_sizes=(50, 100))
+
+    # 6. Realtime Graph of Model Fitting
+    ani = animation.FuncAnimation(f, update_graph, model_fit, interval=1, blit=True, save_count=0)
+    plt.show()
