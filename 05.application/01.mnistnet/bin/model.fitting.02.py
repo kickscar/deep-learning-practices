@@ -80,31 +80,23 @@ def graph_update(data):
     return lines
 
 
-def model_frame(input_size, output_size, hidden_sizes=()):
-    network.initialize(input_size=input_size, hidden_sizes=hidden_sizes, output_size=output_size)
-
-
 def model_fit():
     # dataset
     (train_x, train_t), (test_x, test_t) = model_fit.dataset
 
-    # train_size = model_fit2.dataset[0][0].shape[0]
-    # epoch_size = int(train_size / batch_size)
-    # iterations = epochs * epoch_size
+    # hyperparameters
+    epochs, batch_size, learning_rate = model_fit.hyperparams
 
-
-    # 5. model frame
-    input_size, output_size = train_t.shape
-    network.initialize(input_size=input_size, hidden_sizes=(50, 100), output_size=output_size)
-
-    learning_rate = 0.1
-    epoch_idx = 0
+    # model fitting parameters
+    train_size, input_size = train_x.shape
+    epoch_size = int(train_size / batch_size)
+    iterations = epochs * epoch_size
 
     # stopwatch: start
-    elapsed = 0
+    elapsed, epoch_idx = 0, 0
     stime = time.time()
 
-    for idx in range(1, model_fit.iterations+1):
+    for idx in range(1, iterations+1):
         # init history
         history = [None, None, None, None, None]
 
@@ -113,17 +105,17 @@ def model_fit():
         train_x_batch = train_x[batch_mask]
         train_t_batch = train_t[batch_mask]
 
-        # 4-3. gradient
+        # gradient
         gradient = network.backpropagation_gradient(train_x_batch, train_t_batch)
 
-        # 4-4. update parameters
+        # update parameters
         for key in network.params:
             network.params[key] -= learning_rate * gradient[key]
 
-        # 4-5. iteration history
+        # iteration history
         history[0] = network.loss(test_x, test_t)
 
-        # 4-6. epoch history
+        # epoch history
         if idx % epoch_size == 0:
             epoch_idx += 1
 
@@ -151,12 +143,15 @@ if __name__ == '__main__':
     model_fit.dataset = load_mnist(normalize=True, flatten=True, one_hot_label=True)
 
     # 2. hyperparamters for model fitting
-    model_fit.hyperparams = (20, 100)  # (epochs, batch_size)
+    model_fit.hyperparams = (20, 100, 0.1)  # (epochs, batch_size, learning_rate)
 
     # 3. graph set-up
     iters = model_fit.hyperparams[0] * int(model_fit.dataset[0][0].shape[0] / model_fit.hyperparams[1])
     f, = graph_setup(ax1_xlims=iters, ax2_xlims=model_fit.hyperparams[0])
 
-    # 4. Realtime Graph of Model Fitting
+    # 4. model frame
+    network.initialize(input_size=model_fit.dataset[0][0].shape[1], hidden_sizes=(50, 100), output_size=model_fit.dataset[0][1].shape[1])
+
+    # 5. realtime graph of model fitting
     ani = animation.FuncAnimation(f, graph_update, model_fit, interval=1, blit=True, save_count=0)
     plt.show()
