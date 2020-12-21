@@ -5,6 +5,7 @@
 # Model Fitting with Realtime-Graph
 import os
 import sys
+import threading
 import time
 import numpy as np
 from pathlib import Path
@@ -14,9 +15,7 @@ try:
     from mnist import load_mnist
     import multilayernet as network
 except ImportError:
-    raise ImportError("Library Module Can Not Found")
-
-graphs = []
+    raise ImportError("modules can not be found")
 
 
 def graph_setup(ax1_xlims=0, ax2_xlims=0):
@@ -26,11 +25,13 @@ def graph_setup(ax1_xlims=0, ax2_xlims=0):
     ax1 = fig.add_subplot(spec[:-1, :10], xlabel='Iterations', ylabel='Loss')
     ax2 = fig.add_subplot(spec[:-1, 11:], xlabel='Epochs', ylabel='Loss - Accuracy')
 
-    graphs.append({'line2d': ax1.plot([])[0], 'data': []})
-    graphs.append({'line2d': ax2.plot([])[0], 'data': []})
-    graphs.append({'line2d': ax2.plot([])[0], 'data': []})
-    graphs.append({'line2d': ax2.plot([])[0], 'data': []})
-    graphs.append({'line2d': ax2.plot([])[0], 'data': []})
+    graphs = [
+        {'line2d': ax1.plot([])[0], 'data': []},
+        {'line2d': ax2.plot([])[0], 'data': []},
+        {'line2d': ax2.plot([])[0], 'data': []},
+        {'line2d': ax2.plot([])[0], 'data': []},
+        {'line2d': ax2.plot([])[0], 'data': []}
+    ]
 
     graphs[1]['line2d'].set_marker('.')
     graphs[1]['line2d'].set_color('red')
@@ -59,10 +60,10 @@ def graph_setup(ax1_xlims=0, ax2_xlims=0):
     ax2.set_ylim(0., 1.)
     ax2.set_yticks(np.arange(0., 1.1, 0.1))
 
-    return fig,
+    return fig, graphs
 
 
-def graph_update(data):
+def graph_update(data, graphs):
 
     lines = [None] * len(data)
 
@@ -78,6 +79,18 @@ def graph_update(data):
         lines[i] = graph_line
 
     return lines
+
+
+def print_progress(cur_progress, max_progress=100, length=100, prefix='', suffix='', fill='█'):
+    # percent = int(100 * (cur_progress / float(max_progress)))
+
+    filled_length = int(length * cur_progress // max_progress)
+    bar = fill * filled_length + '-' * (length - filled_length)
+
+    # print(f'\r{prefix} |{bar}| {percent:3d}% {suffix}', end='\r')
+    print(f'{prefix} |{bar}| {suffix}', end='\r')
+
+    cur_progress == max_progress and print('')
 
 
 def model_fit():
@@ -98,7 +111,7 @@ def model_fit():
 
     for idx in range(1, iterations+1):
         # init history
-        history = [None, None, None, None, None]
+        history = [None] * 5
 
         # fetch mini-batch
         batch_mask = np.random.choice(train_size, batch_size)
@@ -116,9 +129,8 @@ def model_fit():
         history[0] = network.loss(test_x, test_t)
 
         # epoch history
+        suffix = ''
         if idx % epoch_size == 0:
-            epoch_idx += 1
-
             history[1] = network.loss(train_x, train_t)
             history[2] = network.accuracy(train_x, train_t)
             history[3] = history[0]
@@ -127,12 +139,19 @@ def model_fit():
             # stopwatch: stop
             elapsed += (time.time() - stime)
 
-            print(f'\nEpoch {epoch_idx:02d}/{epochs:02d}')
-            print(f'{int(idx/epoch_idx)}/{epoch_size} - {elapsed:.3f}s - loss:{history[3]:.4f} - accuracy:{history[4]:.4f}')
+            suffix = f' - {elapsed:.3f}s - loss:{history[3]:.4f} - accuracy:{history[4]:.4f}'
 
             # stopwatch: start
             elapsed = 0
             stime = time.time()
+
+        elif idx % epoch_size == 1:
+            epoch_idx += 1
+            print(f'Epoch {epoch_idx:2d}/{epochs:2d}')
+
+        idx_in_epoch = int(idx / epoch_idx)
+        prefix = f'{idx_in_epoch:3d}/{epoch_size:3d}'
+        print_progress(idx_in_epoch, max_progress=epoch_size, length=60, prefix=prefix, suffix=suffix)
 
         yield history
 
@@ -147,11 +166,20 @@ if __name__ == '__main__':
 
     # 3. graph set-up
     iters = model_fit.hyperparams[0] * int(model_fit.dataset[0][0].shape[0] / model_fit.hyperparams[1])
-    f, = graph_setup(ax1_xlims=iters, ax2_xlims=model_fit.hyperparams[0])
+    f, g = graph_setup(ax1_xlims=iters, ax2_xlims=model_fit.hyperparams[0])
 
     # 4. model frame
     network.initialize(input_size=model_fit.dataset[0][0].shape[1], hidden_sizes=(50, 100), output_size=model_fit.dataset[0][1].shape[1])
 
-    # 5. realtime graph of model fitting
-    ani = animation.FuncAnimation(f, graph_update, model_fit, interval=1, blit=True, save_count=0)
+    # 5. realtime graph with model fitting
+    ani = animation.FuncAnimation(
+        f,
+        graph_update,
+        model_fit,
+        fargs=(g, ),
+        init_func=lambda: None,
+        interval=1,
+        blit=False,
+        repeat=False,
+        save_count=0)
     plt.show()
