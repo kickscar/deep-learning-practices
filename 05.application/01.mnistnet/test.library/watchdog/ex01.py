@@ -1,29 +1,47 @@
+import os
 import time
 import logging
+from datetime import datetime, timedelta
+from pathlib import Path
+
 from watchdog.events import FileSystemEventHandler, LoggingEventHandler
 from watchdog.observers import Observer
 
 
-# class FileModifiedEventHandler(FileSystemEventHandler):
-class FileModifiedEventHandler(LoggingEventHandler):
-    def on_created(self, event):
-        print('created')
+# class FileModifiedEventHandler(LoggingEventHandler):
+class FileModifiedEventHandler(FileSystemEventHandler):
+    def __init__(self):
+        self.last_modified = datetime.now()
 
     def on_modified(self, event):
-        super(FileModifiedEventHandler, self).on_modified(event)
-        print('modified')
+        # if datetime.now() - self.last_modified < timedelta(seconds=1):
+        #   return
 
-    def on_moved(self, event):
-        print('moved')
+        # self.last_modified = datetime.now()
 
-    def on_deleted(self, event):
-        print('deleted')
+        # if event.is_directory:
+        #    return
+
+        print(f'Event type: {event.event_type}  path : {event.src_path}')
+        print(event.is_directory)
+
+    # def on_created(self, event):
+    #     print('created')
+    #
+    # def on_moved(self, event):
+    #     print('moved')
+    #
+    # def on_deleted(self, event):
+    #     print('deleted')
 
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
+file = os.path.join(Path(os.getcwd()).parent.parent, 'images')
+print(file)
+
 observer = Observer()
-observer.schedule(FileModifiedEventHandler(), '../../images/test.bmp', recursive=True)
+observer.schedule(FileModifiedEventHandler(), file, recursive=True)
 observer.start()
 
 
