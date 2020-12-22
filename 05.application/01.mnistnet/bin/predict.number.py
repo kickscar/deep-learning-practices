@@ -24,9 +24,7 @@ def main():
     params = model_load()
     model_frame(784, 10, (50, 100), params)
 
-    image_directory = os.path.join(Path(os.getcwd()).parent, 'images')
-    image_file = os.path.join(image_directory, 'number.png')
-
+    image_file = os.path.join(Path(os.getcwd()).parent, 'images', 'number.png')
     watch_file_modified(image_file, *axes)
 
 
@@ -71,16 +69,15 @@ def image_load(image_file):
 
 
 def watch_file_modified(image_file, ax1, ax2):
-    cached_timestamp_filemodified = 0
+    timestamp_file_modified = os.stat(image_file).st_mtime
 
     try:
         while True:
             time.sleep(1)
 
-            timestamp_filemodified = os.stat(image_file).st_mtime
-            if cached_timestamp_filemodified != timestamp_filemodified:
-                cached_timestamp_filemodified = timestamp_filemodified
+            timestamp = os.stat(image_file).st_mtime
 
+            if timestamp_file_modified != timestamp:
                 # load image
                 origin, inverted, normalized = image_load(image_file)
 
@@ -90,6 +87,8 @@ def watch_file_modified(image_file, ax1, ax2):
 
                 plt.draw()
                 plt.pause(0.01)
+
+                timestamp_file_modified = timestamp
 
     except KeyboardInterrupt:
         print('\nDone')
