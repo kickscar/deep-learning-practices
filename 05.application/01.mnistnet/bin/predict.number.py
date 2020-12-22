@@ -10,9 +10,6 @@ import time
 import cv2
 import numpy as np
 from pathlib import Path
-from datetime import datetime, timedelta
-from watchdog.events import FileSystemEventHandler
-from watchdog.observers import Observer
 from matplotlib import pyplot as plt
 try:
     sys.path.append(os.path.join(Path(os.getcwd()).parent, 'lib'))
@@ -30,28 +27,7 @@ def main():
     image_directory = os.path.join(Path(os.getcwd()).parent, 'images')
     image_file = os.path.join(image_directory, 'number.png')
 
-    # # load image
-    # origin, inverted, normalized = image_load(image_file)
-    #
-    # # draw image
-    # axes[1].imshow(origin, cmap='gray')
-    # axes[2].imshow(inverted, cmap='gray')
-    #
-    # plt.draw()
-    # plt.pause(0.01)
-
-    observer = Observer()
-    observer.schedule(FileModifiedEventHandler(image_file, *axes), image_directory, recursive=True)
-    observer.start()
-
-    plt.show()
-    try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        observer.stop()
-
-    observer.join()
+    watch_file_modified(image_file, *axes)
 
 
 def graph_setup():
@@ -65,10 +41,10 @@ def graph_setup():
     ax0.set_title(label="Handwritten Digit Prediction", )
     ax0.axis("off")
 
-    # plt.draw()
-    # plt.pause(0.01)
+    plt.draw()
+    plt.pause(0.01)
 
-    return fig, ax1, ax2
+    return ax1, ax2
 
 
 def model_load():
@@ -94,40 +70,29 @@ def image_load(image_file):
     return img_origin, img_inverted, img_normalized
 
 
-# class File Modified Event Handler
-class FileModifiedEventHandler(FileSystemEventHandler):
-    def __init__(self, image_file, fig, ax1, ax2):
-        self.last_modified = datetime.now()
-        self.image_file = image_file
-        self.fig = fig
-        self.ax1 = ax1
-        self.ax2 = ax2
+def watch_file_modified(image_file, ax1, ax2):
+    cached_timestamp_filemodified = 0
 
-    def on_modified(self, event):
-        if datetime.now() - self.last_modified < timedelta(seconds=1):
-            return
+    try:
+        while True:
+            time.sleep(1)
 
-        self.last_modified = datetime.now()
+            timestamp_filemodified = os.stat(image_file).st_mtime
+            if cached_timestamp_filemodified != timestamp_filemodified:
+                cached_timestamp_filemodified = timestamp_filemodified
 
-        # load image
-        origin, inverted, normalized = image_load(self.image_file)
+                # load image
+                origin, inverted, normalized = image_load(image_file)
 
-        # draw image
-        self.ax1.imshow(origin, cmap='gray')
-        self.ax2.imshow(inverted, cmap='gray')
+                # draw image
+                ax1.imshow(origin, cmap='gray')
+                ax2.imshow(inverted, cmap='gray')
 
-        # plt.draw()
-        # plt.pause(0.01)
-        self.fig.canvas.draw_idle()
+                plt.draw()
+                plt.pause(0.01)
 
-        # prediction
-        val, y = network.predict(normalized)
-
-        print(f'Model Prediction: {val}\n')
-        print('Class Probabilities')
-        for idx, probablity in enumerate(np.round(y*100., 2)):
-            print(f'{idx}: {probablity:5.2f}%')
+    except KeyboardInterrupt:
+        print('\nDone')
 
 
-if __name__ == '__main__':
-    main()
+__name__ == '__main__' and main()
