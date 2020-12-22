@@ -90,6 +90,7 @@ def watch_file_modified(image_file, ax1, ax2):
 
                 # prediction
                 val, y = network.predict(normalized)
+                print(y)
 
                 print(f'Model Prediction: {val}\n')
                 print('Class Probabilities')
