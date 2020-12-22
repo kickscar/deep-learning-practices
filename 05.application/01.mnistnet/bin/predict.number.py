@@ -88,6 +88,15 @@ def watch_file_modified(image_file, ax1, ax2):
                 plt.draw()
                 plt.pause(0.01)
 
+                # prediction
+                val, y = network.predict(normalized)
+
+                print(f'Model Prediction: {val}\n')
+                print('Class Probabilities')
+                for idx, probablity in enumerate(np.round(y*100., 2)):
+                    print(f'{idx}: {probablity:5.2f}%')
+
+                # timestamp cached
                 timestamp_file_modified = timestamp
 
     except KeyboardInterrupt:
