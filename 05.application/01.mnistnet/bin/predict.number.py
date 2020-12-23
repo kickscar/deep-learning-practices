@@ -8,6 +8,7 @@ import sys
 import os
 import time
 import cv2
+import curses
 import numpy as np
 from pathlib import Path
 from matplotlib import pyplot as plt
@@ -20,12 +21,13 @@ except ImportError:
 
 def main():
     axes = graph_setup()
+    stdscr, = curses_init()
 
     params = model_load()
     model_frame(784, 10, (50, 100), params)
 
     image_file = os.path.join(Path(os.getcwd()).parent, 'images', 'number.png')
-    watch_file_modified(image_file, *axes)
+    watch_file_modified(image_file, *axes, stdscr)
 
 
 def graph_setup():
@@ -43,6 +45,48 @@ def graph_setup():
     plt.pause(0.01)
 
     return ax1, ax2
+
+
+def curses_init():
+    stdscr = curses.initscr()
+
+    stdscr.keypad(True)
+    curses.noecho()
+    curses.cbreak()
+    curses.curs_set(False)
+
+    curses.start_color()
+    curses.use_default_colors()
+
+    curses.init_pair(1, curses.COLOR_GREEN, -1)
+    curses.init_pair(2, curses.COLOR_YELLOW, -1)
+    curses.init_pair(3, curses.COLOR_RED, -1)
+
+    return stdscr,
+
+
+def curses_cleanup(stdscr):
+    curses.nocbreak()
+    stdscr.keypad(False)
+    curses.echo()
+    curses.endwin()
+
+
+def curses_prediction_result(stdscr, val, y):
+    stdscr.addstr(0, 0, f'Model Prediction:', curses.color_pair(1))
+    stdscr.addstr(0, 18, f'{val}', curses.color_pair(3) | curses.A_BOLD | curses.A_UNDERLINE)
+    stdscr.addstr(0, 25, 'Class Probabilities', curses.color_pair(1))
+
+    for idx, probablity in enumerate(np.round(y * 100., 2)):
+        color_pair = curses.color_pair(3) if idx == val else curses.color_pair(2)
+        filled_length = int(30 * probablity // 100)
+        bar = '█' * filled_length + '-' * (30 - filled_length)
+
+        stdscr.addstr(1+idx, 25, f'{idx}', color_pair | curses.A_BOLD | curses.A_UNDERLINE)
+        stdscr.addstr(1+idx, 26, f': {probablity:5.2f}%', color_pair)
+        stdscr.addstr(1+idx, 35, f'|{bar}|', color_pair)
+
+    stdscr.refresh()
 
 
 def model_load():
@@ -68,13 +112,12 @@ def image_load(image_file):
     return img_origin, img_inverted, img_normalized
 
 
-def watch_file_modified(image_file, ax1, ax2):
+def watch_file_modified(image_file, ax1, ax2, stdscr):
     timestamp_file_modified = os.stat(image_file).st_mtime
 
     try:
         while True:
             time.sleep(1)
-            print("......")
             timestamp = os.stat(image_file).st_mtime
 
             if timestamp_file_modified != timestamp:
@@ -89,19 +132,16 @@ def watch_file_modified(image_file, ax1, ax2):
                 plt.pause(0.01)
 
                 # prediction
-                val, y = network.predict(normalized)
-                print(y)
-
-                print(f'Model Prediction: {val}\n')
-                print('Class Probabilities')
-                for idx, probablity in enumerate(np.round(y*100., 2)):
-                    print(f'{idx}: {probablity:5.2f}%')
+                prediction_result = network.predict(normalized)
+                curses_prediction_result(stdscr, *prediction_result)
 
                 # timestamp cached
                 timestamp_file_modified = timestamp
 
     except KeyboardInterrupt:
-        print('\nDone')
+        pass
+    finally:
+        curses_cleanup(stdscr)
 
 
 __name__ == '__main__' and main()
