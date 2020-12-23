@@ -74,7 +74,7 @@ def watch_file_modified(image_file, ax1, ax2):
     try:
         while True:
             time.sleep(1)
-
+            print("......")
             timestamp = os.stat(image_file).st_mtime
 
             if timestamp_file_modified != timestamp:
